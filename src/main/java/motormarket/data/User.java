@@ -3,8 +3,17 @@ package motormarket.data;
 import java.sql.Connection;
 import java.sql.ResultSet;
 
+
+/**
+ * Represents a registered user within the motor market system.
+ * This entity class manages general user profile information and credentials.
+ */
 public class User {
 
+    /**
+     * Defines the account categories available for users in the system.
+     * Maps the application logic types to their respective database string values.
+     */
     public enum UserType {
         PRIVATO("Privato"),
         AZIENDALE("Aziendale"),
@@ -12,10 +21,15 @@ public class User {
 
         private final String dbValue;
 
+        
         UserType(String dbValue) {
             this.dbValue = dbValue;
         }
 
+        /**
+         * Gets the raw string representation stored in the database.
+         * @return The database string representation of the user type.
+         */
         public String getDbValue() {
             return dbValue;
         }
@@ -37,6 +51,15 @@ public class User {
     private String password;
     private UserType userType;
 
+    /**
+     * Constructs a new User instance with all mandatory profile details.
+     * @param userId    The unique identifier assigned to the user by the database.
+     * @param email     The unique email address of the user.
+     * @param firstName The first name of the user.
+     * @param lastName  The last name of the user.
+     * @param password  The encrypted or plain text password of the user.
+     * @param userType  The specific account role/category of the user.
+     */
     public User(int userId, String email, String firstName, String lastName, String password, UserType userType) {
         this.userId = userId;
         this.email = email;
@@ -81,8 +104,24 @@ public class User {
                 '}';
     }
 
+    /**
+     * Data Access Object (DAO) providing persistent storage capabilities for {@link User} entities.
+     * Handles database CRUD interactions related to users.
+     */
     public static final class DAO {
 
+        /**
+         * Inserts a new user record into the database and returns the fully populated model instance.
+         * @param connection The active JDBC database connection.
+         * @param email      The email address for the new user.
+         * @param firstName  The first name of the user.
+         * @param lastName   The last name of the user.
+         * @param password   The password to be stored.
+         * @param userType   The string representation of the account category (must match a valid type name).
+         * @return A newly instantiated {@link User} object containing the auto-generated database ID, 
+         * or {@code null} if the insertion failed.
+         * @throws DAOException If any database error or unexpected exception occurs during execution.
+         */
         public static User addUser(Connection connection, String email, String firstName, String lastName, String password, String userType) {
             User user = null;
             try(
