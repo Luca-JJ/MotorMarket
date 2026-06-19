@@ -11,9 +11,10 @@ package motormarket.data;
 public final class Queries {
 
     /**
-     * SQL statement to insert a new user record into the {@code utenti} table.
+     * SQL statement to insert a new user record into the utenti table.
      * <p>
      * Expects 5 parameters in the following exact order:
+     * </p>
      * <ol>
      * <li>Email (VARCHAR)</li>
      * <li>Nome / First Name (VARCHAR)</li>
@@ -21,7 +22,6 @@ public final class Queries {
      * <li>Password (VARCHAR)</li>
      * <li>TipoUtente / User Type (ENUM/VARCHAR)</li>
      * </ol>
-     * </p>
      */
     public static final String USER_INSERT =
         """

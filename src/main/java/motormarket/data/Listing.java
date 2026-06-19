@@ -102,7 +102,7 @@ public class Listing {
     private int userId;
 
     /**
-     * 1. SPECIFIC CONSTRUCTOR FOR CARS (Handles Part ID as Null)
+     * SPECIFIC CONSTRUCTOR FOR CARS (Handles Part ID as Null)
      * <p>
      * Use this constructor to instantiate a new Car listing.
      * </p>
@@ -113,7 +113,8 @@ public class Listing {
      * @param price    The decimal selling price.
      * @param userId   The ID of the user creating the listing.
      */
-    public Listing(Integer carId, LocalDate postDate, ListingStatus status, BigDecimal price, int userId) {
+    public Listing(int listingId, Integer carId, LocalDate postDate, ListingStatus status, BigDecimal price, int userId) {
+        this.listingId = listingId;
         this.carId = carId;
         this.partId = null;
         this.postDate = postDate;
@@ -124,7 +125,7 @@ public class Listing {
     }
 
     /**
-     * 2. SPECIFIC CONSTRUCTOR FOR SPARE PARTS (Handles Car ID as Null)
+     * SPECIFIC CONSTRUCTOR FOR SPARE PARTS (Handles Car ID as Null)
      * <p>
      * Use this constructor to instantiate a new Spare Part listing.
      * </p>
@@ -135,7 +136,8 @@ public class Listing {
      * @param partId   The unique database ID of the spare part.
      * @param userId   The ID of the user creating the listing.
      */
-    public Listing(LocalDate postDate, ListingStatus status, BigDecimal price, Integer partId, int userId) {
+    public Listing(int listingId, LocalDate postDate, ListingStatus status, BigDecimal price, Integer partId, int userId) {
+        this.listingId = listingId;
         this.carId = null;
         this.partId = partId;
         this.postDate = postDate;
@@ -146,7 +148,7 @@ public class Listing {
     }
 
     /**
-     * 3. COMPLETE CONSTRUCTOR (With ID and explicit types)
+     * COMPLETE CONSTRUCTOR (With ID and explicit types)
      * <p>
      * Primarily used by the DAO layer to rebuild a Listing object from full database records.
      * </p>
