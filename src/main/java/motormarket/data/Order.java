@@ -5,7 +5,6 @@ import java.time.LocalDate;
 
 /**
  * Represents an Order placed by a user within the marketplace.
- * Maps directly to the `ordini` table in the database.
  */
 public class Order {
 
@@ -13,7 +12,7 @@ public class Order {
     private String address;
     private BigDecimal totalAmount;
     private LocalDate date;
-    private int userId;
+    private User user;
 
     /**
      * Constructs a new Order instance with all mandatory database fields.
@@ -21,14 +20,14 @@ public class Order {
      * @param address     The shipping or billing address for the order.
      * @param totalAmount The total cost of the order (mapped from SQL DECIMAL).
      * @param date        The placement date of the order.
-     * @param userId      The foreign key identifier of the user who placed the order.
+     * @param user        The {@link User} object representing the buyer who placed the order.
      */
-    public Order(int orderId, String address, BigDecimal totalAmount, LocalDate date, int userId) {
+    public Order(int orderId, String address, BigDecimal totalAmount, LocalDate date, User user) {
         this.orderId = orderId;
         this.address = address;
         this.totalAmount = totalAmount;
         this.date = date;
-        this.userId = userId;
+        this.user = user;
     }
 
     public int getOrderId() {
@@ -47,18 +46,17 @@ public class Order {
         return date;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
     @Override
     public String toString() {
         return "Order{" +
                 "orderId=" + orderId +
-                ", address='" + address + '\'' +
+                ", orderDate=" + date +
                 ", totalAmount=" + totalAmount +
-                ", date=" + date +
-                ", userId=" + userId +
+                ", user=" + (user != null ? user.getUserId() : "null") +
                 '}';
     }
 

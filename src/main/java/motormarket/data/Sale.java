@@ -4,35 +4,35 @@ import java.math.BigDecimal;
 
    /**
  * Represents a Sale record, mapping an item from a specific listing to an order.
- * This class corresponds to the vendite table, handling the order line items.
+ * This class corresponds to the vendite table.
  */
 public class Sale {
 
-    private int listingId;
-    private int orderId;
+    private Listing listing;
+    private Order order;
     private int quantity;
     private BigDecimal unitPrice;
 
     /**
      * Constructs a new Sale instance representing an item line within an order.
-     * @param listingId  The foreign key identifier of the associated listing (idAnnuncio).
-     * @param orderId    The foreign key identifier of the associated order (IdOrdine).
-     * @param quantity   The quantity of items purchased.
-     * @param unitPrice  The price per single unit at the time of purchase.
+     * @param listing   The {@link Listing} instance representing the item put up for sale.
+     * @param order     The {@link Order} instance to which this line item belongs.
+     * @param quantity  The quantity of items purchased.
+     * @param unitPrice The price per single unit locked at the time of purchase.
      */
-    public Sale(int listingId, int orderId, int quantity, BigDecimal unitPrice) {
-        this.listingId = listingId;
-        this.orderId = orderId;
+    public Sale(Listing listing, Order order, int quantity, BigDecimal unitPrice) {
+        this.listing = listing;
+        this.order = order;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
     }
 
-    public int getListingId() {
-        return listingId;
+    public Listing getListing() {
+        return listing;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
     public int getQuantity() {
@@ -46,8 +46,8 @@ public class Sale {
     @Override
     public String toString() {
         return "Sale{" +
-                "listingId=" + listingId +
-                ", orderId=" + orderId +
+                "listing=" + (listing != null ? listing.getListingId() : "null") +
+                ", order=" + (order != null ? order.getOrderId() : "null") +
                 ", quantity=" + quantity +
                 ", unitPrice=" + unitPrice +
                 '}';

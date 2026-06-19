@@ -6,32 +6,32 @@ package motormarket.data;
  * relationship between Orders and Services.
  */
 public class Addition {
-    private int serviceId;
-    private int orderId;
+    private Service service;
+    private Order order;
 
     /**
-     * Constructs a new Addition instance linking a service to an order.
-     * @param serviceId The foreign key identifier of the associated service (IdServizio).
-     * @param orderId   The foreign key identifier of the associated order (IdOrdine).
+     * Constructs a new Addition instance linking a service object to an order object.
+     * @param service The {@link Service} instance associated with this addition.
+     * @param order   The {@link Order} instance associated with this addition.
      */
-    public Addition(int serviceId, int orderId) {
-        this.serviceId = serviceId;
-        this.orderId = orderId;
+    public Addition(Service service, Order order) {
+        this.service = service;
+        this.order = order;
     }
 
-    public int getServiceId() {
-        return serviceId;
+    public Service getService() {
+        return service;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
     @Override
     public String toString() {
         return "Addition{" +
-                "serviceId=" + serviceId +
-                ", orderId=" + orderId +
+                "service=" + (service != null ? service.getServiceId() : "null") +
+                ", order=" + (order != null ? order.getOrderId() : "null") +
                 '}';
     }
 
