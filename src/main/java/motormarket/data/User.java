@@ -15,10 +15,14 @@ public class User {
      * Maps the application logic types to their respective database string values.
      */
     public enum UserType {
+        /** Represents a standard private individual user account. */
         PRIVATO("Privato"),
+        
+        /** Represents a corporate company account. */
         AZIENDALE("Aziendale"),
+        
+        /** Represents a platform administrator with elevated management privileges. */
         AMMINISTRATORE("Amministratore");
-
         private final String dbValue;
 
         
@@ -34,6 +38,16 @@ public class User {
             return dbValue;
         }
 
+        /**
+         * Converts a raw input string into its corresponding UserType enum constant.
+         * <p>
+         * The resolution matches against the enum names (e.g., "PRIVATO") in a 
+         * case-insensitive manner to ensure flexible input parsing.
+         * </p>
+         * @param text The string name of the user type to look up.
+         * @return The matching {@link UserType} enum constant.
+         * @throws IllegalArgumentException If the provided text does not match any existing user type.
+         */
         public static UserType fromString(String text) {
             for (UserType type : UserType.values()) {
                 if (type.name().equalsIgnoreCase(text)) {
