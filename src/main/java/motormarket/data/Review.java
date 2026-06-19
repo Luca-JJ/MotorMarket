@@ -15,10 +15,10 @@ public class Review {
      * Defines whether the review targets a vehicle model or a spare part.
      */
     public enum ReviewType {
-        /** The review evaluates a specific vehicle model. */
-        AUTO("Auto"),
         /** The review evaluates a spare part. */
-        PEZZO("Pezzo");
+        PEZZO("Pezzo"),
+        /** The review evaluates a specific vehicle model. */
+        MODELLO("Modello");
 
         /** The literal string representation stored within the database column. */
         private final String dbValue;
