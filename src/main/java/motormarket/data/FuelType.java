@@ -12,7 +12,7 @@ public class FuelType {
 
     /**
      * Complete constructor containing all database mapped fields.
-     * * @param fuelTypeId The unique auto-incremented database ID (IdAlimentazione).
+     * @param fuelTypeId The unique auto-incremented database ID (IdAlimentazione).
      * @param fuelName   The display name text of the fuel type (NomeAlimentazione).
      */
     public FuelType(int fuelTypeId, String fuelName) {
