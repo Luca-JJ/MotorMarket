@@ -1,7 +1,13 @@
 package motormarket.data;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import motormarket.data.Car.Availability;
+import motormarket.data.Car.TransmissionType;
 
 /**
  * Represents a marketplace Listing (advertisement) posted by a user.
@@ -171,9 +177,9 @@ public class Listing {
                 ", status=" + status +
                 ", price=" + price +
                 ", listingType=" + listingType +
-                ", car=" + (car != null ? car.getCarId() : "null") +
-                ", sparePart=" + (sparePart != null ? sparePart.getPartId() : "null") +
-                ", user=" + (user != null ? user.getUserId() : "null") +
+                ", car=" + (car != null ? car : "null") +
+                ", sparePart=" + (sparePart != null ? sparePart : "null") +
+                ", user=" + (user != null ? user : "null") +
                 '}';
     }
 
@@ -182,5 +188,107 @@ public class Listing {
      */
     public static final class DAO {
 
+        /**
+         * Retrieves a paginated list of car listings based on active search criteria.
+         *
+         * @param connection the active database connection
+         * @param filter     the filter criteria and pagination rules
+         * @return           a list of matching and fully populated {@link Listing} entities
+         * @throws DAOException if a database access error or mapping failure occurs
+         */
+        public static List<Listing> showCarListings(Connection connection, CarFilter filter) {
+            List<Listing> carListings = new ArrayList<>();
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.SEARCH_CAR_LISTING,filter.getModelId(), filter.getModelId(),
+                    filter.getFuelTypeId(), filter.getFuelTypeId(),
+                    filter.getTransmissionType(), filter.getTransmissionType(),
+                    filter.getExteriorColorId(), filter.getExteriorColorId(),
+                    filter.getInteriorColorId(), filter.getInteriorColorId(),
+                    filter.getMinPrice(), filter.getMinPrice(),
+                    filter.getMaxPrice(), filter.getMaxPrice(),
+                    filter.getMinYear(), filter.getMinYear(),
+                    filter.getMaxYear(), filter.getMaxYear(),
+                    filter.getMinPower(), filter.getMinPower(),
+                    filter.getMaxPower(), filter.getMaxPower(),
+                    filter.getOffset()
+                );
+                var resultSet = statement.executeQuery();
+            )
+            {
+                while (resultSet.next()) {
+                    Color exteriorColor = new Color(
+                        resultSet.getInt("IdColoreEsterno"), 
+                        resultSet.getString("NomeColoreEsterno")
+                    );
+
+                    Color interiorColor = new Color(
+                        resultSet.getInt("IdColoreInterno"), 
+                        resultSet.getString("NomeColoreInterno")
+                    );
+
+                    Producer producer = new Producer(
+                        resultSet.getInt("IdProduttore"),
+                        resultSet.getString("NomeMarca"),
+                        resultSet.getString("Nazionalita"),
+                        resultSet.getInt("AutoVendute")
+                    );
+
+                    // Now, pass the Producer instance into your CarModel constructor
+                    CarModel carModel = new CarModel(
+                        resultSet.getInt("IdModello"),
+                        resultSet.getString("NomeModello"),
+                        producer
+                    );
+
+                    FuelType fuelType = new FuelType(
+                        resultSet.getInt("IdAlimentazione"),
+                        resultSet.getString("NomeAlimentazione")
+                    );
+
+                    // Construct a placeholder User instance for the seller
+                    User user = User.DAO.findUser(connection, resultSet.getInt("IdUtente"));
+                    
+                    
+                    // Equipments collection starts empty; can be populated later dynamically
+                    List<Accessory> equipments = Accessory.DAO.listAccesory(connection, resultSet.getInt("IdAuto"));
+
+                    //Build the Car domain entity using its loaded constructor
+                    Car car = new Car(
+                        resultSet.getInt("IdAuto"),
+                        resultSet.getString("VIN"),
+                        resultSet.getString("Targa"),
+                        resultSet.getInt("AnnoPrimaImmatricolazione"),
+                        resultSet.getInt("Potenza"),
+                        TransmissionType.valueOf(resultSet.getString("TipoCambio").toUpperCase()),
+                        Availability.valueOf(resultSet.getString("Disponibilita").toUpperCase()),
+                        carModel,
+                        fuelType,
+                        interiorColor,
+                        exteriorColor,
+                        user,
+                        equipments
+                    );
+
+                    //Build the final Listing entity via its OO Constructor
+                    Listing listing = new Listing(
+                        resultSet.getInt("idAnnuncio"),
+                        resultSet.getObject("DataInserimento", java.time.LocalDate.class),
+                        ListingStatus.valueOf(resultSet.getString("Stato").toUpperCase()),
+                        resultSet.getBigDecimal("Prezzo"),
+                        ListingType.AUTO, // Hardcoded since this method specifically processes car listings
+                        car,
+                        null,            // sparePart is null because this is a car listing
+                        user
+                    );
+
+                    carListings.add(listing);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+
+            return carListings;
+        }
     }
 }

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
+import motormarket.data.CarFilter;
+import motormarket.data.Listing;
 import motormarket.data.User;
 import motormarket.data.User.UserType;
 
@@ -28,6 +30,16 @@ public interface Model {
      * or {@code null} if the registration failed.
      */
     User addUser(String email, String firstName, String lastName, String password, String userType);
+
+    //difference between car and sparepart is managed by the gui(app)
+
+    /**
+     * Retrieves a paginated list of active car listings based on user-defined search criteria.
+     *
+     * @param filter the active search criteria and pagination rules applied by the user
+     * @return       a list of matching {@link Listing} business entities
+     */
+    List<Listing> showCarListings(CarFilter filter);
 
     // Create a mocked version of the model.
     //

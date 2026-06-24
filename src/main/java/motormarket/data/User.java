@@ -162,5 +162,35 @@ public class User {
 
             return user;
         }
+
+        /**
+         * Finds and instantiates a {@link User} entity from the database by its unique ID.
+         *
+         * @param connection the active database connection
+         * @param userId     the unique system identifier of the user (IdUtente)
+         * @return           the fully populated {@link User} object, or {@code null} if not found
+         * @throws DAOException if a database access error occurs or parsing fails
+         */
+        public static User findUser(Connection connection, int userId) {
+            User user = null;
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_USER, userId);
+                var resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    var email = resultSet.getString("Email");
+                    var firstName = resultSet.getString("Nome");
+                    var lastName = resultSet.getString("Cognome");
+                    var password = resultSet.getString("Password");
+                    var userType = UserType.fromString(resultSet.getString("TipoUtente"));
+                    user = new User(userId, email, firstName, lastName, password, userType);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+
+            return user;
+        }
     }
 }

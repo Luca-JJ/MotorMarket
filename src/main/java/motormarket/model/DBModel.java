@@ -1,5 +1,7 @@
 package motormarket.model;
 
+import motormarket.data.CarFilter;
+import motormarket.data.Listing;
 import motormarket.data.User;
 import motormarket.data.User.UserType;
 
@@ -47,5 +49,10 @@ public final class DBModel implements Model {
     @Override
     public User addUser(String email, String firstName, String lastName, String password, String userType) {
         return User.DAO.addUser(connection, email, firstName, lastName, password, userType);
+    }
+
+    @Override
+    public List<Listing> showCarListings(CarFilter filter) {
+        return Listing.DAO.showCarListings(connection, filter);
     }
 }

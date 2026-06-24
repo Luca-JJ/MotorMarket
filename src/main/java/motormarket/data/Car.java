@@ -1,5 +1,8 @@
 package motormarket.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents an individual Car instance registered in the marketplace.
  * This class maps directly to the automobili table and holds references to structural,
@@ -110,6 +113,7 @@ public class Car {
     private Color interiorColor;
     private Color exteriorColor;
     private User user;
+    private List<Accessory> equipments = new ArrayList<>();
     
     /**
      * Complete Constructor containing all fields.
@@ -125,10 +129,11 @@ public class Car {
      * @param interiorColor         The {@link Color} instance representing internal cabin upholstery styling.
      * @param exteriorColor         The {@link Color} instance representing external body paint styling.
      * @param user                  The {@link User} instance representing the owner account who listed the vehicle.
+     * @param equipments            The {@link Accessory} list containing the accessory of the car
      */
     public Car(int carId, String vin, String licensePlate, int firstRegistrationYear, int horsepower, 
                TransmissionType transmissionType, Availability availability, CarModel carModel, 
-               FuelType fuelType, Color interiorColor, Color exteriorColor, User user) {
+               FuelType fuelType, Color interiorColor, Color exteriorColor, User user, List<Accessory> equipments) {
         this.carId = carId;
         this.vin = vin;
         this.licensePlate = licensePlate;
@@ -141,6 +146,7 @@ public class Car {
         this.interiorColor = interiorColor;
         this.exteriorColor = exteriorColor;
         this.user = user;
+        this.equipments = equipments;
     }
 
     
@@ -192,6 +198,10 @@ public class Car {
         return user;
     }
 
+    public List<Accessory> getEquiments() {
+        return equipments;
+    }
+
     @Override
     public String toString() {
         return "Car{" +
@@ -202,9 +212,12 @@ public class Car {
                 ", horsepower=" + horsepower +
                 ", transmissionType=" + transmissionType +
                 ", availability=" + availability +
-                ", carModel=" + (carModel != null ? carModel.getModelId() : "null") +
-                ", fuelType=" + (fuelType != null ? fuelType.getFuelTypeId() : "null") +
-                ", user=" + (user != null ? user.getUserId() : "null") +
+                ", exteriorColor=" + (exteriorColor != null ? exteriorColor : "null") +
+                ", interiorColor=" + (interiorColor != null ? interiorColor : "null") +
+                ", carModel=" + (carModel != null ? carModel : "null") +
+                ", fuelType=" + (fuelType != null ? fuelType : "null") +
+                ", user=" + (user != null ? user : "null") +
+                ", equipments=" + (equipments != null ? equipments : "[]") +
                 '}';
     }
 
@@ -214,4 +227,5 @@ public class Car {
     public static final class DAO {
     
     }
+
 }

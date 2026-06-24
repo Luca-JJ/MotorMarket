@@ -41,7 +41,7 @@ public class CarModel {
         return "CarModel{" +
                 "modelId=" + modelId +
                 ", modelName='" + modelName + '\'' +
-                ", producer=" + (producer != null ? producer.getProducerId() : "null") +
+                ", producer=" + (producer != null ? producer : "null") +
                 '}';
     }
 
