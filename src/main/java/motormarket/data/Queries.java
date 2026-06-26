@@ -63,7 +63,8 @@ public final class Queries {
     c_est.NomeColore AS NomeColoreEsterno,
     c_int.IdColore AS IdColoreInterno,
     c_int.NomeColore AS NomeColoreInterno
-FROM 
+
+    FROM 
     `annunci` a, 
     `automobili` au, 
     `modelli` m, 
@@ -71,8 +72,8 @@ FROM
     `tipi_alimentazione` al, 
     `colori` c_est,
     `colori` c_int  -- Doppia inclusione della tabella colori per interni ed esterni
-WHERE 
-    a.IdAuto = au.IdAuto
+    
+    WHERE a.IdAuto = au.IdAuto
     AND au.IdModello = m.IdModello
     AND m.IdProduttore = p.IdProduttore
     AND au.IdAlimentazione = al.IdAlimentazione
@@ -104,9 +105,44 @@ WHERE
     LIMIT 20 OFFSET ?;
     """;
 
+    public static final String SEARCH_SPAREPART_LISTING =
+    """
+    SELECT 
+    a.idAnnuncio,
+    a.DataInserimento,
+    a.Prezzo,
+    a.Stato,
+    a.IdUtente,
+    p.IdPezzo,
+    p.NomePezzo,
+    p.Tipologia,
+    p.QuantitàMagazzino,
+    p.PezziVenduti,
+    pr.IdProduttore, 
+    pr.NomeProduttore AS NomeMarca,
+    pr.Nazionalita,
+    pr.AutoVendute
+
+    FROM annunci a
+    JOIN pezzi_di_ricambio p ON a.IdPezzo = p.IdPezzo
+    JOIN produttori pr ON p.IdProduttore = pr.IdProduttore
+    LEFT JOIN compatibilita c ON p.IdPezzo = c.IdPezzo
+
+    WHERE a.TipoAnnuncio = 'Pezzo' 
+    AND a.Stato = 'Attivo'
+    
+    -- 3. PARAMETRI DINAMICI (Filtro Modello e Nome Pezzo)
+    AND (? IS NULL OR c.IdModello = ?)
+    AND (? IS NULL OR a.Prezzo >= ?)
+    AND (? IS NULL OR a.Prezzo <= ?)
+    ORDER BY 
+    a.DataInserimento DESC
+    LIMIT 20 OFFSET ?
+    """;
+
     public static final String GET_USER =
         """
-        SELECT *
+        SELECT     *
         FROM utenti u
         WHERE u.IdUtente = ?   
         """;
@@ -131,6 +167,15 @@ WHERE
         FROM equipaggiamenti e, accessori a
         WHERE e.IdAccessorio = a.IdAccessorio
         AND e.IdAuto = ?   
+        """;
+
+    public static final String GET_COMPATIBILITY =
+        """
+        SELECT m.*,p.*
+        FROM compatibilita c, modelli m, produttori p
+        WHERE c.IdModello = m.IdModello
+        AND m.IdProduttore = p.IdProduttore
+        AND c.IdPezzo = ?;
         """;
 
     public static final String GET_MODEL =

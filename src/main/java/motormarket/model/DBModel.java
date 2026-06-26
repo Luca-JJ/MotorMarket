@@ -2,6 +2,7 @@ package motormarket.model;
 
 import motormarket.data.CarFilter;
 import motormarket.data.Listing;
+import motormarket.data.SparePartFilter;
 import motormarket.data.User;
 import motormarket.data.User.UserType;
 
@@ -54,5 +55,10 @@ public final class DBModel implements Model {
     @Override
     public List<Listing> showCarListings(CarFilter filter) {
         return Listing.DAO.showCarListings(connection, filter);
+    }
+
+    @Override
+    public List<Listing> showSparePartListings(SparePartFilter filter) {
+        return Listing.DAO.showSparePartListings(connection, filter);
     }
 }

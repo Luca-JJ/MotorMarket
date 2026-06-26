@@ -1,5 +1,9 @@
 package motormarket.data;
 
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents a specific Car Model cataloged within the marketplace system.
  * This class maps directly to the modelli table and establishes a direct 
@@ -51,5 +55,37 @@ public class CarModel {
      */
     public static final class DAO {
 
+        /**
+         * Finds all accessories associeted to a {@link car}
+         * 
+         * @param connection the active database connection
+         * @param sparePartId the unique system identifier of the spare part
+         * @return a list of all compatibility of the spare part
+         * @throws DAOException if a database access error occurs or parsing fails
+         */
+        public static List<CarModel> listCompatibility(Connection connection, int sparePartId){
+            List<CarModel> compatibility = new ArrayList<>();
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_COMPATIBILITY, sparePartId);
+                var resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    var modelId = resultSet.getInt("IdModello");
+                    var modelName = resultSet.getString("NomeModello");
+                    Producer producer = new Producer(
+                        resultSet.getInt("IdProduttore"),
+                        resultSet.getString("NomeProduttore"),
+                        resultSet.getString("Nazionalita"),
+                        resultSet.getInt("AutoVendute")
+                    );
+                    compatibility.add(new CarModel(modelId, modelName, producer));
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            
+            return compatibility;
+        }
     }
 }

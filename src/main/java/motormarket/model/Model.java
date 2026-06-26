@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import motormarket.data.CarFilter;
 import motormarket.data.Listing;
+import motormarket.data.SparePart;
+import motormarket.data.SparePartFilter;
 import motormarket.data.User;
 import motormarket.data.User.UserType;
 
@@ -40,6 +42,14 @@ public interface Model {
      * @return       a list of matching {@link Listing} business entities
      */
     List<Listing> showCarListings(CarFilter filter);
+
+    /**
+     * Retrieves a paginated list of active spare part listings based on user-defined search criteria.
+     *
+     * @param filter the active search criteria and pagination rules applied by the user
+     * @return       a list of matching {@link Listing} business entities
+     */
+    List<Listing> showSparePartListings(SparePartFilter filter);
 
     // Create a mocked version of the model.
     //

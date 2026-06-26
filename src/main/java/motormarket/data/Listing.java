@@ -290,5 +290,75 @@ public class Listing {
 
             return carListings;
         }
+
+        /**
+         * Retrieves a paginated list of spare part listings based on active search criteria.
+         *
+         * @param connection the active database connection
+         * @param filter     the filter criteria and pagination rules (SparePartFilter)
+         * @return           a list of matching and fully populated {@link Listing} entities
+         * @throws DAOException if a database access error or mapping failure occurs
+         */
+        public static List<Listing> showSparePartListings(Connection connection, SparePartFilter filter) {
+            List<Listing> sparePartListings = new ArrayList<>();
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.SEARCH_SPAREPART_LISTING,
+                    filter.getModelId(),  filter.getModelId(),          // Usato per la JOIN di compatibilità
+                    filter.getMinPrice(), filter.getMinPrice(),
+                    filter.getMaxPrice(), filter.getMaxPrice(),
+                    filter.getOffset()
+                );
+                var resultSet = statement.executeQuery();
+            ) 
+            {
+                while (resultSet.next()) {   
+                    // 1. Costruisci l'oggetto Produttore del pezzo
+                    Producer producer = new Producer(
+                        resultSet.getInt("IdProduttore"),
+                        resultSet.getString("NomeMarca"),
+                        resultSet.getString("Nazionalita"),
+                        resultSet.getInt("AutoVendute")
+                    );
+
+                    List<CarModel> compatibility = CarModel.DAO.listCompatibility(connection, resultSet.getInt("IdPezzo"));
+
+                    // 2. Costruisci l'entità di dominio SparePart (Pezzo di Ricambio)
+                    SparePart sparePart = new SparePart(
+                        resultSet.getInt("IdPezzo"),
+                        resultSet.getString("NomePezzo"),
+                        resultSet.getInt("QuantitàMagazzino"),
+                        resultSet.getString("Tipologia"),
+                        resultSet.getInt("PezziVenduti"),
+                        producer,
+                        compatibility
+                    );
+
+                    // 3. Recupera l'utente venditore dell'annuncio
+                    User user = User.DAO.findUser(connection, resultSet.getInt("IdUtente"));
+                    
+                    // 4. (Opzionale) Se la tua entità SparePart tiene traccia dei modelli compatibili:
+                    // List<CarModel> compatibleModels = CarModel.DAO.listCompatibleModels(connection, resultSet.getInt("IdPezzo"));
+
+                    // 5. Costruisci l'entità finale Listing (Annuncio) via OO Constructor
+                    Listing listing = new Listing(
+                        resultSet.getInt("idAnnuncio"),
+                        resultSet.getObject("DataInserimento", java.time.LocalDate.class),
+                        ListingStatus.valueOf(resultSet.getString("Stato").toUpperCase()),
+                        resultSet.getBigDecimal("Prezzo"),
+                        ListingType.PEZZO, // Hardcoded: questo metodo elabora solo ricambi
+                        null,              // car è null perché questo è un annuncio di un pezzo
+                        sparePart,         // Passiamo l'entità del pezzo appena creata
+                        user
+                    );
+
+                    sparePartListings.add(listing);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+
+            return sparePartListings;
+        }
     }
 }

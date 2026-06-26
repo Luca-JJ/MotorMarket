@@ -1,5 +1,8 @@
 package motormarket.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents a Spare Part cataloged within the marketplace inventory.
  * This class maps directly to the pezzi_di_ricambio table and holds a direct 
@@ -13,6 +16,7 @@ public class SparePart {
     private String category;
     private int partsSold;
     private Producer producer;
+    private List<CarModel> compatibility = new ArrayList<>();
 
     /**
      * Complete Object-Oriented Constructor containing all database mapped fields.
@@ -22,14 +26,16 @@ public class SparePart {
      * @param category      The classification type or category group (Tipologia).
      * @param partsSold     The aggregated volume tracking total units sold (PezziVenduti).
      * @param producer      The {@link Producer} object instance representing the component manufacturer.
+     * @param compatibility The list that contain all compatibility of the part
      */
-    public SparePart(int partId, String partName, int stockQuantity, String category, int partsSold, Producer producer) {
+    public SparePart(int partId, String partName, int stockQuantity, String category, int partsSold, Producer producer, List<CarModel> compatibility) {
         this.partId = partId;
         this.partName = partName;
         this.stockQuantity = stockQuantity;
         this.category = category;
         this.partsSold = partsSold;
         this.producer = producer;
+        this.compatibility = compatibility;
     }
 
     public int getPartId() {
@@ -56,6 +62,10 @@ public class SparePart {
         return producer;
     }
 
+    public List<CarModel> getCompatibility() {
+        return compatibility;
+    }
+
     @Override
     public String toString() {
         return "SparePart{" +
@@ -75,6 +85,7 @@ public class SparePart {
     public static final class DAO {
     
     }
+
 }
 
 
