@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import motormarket.data.CarFilter;
 import motormarket.data.Listing;
+import motormarket.data.OrderList;
 import motormarket.data.SparePart;
 import motormarket.data.SparePartFilter;
 import motormarket.data.User;
@@ -50,6 +51,14 @@ public interface Model {
      * @return       a list of matching {@link Listing} business entities
      */
     List<Listing> showSparePartListings(SparePartFilter filter);
+
+    /**
+     * Retrieves a list of the orders of an user with the items inside
+     *
+     * @param UserId the id of the user
+     * @return       a list of matching {@link OrderList} business entities
+     */
+    List<OrderList> showOrders(int userId);
 
     // Create a mocked version of the model.
     //

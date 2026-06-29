@@ -199,4 +199,42 @@ public final class Queries {
         WHERE p.IdPezzo = ?   
         """; 
 
+    public static final String  SEARCH_ORDERS =
+        """
+        SELECT 
+        o.IdOrdine,
+        o.Data AS DataOrdine,
+        o.Indirizzo AS IndirizzoSpedizione,
+        v.Quantità,
+        v.PrezzoUnitario,
+        (v.Quantità * v.PrezzoUnitario) AS PrezzoTotaleRiga,
+        a.idAnnuncio,
+        a.TipoAnnuncio,
+        a.IdAuto,
+        a.IdPezzo,
+        
+        -- Dettagli dell'Automobile (Popolati solo se TipoAnnuncio = 'Auto')
+        m.NomeModello AS NomeModelloAuto,
+        pr_auto.NomeProduttore AS MarcaAuto,
+        
+        -- Dettagli del Pezzo di Ricambio (Popolati solo se TipoAnnuncio = 'Pezzo')
+        p.NomePezzo,
+        pr_pezzi.NomeProduttore AS MarcaPezzo
+        
+        FROM ordini o
+        JOIN vendite v ON o.IdOrdine = v.IdOrdine
+        JOIN annunci a ON v.idAnnuncio = a.idAnnuncio
+
+        -- Collegamento con la controparte "Automobile" e relative tabelle di anagrafica
+        LEFT JOIN automobili auto ON a.IdAuto = auto.IdAuto
+        LEFT JOIN modelli m ON auto.IdModello = m.IdModello
+        LEFT JOIN produttori pr_auto ON m.IdProduttore = pr_auto.IdProduttore
+
+        -- Collegamento con la controparte "Pezzi di Ricambio" e relative tabelle di anagrafica
+        LEFT JOIN pezzi_di_ricambio p ON a.IdPezzo = p.IdPezzo
+        LEFT JOIN produttori pr_pezzi ON p.IdProduttore = pr_pezzi.IdProduttore
+
+        WHERE o.IdUtente = ?
+        ORDER BY o.Data DESC, o.IdOrdine DESC;
+        """;
 }
