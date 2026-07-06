@@ -3,6 +3,7 @@ package motormarket.model;
 import motormarket.data.CarFilter;
 import motormarket.data.Listing;
 import motormarket.data.Order;
+import motormarket.data.OrderItem;
 import motormarket.data.OrderList;
 import motormarket.data.SparePartFilter;
 import motormarket.data.User;
@@ -67,5 +68,10 @@ public final class DBModel implements Model {
     @Override
     public List<OrderList> showOrders(int userId) {
         return Order.DAO.showOrders(connection, userId);
+    }
+
+    @Override
+    public OrderList addOrder(int userId, String address, List<OrderItem> orderItems) {
+        return Order.DAO.purchaseOrder(connection, userId, address, orderItems);
     }
 }

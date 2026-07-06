@@ -23,122 +23,122 @@ public final class Queries {
      * <li>TipoUtente / User Type (ENUM/VARCHAR)</li>
      * </ol>
      */
-    public static final String USER_INSERT =
+    public static final String INSERT_USER =
         """
         INSERT INTO utenti (Email, Nome, Cognome, Password, TipoUtente) VALUES (?, ?, ?, ?, ?)
         """;
     
     public static final String SEARCH_CAR_LISTING = 
-    """
-    SELECT 
-    a.idAnnuncio, 
-    a.Prezzo, 
-    a.DataInserimento, 
-    a.Stato,
-    a.IdUtente,
-    
-    -- Dati dell'Automobile
-    au.IdAuto, 
-    au.VIN, 
-    au.Targa, 
-    au.AnnoPrimaImmatricolazione, 
-    au.Potenza, 
-    au.TipoCambio,
-    au.Disponibilita,
-    
-    -- Dati del Modello e del Produttore (Oggetti Correlati)
-    m.IdModello, 
-    m.NomeModello, 
-    p.IdProduttore, 
-    p.NomeProduttore AS NomeMarca,
-    p.Nazionalita,
-    p.AutoVendute,
-    
-    -- Dati dell'Alimentazione
-    al.IdAlimentazione, 
-    al.NomeAlimentazione,
-    
-    -- Dati dei Colori (Interni ed Esterni)
-    c_est.IdColore AS IdColoreEsterno, 
-    c_est.NomeColore AS NomeColoreEsterno,
-    c_int.IdColore AS IdColoreInterno,
-    c_int.NomeColore AS NomeColoreInterno
+        """
+        SELECT 
+        a.idAnnuncio, 
+        a.Prezzo, 
+        a.DataInserimento, 
+        a.Stato,
+        a.IdUtente,
 
-    FROM 
-    `annunci` a, 
-    `automobili` au, 
-    `modelli` m, 
-    `produttori` p, 
-    `tipi_alimentazione` al, 
-    `colori` c_est,
-    `colori` c_int  -- Doppia inclusione della tabella colori per interni ed esterni
-    
-    WHERE a.IdAuto = au.IdAuto
-    AND au.IdModello = m.IdModello
-    AND m.IdProduttore = p.IdProduttore
-    AND au.IdAlimentazione = al.IdAlimentazione
-    AND au.IdColoreEsterni = c_est.IdColore
-    AND au.IdColoreInterni = c_int.IdColore
-    
-    -- Filtri di Stato Fisso (Mostra solo auto attive e disponibili alla vendita)
-    AND a.Stato = 'Attivo' 
-    AND a.TipoAnnuncio = 'Auto'
-    AND au.Disponibilita = 'Disponibile'
-    
-    -- Filtri Dinamici ad incastro (1 e 2: Modello, 3 e 4: Alimentazione, 5 e 6: Cambio, 7 e 8: Colore Est, 9 e 10: Colore Int)
-    AND (? IS NULL OR m.IdModello = ?)
-    AND (? IS NULL OR au.IdAlimentazione = ?)
-    AND (? IS NULL OR au.TipoCambio = ?)
-    AND (? IS NULL OR au.IdColoreEsterni = ?)
-    AND (? IS NULL OR au.IdColoreInterni = ?)
-    
-    -- Filtri Dinamici a Range (11: Prezzo Min, 12: Prezzo Max, 13: Anno Min, 14: Anno Max, 15: Potenza Min, 16: Potenza Max)
-    AND (? IS NULL OR a.Prezzo >= ?)
-    AND (? IS NULL OR a.Prezzo <= ?)
-    AND (? IS NULL OR au.AnnoPrimaImmatricolazione >= ?)
-    AND (? IS NULL OR au.AnnoPrimaImmatricolazione <= ?)
-    AND (? IS NULL OR au.Potenza >= ?)
-    AND (? IS NULL OR au.Potenza <= ?)
-    
-    -- Ordinamento e Paginazione (17: Valore dell'OFFSET)
-    ORDER BY a.DataInserimento DESC
-    LIMIT 20 OFFSET ?;
-    """;
+        -- Dati dell'Automobile
+        au.IdAuto, 
+        au.VIN, 
+        au.Targa, 
+        au.AnnoPrimaImmatricolazione, 
+        au.Potenza, 
+        au.TipoCambio,
+        au.Disponibilita,
+        
+        -- Dati del Modello e del Produttore (Oggetti Correlati)
+        m.IdModello, 
+        m.NomeModello, 
+        p.IdProduttore, 
+        p.NomeProduttore AS NomeMarca,
+        p.Nazionalita,
+        p.AutoVendute,
+        
+        -- Dati dell'Alimentazione
+        al.IdAlimentazione, 
+        al.NomeAlimentazione,
+        
+        -- Dati dei Colori (Interni ed Esterni)
+        c_est.IdColore AS IdColoreEsterno, 
+        c_est.NomeColore AS NomeColoreEsterno,
+        c_int.IdColore AS IdColoreInterno,
+        c_int.NomeColore AS NomeColoreInterno
+
+        FROM 
+        `annunci` a, 
+        `automobili` au, 
+        `modelli` m, 
+        `produttori` p, 
+        `tipi_alimentazione` al, 
+        `colori` c_est,
+        `colori` c_int  -- Doppia inclusione della tabella colori per interni ed esterni
+        
+        WHERE a.IdAuto = au.IdAuto
+        AND au.IdModello = m.IdModello
+        AND m.IdProduttore = p.IdProduttore
+        AND au.IdAlimentazione = al.IdAlimentazione
+        AND au.IdColoreEsterni = c_est.IdColore
+        AND au.IdColoreInterni = c_int.IdColore
+        
+        -- Filtri di Stato Fisso (Mostra solo auto attive e disponibili alla vendita)
+        AND a.Stato = 'Attivo' 
+        AND a.TipoAnnuncio = 'Auto'
+        AND au.Disponibilita = 'Disponibile'
+        
+        -- Filtri Dinamici ad incastro (1 e 2: Modello, 3 e 4: Alimentazione, 5 e 6: Cambio, 7 e 8: Colore Est, 9 e 10: Colore Int)
+        AND (? IS NULL OR m.IdModello = ?)
+        AND (? IS NULL OR au.IdAlimentazione = ?)
+        AND (? IS NULL OR au.TipoCambio = ?)
+        AND (? IS NULL OR au.IdColoreEsterni = ?)
+        AND (? IS NULL OR au.IdColoreInterni = ?)
+        
+        -- Filtri Dinamici a Range (11: Prezzo Min, 12: Prezzo Max, 13: Anno Min, 14: Anno Max, 15: Potenza Min, 16: Potenza Max)
+        AND (? IS NULL OR a.Prezzo >= ?)
+        AND (? IS NULL OR a.Prezzo <= ?)
+        AND (? IS NULL OR au.AnnoPrimaImmatricolazione >= ?)
+        AND (? IS NULL OR au.AnnoPrimaImmatricolazione <= ?)
+        AND (? IS NULL OR au.Potenza >= ?)
+        AND (? IS NULL OR au.Potenza <= ?)
+        
+        -- Ordinamento e Paginazione (17: Valore dell'OFFSET)
+        ORDER BY a.DataInserimento DESC
+        LIMIT 20 OFFSET ?;
+        """;
 
     public static final String SEARCH_SPAREPART_LISTING =
-    """
-    SELECT 
-    a.idAnnuncio,
-    a.DataInserimento,
-    a.Prezzo,
-    a.Stato,
-    a.IdUtente,
-    p.IdPezzo,
-    p.NomePezzo,
-    p.Tipologia,
-    p.QuantitàMagazzino,
-    p.PezziVenduti,
-    pr.IdProduttore, 
-    pr.NomeProduttore AS NomeMarca,
-    pr.Nazionalita,
-    pr.AutoVendute
+        """
+        SELECT 
+        a.idAnnuncio,
+        a.DataInserimento,
+        a.Prezzo,
+        a.Stato,
+        a.IdUtente,
+        p.IdPezzo,
+        p.NomePezzo,
+        p.Tipologia,
+        p.QuantitàMagazzino,
+        p.PezziVenduti,
+        pr.IdProduttore, 
+        pr.NomeProduttore AS NomeMarca,
+        pr.Nazionalita,
+        pr.AutoVendute
 
-    FROM annunci a
-    JOIN pezzi_di_ricambio p ON a.IdPezzo = p.IdPezzo
-    JOIN produttori pr ON p.IdProduttore = pr.IdProduttore
-    LEFT JOIN compatibilita c ON p.IdPezzo = c.IdPezzo
+        FROM annunci a
+        JOIN pezzi_di_ricambio p ON a.IdPezzo = p.IdPezzo
+        JOIN produttori pr ON p.IdProduttore = pr.IdProduttore
+        LEFT JOIN compatibilita c ON p.IdPezzo = c.IdPezzo
 
-    WHERE a.TipoAnnuncio = 'Pezzo' 
-    AND a.Stato = 'Attivo'
-    
-    -- 3. PARAMETRI DINAMICI (Filtro Modello e Nome Pezzo)
-    AND (? IS NULL OR c.IdModello = ?)
-    AND (? IS NULL OR a.Prezzo >= ?)
-    AND (? IS NULL OR a.Prezzo <= ?)
-    ORDER BY 
-    a.DataInserimento DESC
-    LIMIT 20 OFFSET ?
-    """;
+        WHERE a.TipoAnnuncio = 'Pezzo' 
+        AND a.Stato = 'Attivo'
+        
+        -- 3. PARAMETRI DINAMICI (Filtro Modello e Nome Pezzo)
+        AND (? IS NULL OR c.IdModello = ?)
+        AND (? IS NULL OR a.Prezzo >= ?)
+        AND (? IS NULL OR a.Prezzo <= ?)
+        ORDER BY 
+        a.DataInserimento DESC
+        LIMIT 20 OFFSET ?
+        """;
 
     public static final String GET_USER =
         """
@@ -237,4 +237,54 @@ public final class Queries {
         WHERE o.IdUtente = ?
         ORDER BY o.Data DESC, o.IdOrdine DESC;
         """;
-}
+
+    public static final String INSERT_ORDER =
+        """
+        INSERT INTO ordini (Indirizzo, SpesaTotale, Data, IdUtente)
+        VALUES (?, ?, CURDATE(), ?)
+        """;
+
+    public static final String INSERT_SALE =
+        """
+        INSERT INTO vendite (idAnnuncio, IdOrdine, Quantità, PrezzoUnitario)
+        SELECT a.idAnnuncio, ?, ?, ?
+        FROM annunci a
+        WHERE a.idAnnuncio = ? AND a.Stato = 'Attivo'
+        """;
+
+    public static final String UPDATE_LISTING_STATUS =
+        """
+        UPDATE annunci a
+        SET a.Stato = 'Venduto'
+        WHERE a.idAnnuncio = ?
+        """;
+
+    public static final String UPDATE_CAR_AVAILABILITY =
+        """
+        UPDATE automobili auto, annunci a
+        SET auto.Disponibilita = 'NonDisponibile'
+        WHERE auto.IdAuto = a.IdAuto AND a.idAnnuncio = ?
+        """;
+
+    public static final String UPDATE_SPARE_PART_STOCK =
+        """
+        UPDATE pezzi_di_ricambio p, annunci a
+        SET p.QuantitàMagazzino = p.QuantitàMagazzino - ?,
+            p.PezziVenduti = p.PezziVenduti + ?
+        WHERE p.IdPezzo = a.IdPezzo AND a.idAnnuncio = ?
+        """;
+
+    public static final String CLOSE_EMPTY_SPARE_PART_LISTING =
+        """
+        UPDATE annunci a, pezzi_di_ricambio p
+        SET a.Stato = 'Venduto'
+        WHERE a.IdPezzo = p.IdPezzo AND a.idAnnuncio = ? AND p.QuantitàMagazzino = 0
+        """; 
+
+    public static final String UPDATE_CARS_SOLD =
+        """
+        UPDATE automobili a, modelli m, produttori p
+        SET p.AutoVendute = p.AutoVendute
+        WHERE a.IdModello = m.IdModello AND a.IdAuto = ? AND m.IdProduttore = p.IdProduttore
+        """; 
+    }

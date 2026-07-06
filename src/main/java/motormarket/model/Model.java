@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import motormarket.data.CarFilter;
 import motormarket.data.Listing;
+import motormarket.data.Order;
+import motormarket.data.OrderItem;
 import motormarket.data.OrderList;
 import motormarket.data.SparePart;
 import motormarket.data.SparePartFilter;
@@ -59,6 +61,16 @@ public interface Model {
      * @return       a list of matching {@link OrderList} business entities
      */
     List<OrderList> showOrders(int userId);
+
+    /**
+     * Add a new order in the database for a specific user
+     * 
+     * @param userId the user of the order
+     * @param address the address of the order
+     * @param orderItems the list with the specific of all items to add
+     * @return the specific order added
+     */
+    OrderList addOrder(int userId, String address, List<OrderItem> orderItems); 
 
     // Create a mocked version of the model.
     //

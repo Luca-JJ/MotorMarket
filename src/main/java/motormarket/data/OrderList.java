@@ -11,11 +11,20 @@ public class OrderList {
     private List<OrderItem> items = new ArrayList<>();
     
     /**
-     * the normal constructor
+     * the normal constructor with empty list
      * @param order an order
      */
     public OrderList(Order order) {
         this.order = order;
+    }
+
+    /**
+     * the normal constructor
+     * @param order an order
+     */
+    public OrderList(Order order, List<OrderItem> items) {
+        this.order = order;
+        this.items = items;
     }
 
     public Order getOrder() {

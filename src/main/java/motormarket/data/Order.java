@@ -2,11 +2,13 @@ package motormarket.data;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * Represents an Order placed by a user within the marketplace.
@@ -140,5 +142,105 @@ public class Order {
 
             return new ArrayList<OrderList>(orderMap.values());
         }
+
+        /**
+         * Processes the purchase of multiple items under a single order transaction,
+         * using the application's native OrderItem model.
+         * * @param connection  Active JDBC connection to the database.
+         * @param userId      The unique identifier of the user making the purchase.
+         * @param address     The shipping address for the entire order.
+         * @param orderItems  The list of OrderItem objects representing the cart.
+         * @throws DAOException If any database access error or transaction rollback occurs.
+         */
+        public static OrderList purchaseOrder(Connection connection, int userId, String address, List<OrderItem> orderItems) throws DAOException{
+            
+            if (orderItems == null || orderItems.isEmpty()) {
+                throw new IllegalArgumentException("Cannot process an empty order.");
+            }
+
+            Order order = null;
+
+            // Dynamically sums up (unitPrice * quantity) for each item in the list
+            BigDecimal totalCost = orderItems.stream()
+                .map(item -> item.getUnitPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            
+            try {
+                connection.setAutoCommit(false);
+
+                int generatedOrderId = 0;
+                try (var statement1 = DAOUtils.prepare(connection, Queries.INSERT_ORDER, address, totalCost, userId )) {
+                    int rowsAffected = statement1.executeUpdate();
+                    if (rowsAffected > 0) {
+                        String sqlId = "SELECT LAST_INSERT_ID()";
+                        try (var idStatement = DAOUtils.prepare(connection, sqlId);
+                            ResultSet rs = idStatement.executeQuery()) {
+                            
+                            if (rs.next()) {
+                                generatedOrderId = rs.getInt(1);
+                                order = new Order(generatedOrderId, address, totalCost, LocalDate.now(), User.DAO.findUser(connection, userId));
+                            }
+                        }
+                    }
+                    
+                    for (OrderItem item : orderItems) {
+                       try (var statement2 = DAOUtils.prepare(connection, Queries.INSERT_SALE, generatedOrderId, item.getQuantity(), item.getUnitPrice(), item.getListingId())) {
+                            int rows = statement2.executeUpdate();
+                            if (rows == 0) {
+                            throw new DAOException("Inserimento vendita fallito: annuncio non attivo o inesistente (ID=" + item.getListingId() + ")");
+}
+                       }
+
+                       String type = item.getListingType();
+
+                       if ("Auto".equals(type)) {
+                            // Update car status to unavailable and close the specific listing
+                            try (var statement3a = DAOUtils.prepare(connection, Queries.UPDATE_LISTING_STATUS, item.getListingId());
+                                var statement4a = DAOUtils.prepare(connection, Queries.UPDATE_CAR_AVAILABILITY, item.getListingId());
+                                var statement5a = DAOUtils.prepare(connection, Queries.UPDATE_CARS_SOLD, item.getItemId())) {
+                                statement3a.executeUpdate();
+                                statement4a.executeUpdate();
+                                statement5a.executeUpdate();
+                            }
+                        } else if ("Pezzo".equals(type)) {
+                            // Deduct warehouse stock and increase total items sold
+                            try (var statement3b = DAOUtils.prepare(connection, Queries.UPDATE_SPARE_PART_STOCK, item.getQuantity(), item.getQuantity(), item.getListingId());
+                                var statement4b = DAOUtils.prepare(connection, Queries.CLOSE_EMPTY_SPARE_PART_LISTING, item.getListingId())) {
+                                statement3b.executeUpdate();
+                                statement4b.executeUpdate();
+                            }
+                        }
+                    }
+                    
+                } catch (Exception e) {
+                    throw new DAOException(e);
+                }
+                connection.commit();
+                
+            } catch (Exception e) {
+                // TRANSACTION ROLLBACK HANDLER
+                try {
+                    if (connection != null) {
+                        connection.rollback();
+                    }
+                } catch (Exception rollbackEx) {
+                    // Suppress or log rollback exceptions to prioritize the original failure root cause
+                    e.addSuppressed(rollbackEx);
+                }
+                throw new DAOException(e);
+            } finally {
+                // CLEANUP & RESTORE CONNECTION STATE
+                try {
+                    if (connection != null) {
+                        connection.setAutoCommit(true);
+                    }
+                } catch (Exception restoreEx) {
+                    // Managed silently to avoid overriding method outcomes
+                }
+            }
+            return new OrderList(order, orderItems);
+        }
     }
+
+    
 }

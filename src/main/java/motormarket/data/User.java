@@ -139,7 +139,7 @@ public class User {
         public static User addUser(Connection connection, String email, String firstName, String lastName, String password, String userType) {
             User user = null;
             try(
-                var statement = DAOUtils.prepare(connection, Queries.USER_INSERT, email, firstName, lastName, password, userType);
+                var statement = DAOUtils.prepare(connection, Queries.INSERT_USER, email, firstName, lastName, password, userType);
             )    
             {
                 int rowsAffected = statement.executeUpdate();

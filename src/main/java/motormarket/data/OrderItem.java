@@ -15,7 +15,7 @@ public class OrderItem {
     private String itemName;       // Nome del pezzo o modello dell'auto
 
     /**
-     * Costruttore completo con tutti i parametri.
+     * Complete constructor with all parameters.
      */
     public OrderItem(int listingId, String listingType, int itemId, int quantity, BigDecimal unitPrice, String brand, String itemName) {
         this.listingId = listingId;
