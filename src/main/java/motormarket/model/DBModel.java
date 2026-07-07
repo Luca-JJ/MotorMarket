@@ -5,6 +5,8 @@ import motormarket.data.Listing;
 import motormarket.data.Order;
 import motormarket.data.OrderItem;
 import motormarket.data.OrderList;
+import motormarket.data.Producer;
+import motormarket.data.SparePart;
 import motormarket.data.SparePartFilter;
 import motormarket.data.User;
 import motormarket.data.User.UserType;
@@ -74,4 +76,21 @@ public final class DBModel implements Model {
     public OrderList addOrder(int userId, String address, List<OrderItem> orderItems) {
         return Order.DAO.purchaseOrder(connection, userId, address, orderItems);
     }
+
+    @Override
+    public Producer getMostSoldProducer() {
+        return Producer.DAO.getMostSoldProducer(connection);
+    }
+
+    @Override
+    public SparePart getMostSoldSparePart() {
+        return SparePart.DAO.getMostSoldSparePart(connection);
+    }
+
+    @Override
+    public Integer addStockQuantity(int partId, int deltaQuantity) {
+        return SparePart.DAO.addStockQuantity(connection, partId, deltaQuantity);
+    }
+
+    
 }

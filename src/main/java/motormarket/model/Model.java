@@ -9,6 +9,7 @@ import motormarket.data.Listing;
 import motormarket.data.Order;
 import motormarket.data.OrderItem;
 import motormarket.data.OrderList;
+import motormarket.data.Producer;
 import motormarket.data.SparePart;
 import motormarket.data.SparePartFilter;
 import motormarket.data.User;
@@ -72,6 +73,29 @@ public interface Model {
      */
     OrderList addOrder(int userId, String address, List<OrderItem> orderItems); 
 
+    /**
+     * Searches the database for the top-performing car manufacturer.
+     *  
+     * @return the Producer that has sold the highest number of cars.
+     */
+    Producer getMostSoldProducer();
+
+    /**
+     * Searches the database for the top-performing spare part component.
+     * 
+     * @return the SparePart that has the highest sales volume.
+     */
+    SparePart getMostSoldSparePart();
+
+    /**
+     * Update the quantity of a spare part
+     * 
+     * @param partId the id of the spare part
+     * @param deltaQuantity the delta of the quantity
+     * @return the new quantity
+     */
+    Integer addStockQuantity(int partId, int deltaQuantity);
+    
     // Create a mocked version of the model.
     //
     /*static Model mock() {

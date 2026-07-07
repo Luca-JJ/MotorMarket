@@ -1,5 +1,7 @@
 package motormarket.data;
 
+import java.sql.Connection;
+
 /**
  * Represents a manufacturing Brand or Company within the marketplace catalog.
  * This class maps directly to the produttori table, managing manufacturing corporate entities, 
@@ -58,6 +60,34 @@ public class Producer {
      * Handles database CRUD interactions related to manufacturer registry data.
      */
     public static final class DAO {
+
+        /**
+         * Identifies the car manufacturer that recorded the highest number 
+         * of sales on the platform by leveraging the redundant counter attribute.
+         * * @param connection the active database connection
+         * @return the Producer object representing the top seller, or null if no data is found
+         * @throws DAOException if any database access error occurs
+         */
+        public static Producer getMostSoldProducer(Connection connection) {
+            Producer topProducer = null;
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_MOST_SOLD_PRODUCER);
+                var resultSet = statement.executeQuery();
+            ) {
+                if(resultSet.next()) {
+                    int id = resultSet.getInt("IdProduttore");
+                    String name = resultSet.getString("NomeProduttore");
+                    String nationality = resultSet.getString("Nazionalita");
+                    int carsSold = resultSet.getInt("AutoVendute");
+                    topProducer = new Producer(id, name, nationality, carsSold);
+                }
+
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+
+            return topProducer;
+        }
 
     }
 }

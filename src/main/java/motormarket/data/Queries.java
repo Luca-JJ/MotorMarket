@@ -284,7 +284,38 @@ public final class Queries {
     public static final String UPDATE_CARS_SOLD =
         """
         UPDATE automobili a, modelli m, produttori p
-        SET p.AutoVendute = p.AutoVendute
+        SET p.AutoVendute = p.AutoVendute + 1
         WHERE a.IdModello = m.IdModello AND a.IdAuto = ? AND m.IdProduttore = p.IdProduttore
         """; 
-    }
+
+    public static final String GET_MOST_SOLD_PRODUCER =
+        """
+        SELECT IdProduttore, NomeProduttore, Nazionalita, AutoVendute
+        FROM produttori
+        ORDER BY AutoVendute DESC
+        LIMIT 1
+        """;
+
+    public static final String GET_MOST_SOLD_SPARE_PART =
+        """
+        SELECT p.IdPezzo, p.NomePezzo, p.QuantitàMagazzino, p.Tipologia, p.PezziVenduti, pr.IdProduttore, pr.NomeProduttore, pr.Nazionalita, pr.AutoVendute
+        FROM pezzi_di_ricambio p, produttori pr
+        WHERE p.IdProduttore = pr.IdProduttore
+        ORDER BY p.PezziVenduti DESC
+        LIMIT 1
+        """;
+
+    public static final String ADD_SPARE_PART_STOCK =
+        """
+        UPDATE pezzi_di_ricambio
+        SET QuantitàMagazzino = QuantitàMagazzino + ?
+        WHERE IdPezzo = ?
+        """;
+    
+    public static final String GET_SPARE_PART_STOCK =
+        """
+        SELECT QuantitàMagazzino
+        FROM pezzi_di_ricambio
+        WHERE IdPezzo = ?
+        """;
+}
