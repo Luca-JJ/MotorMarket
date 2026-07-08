@@ -1,6 +1,9 @@
 package motormarket.data;
 
+import java.sql.Connection;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a Review posted by a user within the marketplace.
@@ -140,6 +143,115 @@ public class Review {
      */
     public static final class DAO {
 
+        /**
+         * Inserts a car model review using a single optimized SQL query.
+         * It verifies if the user has purchased a car of this specific model before inserting.
+         * @param connection the active database connection
+         * @param userId the ID of the user writing the review
+         * @param modelId the ID of the car model being reviewed
+         * @param rating the score given (1-5)
+         * @param title the title
+         * @param text the review text
+         * @return true if the review was inserted, false if the user never purchased this model
+         * @throws DAOException if any database access error occurs
+         */
+        public static boolean addModelReview(Connection connection, int userId, int modelId, int rating, String title, String text) throws DAOException {
+            try (var statement = DAOUtils.prepare(connection, Queries.INSERT_MODEL_REVIEW, userId, modelId, rating, title, text, userId, modelId)) {
+                
+                int rowsInserted = statement.executeUpdate();
+                return rowsInserted > 0;
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+        }
+
+        /**
+         * Inserts a spare part review using a single optimized SQL query.
+         * It verifies if the user has purchased this specific spare part before inserting.
+         * @param connection the active database connection
+         * @param userId the ID of the user writing the review
+         * @param partId the ID of the spare part being reviewed
+         * @param rating the score given (1-5)
+         * @param title the title
+         * @param text the review text
+         * @return true if the review was inserted, false if the user never purchased this spare part
+         * @throws DAOException if any database access error occurs
+         */
+        public static boolean addSparePartReview(Connection connection, int userId, int partId, int rating, String title, String text) throws DAOException {
+            try (var statement = DAOUtils.prepare(connection, Queries.INSERT_SPARE_PART_REVIEW, userId, partId, rating, title, text, userId, partId)) {
+                
+                int rowsInserted = statement.executeUpdate();
+                return rowsInserted > 0;
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+        }
+
+        /**
+         * Fetches the average rating and all individual reviews (with author username) for a car model.
+         * @param connection the active database connection
+         * @param modelId the ID of the car model
+         * @return a list of ReviewDetail objects
+         * @throws DAOException if any database access error occurs
+         */
+        public static List<ReviewDetail> getModelReviews(Connection connection, int modelId) {
+            List<ReviewDetail> reviews = new ArrayList<>();
+            
+            try (var statement = DAOUtils.prepare(connection, Queries.GET_MODEL_REVIEWS, modelId);
+                var resultSet = statement.executeQuery()) {
+                
+                while (resultSet.next()) {
+                    ReviewDetail review = new ReviewDetail(
+                        resultSet.getString("Titolo"),
+                        resultSet.getString("Testo"),
+                        resultSet.getInt("Voto"),
+                        resultSet.getDate("DataRecensione").toLocalDate(),
+                        resultSet.getString("Nome"),
+                        resultSet.getString("Cognome"),
+                        resultSet.getDouble("MediaVoti")
+                    );
+                    reviews.add(review);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            return reviews;
+        }
+
+        /**
+         * Fetches the average rating and all individual reviews (with author username) for a spare part.
+         * @param connection the active database connection
+         * @param partId the ID of the spare part
+         * @return a list of ReviewDetail objects
+         * @throws DAOException if any database access error occurs
+         */
+        public static List<ReviewDetail> getSparePartReviews(Connection connection, int partId) {
+            List<ReviewDetail> reviews = new ArrayList<>();
+            
+            try (var statement = DAOUtils.prepare(connection, Queries.GET_SPARE_PART_REVIEWS, partId);
+                var resultSet = statement.executeQuery()) {
+                
+                while (resultSet.next()) {
+                    ReviewDetail review = new ReviewDetail(
+                        resultSet.getString("Titolo"),
+                        resultSet.getString("Testo"),
+                        resultSet.getInt("Voto"),
+                        resultSet.getDate("DataRecensione").toLocalDate(),
+                        resultSet.getString("Nome"),
+                        resultSet.getString("Cognome"),
+                        resultSet.getDouble("MediaVoti")
+                    );
+                    reviews.add(review);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            return reviews;
+        }
     }
 
 }

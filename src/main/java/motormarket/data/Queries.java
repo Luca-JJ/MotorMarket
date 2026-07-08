@@ -318,4 +318,52 @@ public final class Queries {
         FROM pezzi_di_ricambio
         WHERE IdPezzo = ?
         """;
+
+    public static final String INSERT_SPARE_PART_REVIEW =
+        """
+        INSERT INTO recensioni (IdUtente, IdPezzo, Voto, Titolo, Testo, TipoRecensione, DataRecensione)
+        SELECT ?, ?, ?, ?, ?, 'Pezzo', CURRENT_DATE()
+        FROM ordini o, vendite v, annunci a
+        WHERE o.IdOrdine = v.IdOrdine 
+          AND v.IdAnnuncio = a.IdAnnuncio
+          AND o.IdUtente = ? 
+          AND a.IdPezzo = ?
+        LIMIT 1
+        """;
+
+    public static final String INSERT_MODEL_REVIEW =
+        """
+        INSERT INTO recensioni (IdUtente, IdModello, Voto, Titolo, Testo, TipoRecensione, DataRecensione)
+        SELECT ?, ?, ?, ?, ?, 'Modello', CURRENT_DATE()
+        FROM ordini o, vendite v, annunci a, automobili auto
+        WHERE o.IdOrdine = v.IdOrdine 
+          AND v.idAnnuncio = a.idAnnuncio
+          AND a.IdAuto = auto.IdAuto
+          AND o.IdUtente = ? 
+          AND auto.IdModello = ?
+        LIMIT 1
+        """;
+
+    public static final String GET_MODEL_REVIEWS =
+        """
+        SELECT r.Titolo, r.Testo, r.Voto, r.DataRecensione, u.Nome, u.Cognome,
+               AVG(r.Voto) OVER() AS MediaVoti
+        FROM recensioni r, utenti u
+        WHERE r.IdUtente = u.IdUtente
+          AND r.IdModello = ? 
+          AND r.TipoRecensione = 'Modello'
+        ORDER BY r.DataRecensione DESC
+        """;
+
+
+    public static final String GET_SPARE_PART_REVIEWS =
+        """
+        SELECT r.Titolo, r.Testo, r.Voto, r.DataRecensione, u.Nome, u.Cognome,
+               AVG(r.Voto) OVER() AS MediaVoti
+        FROM recensioni r, utenti u
+        WHERE r.IdUtente = u.IdUtente
+          AND r.IdPezzo = ? 
+          AND r.TipoRecensione = 'Pezzo'
+        ORDER BY r.DataRecensione DESC
+        """;
 }

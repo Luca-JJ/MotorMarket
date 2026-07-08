@@ -10,6 +10,7 @@ import motormarket.data.Order;
 import motormarket.data.OrderItem;
 import motormarket.data.OrderList;
 import motormarket.data.Producer;
+import motormarket.data.ReviewDetail;
 import motormarket.data.SparePart;
 import motormarket.data.SparePartFilter;
 import motormarket.data.User;
@@ -96,6 +97,46 @@ public interface Model {
      */
     Integer addStockQuantity(int partId, int deltaQuantity);
     
+    /**
+     * Insert a new review on a specific model of car
+     * 
+     * @param userId the Id of the user
+     * @param modelId the Id of the car model
+     * @param rating the rating
+     * @param title the title
+     * @param text the review
+     * @return true if the review was inserted, false if the user never purchased this spare part
+     */
+    boolean addModelReview(int userId, int modelId, int rating, String title, String text);
+
+    /**
+     * Insert a new review on a specific spare part
+     * 
+     * @param userId the Id of the user
+     * @param partId the Id of the spare part
+     * @param rating the rating
+     * @param title the title
+     * @param text the review
+     * @return true if the review was inserted, false if the user never purchased this spare part
+     */
+    boolean addSparePartReview(int userId, int partId, int rating, String title, String text);
+
+    /**
+     * Get all reviews about a specific car model
+     * 
+     * @param modelId the id
+     * @return the reviews with the average vote
+     */
+    List<ReviewDetail> getModelReviews (int modelId);
+
+    /**
+     * Get all reviews about a specific spare part
+     * 
+     * @param partId the id
+     * @return the reviews with the average vote
+     */
+    List<ReviewDetail> getSparePartReviews (int partId);
+
     // Create a mocked version of the model.
     //
     /*static Model mock() {

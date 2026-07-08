@@ -6,6 +6,8 @@ import motormarket.data.Order;
 import motormarket.data.OrderItem;
 import motormarket.data.OrderList;
 import motormarket.data.Producer;
+import motormarket.data.Review;
+import motormarket.data.ReviewDetail;
 import motormarket.data.SparePart;
 import motormarket.data.SparePartFilter;
 import motormarket.data.User;
@@ -92,5 +94,24 @@ public final class DBModel implements Model {
         return SparePart.DAO.addStockQuantity(connection, partId, deltaQuantity);
     }
 
+    @Override
+    public boolean addModelReview(int userId, int modelId, int rating, String title, String text) {
+        return Review.DAO.addModelReview(connection, userId, modelId, rating, title, text);
+    }
+
+    @Override
+    public boolean addSparePartReview(int userId, int partId, int rating, String title, String text) {
+        return Review.DAO.addSparePartReview(connection, userId, partId, rating, title, text);
+    }
+
+    @Override
+    public List<ReviewDetail> getModelReviews(int modelId) {
+        return Review.DAO.getModelReviews(connection, modelId);
+    }
+
+    @Override
+    public List<ReviewDetail> getSparePartReviews(int partId) {
+        return Review.DAO.getSparePartReviews(connection, partId);
+    }
     
 }
