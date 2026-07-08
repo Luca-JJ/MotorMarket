@@ -1,6 +1,7 @@
 package motormarket.data;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -179,6 +180,77 @@ public class SparePart {
                 }
             }
             return stockQuantity;
+        }
+
+        /**
+        * Inserts a new spare part and links it to multiple compatible car models.
+        * The operation is fully transactional using standard DAOUtils execution.
+        * * @param connection the active database connection
+        * @param name the name of the spare part ("NomePezzo")
+        * @param stockQuantity the initial stock quantity ("QuantitàMagazzino")
+        * @param type the category/type of the part ("Tipologia")
+        * @param producerId the foreign key referencing the producer ("IdProduttore")
+        * @param compatibleModelIds list of car model IDs compatible with this spare part
+        * @return true if the spare part and all compatibilities were successfully added
+        * @throws DAOException if a database error occurs (triggers automatic rollback)
+        */
+        public static boolean addSparePartWithCompatibilities(Connection connection, String name, int stockQuantity, 
+             String type, int producerId, List<Integer> compatibleModelIds) {
+            boolean insert = false;
+            int generatedPartId = 0;
+            try {
+                connection.setAutoCommit(false);  
+                try (var statement = DAOUtils.prepare(connection, Queries.INSERT_SPARE_PART, 
+                        name, stockQuantity, type, producerId)) {
+                    
+                    int rowsInserted = statement.executeUpdate();
+                    insert = rowsInserted > 0;
+                    
+                    if (rowsInserted > 0) {
+                        String sqlId = "SELECT LAST_INSERT_ID()";
+                        try (var idStatement = DAOUtils.prepare(connection, sqlId);
+                            ResultSet rs = idStatement.executeQuery()) {
+                            
+                            if (rs.next()) {
+                                generatedPartId = rs.getInt(1);
+                            }
+                        }
+                    }
+
+                    if (compatibleModelIds != null && !compatibleModelIds.isEmpty()) {
+                        for (int modelId : compatibleModelIds) {
+                            try (var compStatement = DAOUtils.prepare(connection, Queries.INSERT_PART_COMPATIBILITY, generatedPartId, modelId)) {
+                                compStatement.executeUpdate();
+                            }
+                        }
+                    }
+
+                    } catch (Exception e) {
+                    throw new DAOException(e);
+                    }
+                connection.commit();
+            } catch (Exception e) {
+                // TRANSACTION ROLLBACK HANDLER
+                try {
+                    if (connection != null) {
+                        connection.rollback();
+                    }
+                } catch (Exception rollbackEx) {
+                    // Suppress or log rollback exceptions to prioritize the original failure root cause
+                    e.addSuppressed(rollbackEx);
+                }
+                throw new DAOException(e);
+            } finally {
+                // CLEANUP & RESTORE CONNECTION STATE
+                try {
+                    if (connection != null) {
+                        connection.setAutoCommit(true);
+                    }
+                } catch (Exception restoreEx) {
+                    // Managed silently to avoid overriding method outcomes
+                }
+            }
+            return insert;
         }
     }
 

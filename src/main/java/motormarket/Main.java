@@ -24,8 +24,8 @@ public class Main {
     public static void main(String[] args) {
         var connection = DAOUtils.localMySQLConnection("ecommerce", "root", "SqualoBO_26Luca");
         var model = Model.fromConnection(connection);
-        Boolean car = model.addCar("TTUZZZ8V000999888", "DV765GG", 2009, 105, "Automatico", 21, 1, 1, 2, 9, List.of(1,2,3));
-        System.out.println(car);
+        Boolean sparePart = model.addSparePartWithCompatibilities( "ADAS Livello 2",10,"Aiuti alla guida",1,List.of(1,2,3));
+        System.out.println(sparePart);
         
     }
 }

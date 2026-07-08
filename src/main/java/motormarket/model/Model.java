@@ -137,8 +137,26 @@ public interface Model {
      */
     List<ReviewDetail> getSparePartReviews (int partId);
 
+    /**
+     * Insert a new car in the database
+     * 
+     * @param vin
+     * @param licensePlate
+     * @param registrationYear
+     * @param power
+     * @param transmissionType
+     * @param modelId
+     * @param fuelTypeId
+     * @param interiorColorId
+     * @param exteriorColorId
+     * @param userId
+     * @param accessoryIds
+     * @return true if the review was inserted, false if the user never purchased this spare part
+     */
     boolean addCar(String vin, String licensePlate, int registrationYear, int power, String transmissionType, 
         int modelId, int fuelTypeId, int interiorColorId, int exteriorColorId, int userId, List<Integer> accessoryIds);
+
+    boolean addSparePartWithCompatibilities( String name, int stockQuantity, String type, int producerId, List<Integer> compatibleModelIds);
 
     // Create a mocked version of the model.
     //

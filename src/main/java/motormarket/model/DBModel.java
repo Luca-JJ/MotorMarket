@@ -120,5 +120,11 @@ public final class DBModel implements Model {
             int modelId, int fuelTypeId, int interiorColorId, int exteriorColorId, int userId, List<Integer> accessoryIds) {
         return Car.DAO.addCar(connection, vin, licensePlate, registrationYear, power, transmissionType, modelId, fuelTypeId, interiorColorId, exteriorColorId, userId, accessoryIds);
     }
+
+    @Override
+    public boolean addSparePartWithCompatibilities(String name, int stockQuantity, String type, int producerId,
+            List<Integer> compatibleModelIds) {
+        return SparePart.DAO.addSparePartWithCompatibilities(connection, name, stockQuantity, type, producerId, compatibleModelIds);
+    }
     
 }

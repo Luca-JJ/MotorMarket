@@ -380,4 +380,16 @@ public final class Queries {
         INSERT INTO Equipaggiamenti (IdAuto, IdAccessorio)
         VALUES (?, ?)
         """;
+    
+    public static final String INSERT_SPARE_PART =
+        """
+        INSERT INTO pezzi_di_ricambio (NomePezzo, QuantitàMagazzino, Tipologia, IdProduttore)
+        VALUES (?, ?, ?, ?)
+        """;
+
+    public static final String INSERT_PART_COMPATIBILITY =
+        """
+        INSERT INTO compatibilita (IdPezzo, IdModello)
+        VALUES (?, ?)
+        """;
 }
