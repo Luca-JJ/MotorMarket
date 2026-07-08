@@ -4,6 +4,7 @@ import motormarket.model.Model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import motormarket.data.CarFilter;
@@ -23,9 +24,8 @@ public class Main {
     public static void main(String[] args) {
         var connection = DAOUtils.localMySQLConnection("ecommerce", "root", "SqualoBO_26Luca");
         var model = Model.fromConnection(connection);
-        List<ReviewDetail> modelReviews = model.getModelReviews(9);
-        System.out.println(modelReviews);
-        List<ReviewDetail> partReviews = model.getSparePartReviews(3);
-        System.out.println(partReviews);
+        Boolean car = model.addCar("TTUZZZ8V000999888", "DV765GG", 2009, 105, "Automatico", 21, 1, 1, 2, 9, List.of(1,2,3));
+        System.out.println(car);
+        
     }
 }

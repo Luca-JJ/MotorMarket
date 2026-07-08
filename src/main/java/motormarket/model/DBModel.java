@@ -1,5 +1,6 @@
 package motormarket.model;
 
+import motormarket.data.Car;
 import motormarket.data.CarFilter;
 import motormarket.data.Listing;
 import motormarket.data.Order;
@@ -112,6 +113,12 @@ public final class DBModel implements Model {
     @Override
     public List<ReviewDetail> getSparePartReviews(int partId) {
         return Review.DAO.getSparePartReviews(connection, partId);
+    }
+
+    @Override
+    public boolean addCar(String vin, String licensePlate, int registrationYear, int power, String transmissionType,
+            int modelId, int fuelTypeId, int interiorColorId, int exteriorColorId, int userId, List<Integer> accessoryIds) {
+        return Car.DAO.addCar(connection, vin, licensePlate, registrationYear, power, transmissionType, modelId, fuelTypeId, interiorColorId, exteriorColorId, userId, accessoryIds);
     }
     
 }

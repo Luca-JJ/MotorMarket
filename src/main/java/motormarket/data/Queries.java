@@ -366,4 +366,18 @@ public final class Queries {
           AND r.TipoRecensione = 'Pezzo'
         ORDER BY r.DataRecensione DESC
         """;
+
+    public static final String INSERT_CAR =
+        """
+        INSERT INTO automobili (
+            VIN, Targa, AnnoPrimaImmatricolazione, Potenza, TipoCambio, 
+            IdModello, IdAlimentazione, IdColoreInterni, IdColoreEsterni, IdUtente
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """;
+    
+    public static final String INSERT_CAR_ACCESSORY =
+        """
+        INSERT INTO Equipaggiamenti (IdAuto, IdAccessorio)
+        VALUES (?, ?)
+        """;
 }

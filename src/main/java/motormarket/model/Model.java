@@ -137,6 +137,9 @@ public interface Model {
      */
     List<ReviewDetail> getSparePartReviews (int partId);
 
+    boolean addCar(String vin, String licensePlate, int registrationYear, int power, String transmissionType, 
+        int modelId, int fuelTypeId, int interiorColorId, int exteriorColorId, int userId, List<Integer> accessoryIds);
+
     // Create a mocked version of the model.
     //
     /*static Model mock() {
