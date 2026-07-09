@@ -206,6 +206,15 @@ public interface Model {
      */
     boolean addSparePartListing(int partId, double price, int userId);
 
+    /**
+     * Change the status of a listing in the database
+     * 
+     * @param advertisementId
+     * @param newStatus
+     * @return true if the status was changed 
+     */
+    boolean updateListingStatus(int advertisementId, String newStatus);
+
     // Create a mocked version of the model.
     //
     /*static Model mock() {

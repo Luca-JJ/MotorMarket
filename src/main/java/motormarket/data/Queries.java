@@ -411,5 +411,9 @@ public final class Queries {
         VALUES (?, ?, ?, ?, ?, ?, ?)
         """;
 
-    
+    public static final String UPDATE_ADVERTISEMENT_STATUS =
+        """
+        UPDATE annunci SET Stato = ? WHERE idAnnuncio = ?
+        """;
+        
 }

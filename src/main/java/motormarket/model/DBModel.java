@@ -148,5 +148,10 @@ public final class DBModel implements Model {
     public boolean addSparePartListing(int partId, double price, int userId) {
         return Listing.DAO.addSparePartListing(connection, partId, price, userId);
     }
+
+    @Override
+    public boolean updateListingStatus(int advertisementId, String newStatus) {
+        return Listing.DAO.updateListingStatus(connection, advertisementId, newStatus);
+    }
     
 }

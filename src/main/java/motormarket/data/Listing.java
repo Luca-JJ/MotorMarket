@@ -403,7 +403,24 @@ public class Listing {
             }
         }
 
-        
+        /**
+         * Updates the status of a specific advertisement (e.g., to activate or disable it).
+         * @param connection the active database connection
+         * @param advertisementId the ID of the advertisement to update ("idAnnuncio")
+         * @param newStatus the new status to set (must be 'Attivo', 'Disattivato', or 'Venduto')
+         * @return true if the advertisement was successfully updated, false if the ID wasn't found
+         * @throws DAOException if a database access error occurs
+         */
+        public static boolean updateListingStatus(Connection connection, int advertisementId, String newStatus) {
+            try (var statement = DAOUtils.prepare(connection, Queries.UPDATE_ADVERTISEMENT_STATUS, newStatus, advertisementId)) {
+                
+                int rowsUpdated = statement.executeUpdate();
+                return rowsUpdated > 0;
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+        }
 
     }
 }

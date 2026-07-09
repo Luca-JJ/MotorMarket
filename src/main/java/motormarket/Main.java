@@ -24,10 +24,8 @@ public class Main {
     public static void main(String[] args) {
         var connection = DAOUtils.localMySQLConnection("ecommerce", "root", "SqualoBO_26Luca");
         var model = Model.fromConnection(connection);
-        Boolean carListing = model.addCarListing(7, 20000, 9);
-        System.out.println(carListing);
-        Boolean sparePartListing = model.addSparePartListing(20, 1000, 9);
-        System.out.println(sparePartListing);
+        Boolean changed = model.updateListingStatus(13, "Disattivato");
+        System.out.println(changed);
         
     }
 }
