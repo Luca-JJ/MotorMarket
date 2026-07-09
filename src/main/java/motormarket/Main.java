@@ -24,8 +24,10 @@ public class Main {
     public static void main(String[] args) {
         var connection = DAOUtils.localMySQLConnection("ecommerce", "root", "SqualoBO_26Luca");
         var model = Model.fromConnection(connection);
-        Boolean service = model.addExtraService("Estensione garanzia 6 mesi automobile", "Auto", 200);
-        System.out.println(service);
+        Boolean carListing = model.addCarListing(7, 20000, 9);
+        System.out.println(carListing);
+        Boolean sparePartListing = model.addSparePartListing(20, 1000, 9);
+        System.out.println(sparePartListing);
         
     }
 }

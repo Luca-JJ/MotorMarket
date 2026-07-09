@@ -138,5 +138,15 @@ public final class DBModel implements Model {
     public boolean addExtraService(String name, String serviceType, double price) {
         return Service.DAO.addExtraService(connection, name, serviceType, price);
     }
+
+    @Override
+    public boolean addCarListing(int carId, double price, int userId) {
+        return Listing.DAO.addCarListing(connection, carId, price, userId);
+    }
+
+    @Override
+    public boolean addSparePartListing(int partId, double price, int userId) {
+        return Listing.DAO.addSparePartListing(connection, partId, price, userId);
+    }
     
 }

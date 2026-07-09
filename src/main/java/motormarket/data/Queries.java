@@ -404,4 +404,12 @@ public final class Queries {
         INSERT INTO servizi (Nome, TipoServizio, Prezzo)
         VALUES (?, ?, ?)
         """;
+
+    public static final String INSERT_ADVERTISEMENT =
+        """
+        INSERT INTO annunci (IdAuto, IdPezzo, DataInserimento, Stato, Prezzo, TipoAnnuncio, IdUtente)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """;
+
+    
 }

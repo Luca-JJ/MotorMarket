@@ -360,5 +360,50 @@ public class Listing {
 
             return sparePartListings;
         }
+
+        /**
+         * Creates a marketplace advertisement for a CAR.
+         * Automatically handles the exclusivity constraint by setting IdPezzo to null.
+         * @param connection the active database connection
+         * @param carId the ID of the car being sold
+         * @param price the selling price (must be > 0)
+         * @param userId the ID of the user publishing the ad
+         * @return true if the advertisement was successfully created
+         * @throws DAOException if a database error occurs or constraints are violated
+         */
+        public static boolean addCarListing(Connection connection, int carId, double price, int userId) {
+            try (var statement = DAOUtils.prepare(connection, Queries.INSERT_ADVERTISEMENT, carId, null, java.sql.Date.valueOf(LocalDate.now()), "Attivo", price, "Auto", userId)) {
+                
+                int rowsInserted = statement.executeUpdate();
+                return rowsInserted > 0;
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+        }
+
+        /**
+         * Creates a marketplace advertisement for a SPARE PART.
+         * Automatically handles the exclusivity constraint by setting IdAuto to null.
+         * @param connection the active database connection
+         * @param partId the ID of the spare part being sold
+         * @param price the selling price (must be > 0)
+         * @param userId the ID of the user publishing the ad
+         * @return true if the advertisement was successfully created
+         * @throws DAOException if a database error occurs or constraints are violated
+         */
+        public static boolean addSparePartListing(Connection connection, int partId, double price, int userId) {
+            try (var statement = DAOUtils.prepare(connection, Queries.INSERT_ADVERTISEMENT, null, partId, java.sql.Date.valueOf(LocalDate.now()), "Attivo", price, "Pezzo", userId)) {
+                
+                int rowsInserted = statement.executeUpdate();
+                return rowsInserted > 0;
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+        }
+
+        
+
     }
 }

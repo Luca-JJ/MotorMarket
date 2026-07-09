@@ -151,7 +151,7 @@ public interface Model {
      * @param exteriorColorId
      * @param userId
      * @param accessoryIds
-     * @return true if the review was inserted, false if the user never purchased this spare part
+     * @return true if the car was inserted
      */
     boolean addCar(String vin, String licensePlate, int registrationYear, int power, String transmissionType, 
         int modelId, int fuelTypeId, int interiorColorId, int exteriorColorId, int userId, List<Integer> accessoryIds);
@@ -164,19 +164,47 @@ public interface Model {
      * @param type
      * @param producerId
      * @param compatibleModelIds
-     * @return true if the review was inserted, false if the user never purchased this spare part
+     * @return true if the spare part was inserted
      */
     boolean addSparePartWithCompatibilities( String name, int stockQuantity, String type, int producerId, List<Integer> compatibleModelIds);
 
     /**
-     * Insert a new accessory in the databse
+     * Insert a new accessory in the database
      * 
      * @param name
-     * @return true if the review was inserted, false if the user never purchased this spare part
+     * @return true if the accessory was inserted
      */
     boolean addAccessory(String name);
 
+    /**
+     * Insert a new service in the database
+     * 
+     * @param name
+     * @param serviceType
+     * @param price
+     * @return true if the service was inserted
+     */
     boolean addExtraService(String name, String serviceType, double price);
+    
+    /**
+     * Insert a new car listing in the database
+     * 
+     * @param carId
+     * @param price
+     * @param userId
+     * @return true if the listing was insert
+     */
+    boolean addCarListing(int carId, double price, int userId);
+
+    /**
+     * Insert a new spare part listing in the database
+     * 
+     * @param partId
+     * @param price
+     * @param userId
+     * @return true if the listing was insert
+     */
+    boolean addSparePartListing(int partId, double price, int userId);
 
     // Create a mocked version of the model.
     //
