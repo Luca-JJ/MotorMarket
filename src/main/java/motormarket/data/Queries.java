@@ -392,4 +392,10 @@ public final class Queries {
         INSERT INTO compatibilita (IdPezzo, IdModello)
         VALUES (?, ?)
         """;
+
+    public static final String INSERT_ACCESSORY =
+        """
+        INSERT INTO accessori (NomeAccessorio)
+        VALUES (?)
+        """;
 }

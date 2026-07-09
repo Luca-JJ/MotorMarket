@@ -1,5 +1,6 @@
 package motormarket.model;
 
+import motormarket.data.Accessory;
 import motormarket.data.Car;
 import motormarket.data.CarFilter;
 import motormarket.data.Listing;
@@ -125,6 +126,11 @@ public final class DBModel implements Model {
     public boolean addSparePartWithCompatibilities(String name, int stockQuantity, String type, int producerId,
             List<Integer> compatibleModelIds) {
         return SparePart.DAO.addSparePartWithCompatibilities(connection, name, stockQuantity, type, producerId, compatibleModelIds);
+    }
+
+    @Override
+    public boolean addAccessory(Connection connection, String name) {
+        return Accessory.DAO.addAccessory(connection, name);
     }
     
 }

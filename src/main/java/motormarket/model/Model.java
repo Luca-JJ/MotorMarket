@@ -156,8 +156,20 @@ public interface Model {
     boolean addCar(String vin, String licensePlate, int registrationYear, int power, String transmissionType, 
         int modelId, int fuelTypeId, int interiorColorId, int exteriorColorId, int userId, List<Integer> accessoryIds);
 
+    /**
+     * Insert a new spare part in the database
+     * 
+     * @param name
+     * @param stockQuantity
+     * @param type
+     * @param producerId
+     * @param compatibleModelIds
+     * @return true if the review was inserted, false if the user never purchased this spare part
+     */
     boolean addSparePartWithCompatibilities( String name, int stockQuantity, String type, int producerId, List<Integer> compatibleModelIds);
 
+
+    boolean addAccessory(Connection connection, String name);
     // Create a mocked version of the model.
     //
     /*static Model mock() {

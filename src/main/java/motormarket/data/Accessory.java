@@ -73,5 +73,23 @@ public class Accessory {
             
             return accessories;
         }
+
+        /**
+         * Inserts a new accessory into the database.
+         * @param connection the active database connection
+         * @param name the name of the accessory ("NomeAccessorio")
+         * @return true if the accessory was successfully added, false otherwise
+         * @throws DAOException if a database access error occurs
+         */
+        public static boolean addAccessory(Connection connection, String name) {
+            try (var statement = DAOUtils.prepare(connection, Queries.INSERT_ACCESSORY, name)) {
+                
+                int rowsInserted = statement.executeUpdate();
+                return rowsInserted > 0;
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+        }
     }
 }
