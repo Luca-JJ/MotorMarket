@@ -107,6 +107,9 @@ public class Order {
                         
                         orderList = new OrderList(order);
                         orderMap.put(orderId, orderList);
+
+                        List<Service> services = Service.DAO.listService(connection, orderId);
+                        orderList.setServices(services);
                     }
                     
                     // 2. ORDER ROW HANDLING (Extracting common fields first)
@@ -152,7 +155,7 @@ public class Order {
          * @param orderItems  The list of OrderItem objects representing the cart.
          * @throws DAOException If any database access error or transaction rollback occurs.
          */
-        public static OrderList purchaseOrder(Connection connection, int userId, String address, List<OrderItem> orderItems) {
+        public static OrderList purchaseOrder(Connection connection, int userId, String address, List<OrderItem> orderItems, List<Service> services) {
             
             if (orderItems == null || orderItems.isEmpty()) {
                 throw new IllegalArgumentException("Cannot process an empty order.");
@@ -165,6 +168,13 @@ public class Order {
                 .map(item -> item.getUnitPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
             
+            if (services != null && !services.isEmpty()) {
+                BigDecimal servicesCost = services.stream()
+                    .map(Service::getPrice)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+                totalCost = totalCost.add(servicesCost);
+            }
+
             try {
                 connection.setAutoCommit(false);
 
@@ -211,7 +221,15 @@ public class Order {
                             }
                         }
                     }
-                    
+
+                    if (services != null && !services.isEmpty()) {
+                        for (Service service : services) {
+                            try (var statementService = DAOUtils.prepare(connection, Queries.INSERT_ADDITION, generatedOrderId, service.getServiceId())) {
+                                statementService.executeUpdate();
+                            }
+                        }
+                    }
+                                
                 } catch (Exception e) {
                     throw new DAOException(e);
                 }
@@ -238,7 +256,7 @@ public class Order {
                     // Managed silently to avoid overriding method outcomes
                 }
             }
-            return new OrderList(order, orderItems);
+            return new OrderList(order, orderItems, services);
         }
 
         /**

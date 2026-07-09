@@ -11,6 +11,7 @@ import motormarket.data.OrderItem;
 import motormarket.data.OrderList;
 import motormarket.data.Producer;
 import motormarket.data.ReviewDetail;
+import motormarket.data.Service;
 import motormarket.data.SparePart;
 import motormarket.data.SparePartFilter;
 import motormarket.data.User;
@@ -70,9 +71,10 @@ public interface Model {
      * @param userId the user of the order
      * @param address the address of the order
      * @param orderItems the list with the specific of all items to add
+     * @param services the list with all services present in the order
      * @return the specific order added
      */
-    OrderList addOrder(int userId, String address, List<OrderItem> orderItems); 
+    OrderList addOrder(int userId, String address, List<OrderItem> orderItems, List<Service> services); 
 
     /**
      * Searches the database for the top-performing car manufacturer.

@@ -238,6 +238,14 @@ public final class Queries {
         ORDER BY o.Data DESC, o.IdOrdine DESC;
         """;
 
+    public static final String GET_ADDITION =
+        """
+        SELECT s.*
+        FROM servizi s, aggiunte a
+        WHERE s.IdServizio = a.IdServizio
+        AND a.IdOrdine = ?   
+        """;
+
     public static final String INSERT_ORDER =
         """
         INSERT INTO ordini (Indirizzo, SpesaTotale, Data, IdUtente)
@@ -280,6 +288,11 @@ public final class Queries {
         SET a.Stato = 'Venduto'
         WHERE a.IdPezzo = p.IdPezzo AND a.idAnnuncio = ? AND p.QuantitàMagazzino = 0
         """; 
+
+    public static final String INSERT_ADDITION =
+        """
+        INSERT INTO aggiunte (IdOrdine, IdServizio) VALUES (?, ?)
+        """;
 
     public static final String UPDATE_CARS_SOLD =
         """

@@ -9,6 +9,7 @@ import java.util.List;
 public class OrderList {
     private Order order; // La tua classe originale con i 5 campi
     private List<OrderItem> items = new ArrayList<>();
+    private List<Service> services = new ArrayList<>();
     
     /**
      * the normal constructor with empty list
@@ -22,9 +23,10 @@ public class OrderList {
      * the normal constructor
      * @param order an order
      */
-    public OrderList(Order order, List<OrderItem> items) {
+    public OrderList(Order order, List<OrderItem> items, List<Service> services) {
         this.order = order;
         this.items = items;
+        this.services = services;
     }
 
     public Order getOrder() {
@@ -35,8 +37,20 @@ public class OrderList {
         return items;
     }
 
+    public List<Service> getServices() {
+        return services;
+    }
+
     public void addItem(OrderItem item) {
         this.items.add(item); 
+    }
+
+    public void addService(Service service) {
+        this.services.add(service); 
+    }
+
+    public void setServices(List<Service> services) {
+        this.services = services;
     }
 
     @Override
@@ -62,7 +76,16 @@ public class OrderList {
                 sb.append(item.toString()).append("\n");
             }
         }
+        sb.append("==================================================\n");
+        if (services == null || services.isEmpty()) {
+            sb.append("  (No Services in this order)\n");
+        } else {
+            for (Service service : services) {
+                sb.append(service.toString()).append("\n");
+            }
+        }
         sb.append("==================================================");
         return sb.toString();
     }
+
 }

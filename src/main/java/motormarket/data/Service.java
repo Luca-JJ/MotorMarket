@@ -2,6 +2,8 @@ package motormarket.data;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a premium Service offered within the marketplace.
@@ -121,5 +123,35 @@ public class Service {
                 throw new DAOException(e);
             }
         }
+
+        /**
+         * Finds all services associeted to an {@link order}
+         * 
+         * @param connection the active database connection
+         * @param orderId the unique system identifier of the order
+         * @return a list of all services in an order
+         * @throws DAOException if a database access error occurs or parsing fails
+         */
+        public static List<Service> listService(Connection connection, int orderId){
+            List<Service> services = new ArrayList<>();
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_ADDITION, orderId);
+                var resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    var serviceId = resultSet.getInt("IdServizio");
+                    var name = resultSet.getString("Nome");
+                    var price = resultSet.getBigDecimal("Prezzo");
+                    var type = resultSet.getString("TipoServizio");
+                    services.add(new Service(serviceId, name, price, ServiceType.fromString(type) ));
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            
+            return services;
+        }
+
     }
 }

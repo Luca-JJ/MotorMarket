@@ -78,8 +78,8 @@ public final class DBModel implements Model {
     }
 
     @Override
-    public OrderList addOrder(int userId, String address, List<OrderItem> orderItems) {
-        return Order.DAO.purchaseOrder(connection, userId, address, orderItems);
+    public OrderList addOrder(int userId, String address, List<OrderItem> orderItems, List<Service> services) {
+        return Order.DAO.purchaseOrder(connection, userId, address, orderItems, services);
     }
 
     @Override
