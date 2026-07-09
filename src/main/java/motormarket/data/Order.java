@@ -152,7 +152,7 @@ public class Order {
          * @param orderItems  The list of OrderItem objects representing the cart.
          * @throws DAOException If any database access error or transaction rollback occurs.
          */
-        public static OrderList purchaseOrder(Connection connection, int userId, String address, List<OrderItem> orderItems) throws DAOException{
+        public static OrderList purchaseOrder(Connection connection, int userId, String address, List<OrderItem> orderItems) {
             
             if (orderItems == null || orderItems.isEmpty()) {
                 throw new IllegalArgumentException("Cannot process an empty order.");
@@ -240,7 +240,30 @@ public class Order {
             }
             return new OrderList(order, orderItems);
         }
-    }
 
+        /**
+         * Fetches the total revenue generated during a specific month and year.
+         * @param connection the active database connection
+         * @param month the month number (1 to 12)
+         * @param year the year (e.g., 2026)
+         * @return the total revenue as a double (returns 0.0 if no orders were placed)
+         * @throws DAOException if a database access error occurs
+         */
+        public static double getMonthlyRevenue(Connection connection, int month, int year) {
+            
+            try (var statement = DAOUtils.prepare(connection, Queries.GET_MONTHLY_REVENUE, month, year);
+                var resultSet = statement.executeQuery()) {
+                
+                if (resultSet.next()) {
+                    return resultSet.getDouble("RicavoTotale");
+                }
+                return 0.0;
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+        }
+
+    }
     
 }

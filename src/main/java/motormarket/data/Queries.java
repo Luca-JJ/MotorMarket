@@ -415,5 +415,14 @@ public final class Queries {
         """
         UPDATE annunci SET Stato = ? WHERE idAnnuncio = ?
         """;
+    
         
+    public static final String GET_MONTHLY_REVENUE =
+        """
+        SELECT COALESCE(SUM(SpesaTotale), 0.0) AS RicavoTotale
+        FROM ordini
+        WHERE MONTH(Data) = ?
+        AND YEAR(Data) = ?
+        """;
+    
 }

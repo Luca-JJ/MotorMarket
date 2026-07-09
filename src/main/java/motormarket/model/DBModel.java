@@ -153,5 +153,10 @@ public final class DBModel implements Model {
     public boolean updateListingStatus(int advertisementId, String newStatus) {
         return Listing.DAO.updateListingStatus(connection, advertisementId, newStatus);
     }
+
+    @Override
+    public double getMonthlyRevenue(int month, int year) {
+        return Order.DAO.getMonthlyRevenue(connection, month, year);
+    }
     
 }

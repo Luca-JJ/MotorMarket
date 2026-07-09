@@ -24,8 +24,8 @@ public class Main {
     public static void main(String[] args) {
         var connection = DAOUtils.localMySQLConnection("ecommerce", "root", "SqualoBO_26Luca");
         var model = Model.fromConnection(connection);
-        Boolean changed = model.updateListingStatus(13, "Disattivato");
-        System.out.println(changed);
+        double revenue = model.getMonthlyRevenue(6, 2026);
+        System.out.println(revenue);
         
     }
 }

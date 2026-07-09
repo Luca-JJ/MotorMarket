@@ -215,6 +215,15 @@ public interface Model {
      */
     boolean updateListingStatus(int advertisementId, String newStatus);
 
+    /**
+     * Get the monthly revenue
+     * 
+     * @param month
+     * @param year
+     * @return the revenue in a specific month and year
+     */
+    double getMonthlyRevenue(int month, int year);
+
     // Create a mocked version of the model.
     //
     /*static Model mock() {
