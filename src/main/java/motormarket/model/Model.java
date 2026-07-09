@@ -168,8 +168,16 @@ public interface Model {
      */
     boolean addSparePartWithCompatibilities( String name, int stockQuantity, String type, int producerId, List<Integer> compatibleModelIds);
 
+    /**
+     * Insert a new accessory in the databse
+     * 
+     * @param name
+     * @return true if the review was inserted, false if the user never purchased this spare part
+     */
+    boolean addAccessory(String name);
 
-    boolean addAccessory(Connection connection, String name);
+    boolean addExtraService(String name, String serviceType, double price);
+
     // Create a mocked version of the model.
     //
     /*static Model mock() {

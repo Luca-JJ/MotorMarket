@@ -398,4 +398,10 @@ public final class Queries {
         INSERT INTO accessori (NomeAccessorio)
         VALUES (?)
         """;
+    
+    public static final String INSERT_EXTRA_SERVICE =
+        """
+        INSERT INTO servizi (Nome, TipoServizio, Prezzo)
+        VALUES (?, ?, ?)
+        """;
 }

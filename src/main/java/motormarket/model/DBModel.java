@@ -10,6 +10,7 @@ import motormarket.data.OrderList;
 import motormarket.data.Producer;
 import motormarket.data.Review;
 import motormarket.data.ReviewDetail;
+import motormarket.data.Service;
 import motormarket.data.SparePart;
 import motormarket.data.SparePartFilter;
 import motormarket.data.User;
@@ -129,8 +130,13 @@ public final class DBModel implements Model {
     }
 
     @Override
-    public boolean addAccessory(Connection connection, String name) {
+    public boolean addAccessory(String name) {
         return Accessory.DAO.addAccessory(connection, name);
+    }
+
+    @Override
+    public boolean addExtraService(String name, String serviceType, double price) {
+        return Service.DAO.addExtraService(connection, name, serviceType, price);
     }
     
 }

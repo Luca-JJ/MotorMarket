@@ -24,8 +24,8 @@ public class Main {
     public static void main(String[] args) {
         var connection = DAOUtils.localMySQLConnection("ecommerce", "root", "SqualoBO_26Luca");
         var model = Model.fromConnection(connection);
-        Boolean accessory = model.addAccessory(connection, "Ruota di scorta");
-        System.out.println(accessory);
+        Boolean service = model.addExtraService("Estensione garanzia 6 mesi automobile", "Auto", 200);
+        System.out.println(service);
         
     }
 }

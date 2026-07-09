@@ -1,6 +1,7 @@
 package motormarket.data;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 
 /**
  * Represents a premium Service offered within the marketplace.
@@ -101,5 +102,24 @@ public class Service {
      */
     public static final class DAO {
 
+       /**
+         * Inserts a new extra service provided by the platform into the database.
+         * @param connection the active database connection
+         * @param name the name of the service ("NomeServizio")
+         * @param serviceType the category or type of the service ("TipoServizio")
+         * @param price the cost of the extra service ("Prezzo")
+         * @return true if the service was successfully added, false otherwise
+         * @throws DAOException if a database access error occurs
+         */
+        public static boolean addExtraService(Connection connection, String name, String serviceType, double price) throws DAOException {
+            try (var statement = DAOUtils.prepare(connection, Queries.INSERT_EXTRA_SERVICE, name, serviceType, price)) {
+                
+                int rowsInserted = statement.executeUpdate();
+                return rowsInserted > 0;
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+        }
     }
 }
