@@ -45,6 +45,11 @@ public final class DBModel implements Model {
         this.connection = connection;
     }
 
+    @Override
+    public int getUserId() {
+        return this.userId;
+    }
+
     /**
      * {@inheritDoc}
      * <p>
@@ -166,7 +171,7 @@ public final class DBModel implements Model {
         if(user.getUserType() == null) {
             return null;
         }
-        userId = user.getUserId();
+        this.userId = user.getUserId();
         return user.getUserType();
            
 

@@ -15,6 +15,8 @@ public class MotorMarketFrame extends JFrame implements View {
     private int screenWidth;
     private int screenHeight;
 
+    private OrdersTablePanel ordersTablePanel;
+
     public MotorMarketFrame(Controller controller) {
         setTitle("MotorMarket - Compravendita Veicoli");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,10 +29,13 @@ public class MotorMarketFrame extends JFrame implements View {
         cardLayout = new CardLayout();
         mainContainer = new JPanel(cardLayout);
 
+        ordersTablePanel = new OrdersTablePanel(this, controller);
+
         // Inizializza e aggiunge le classi esterne al contenitore
         mainContainer.add(new LoginPanel(this, controller), "LOGIN");
         mainContainer.add(new ClientDashboardPanel(this, controller), "DASHBOARD");
         mainContainer.add(new RegisterPanel(this, controller), "REGISTER");
+        mainContainer.add(ordersTablePanel, "ORDERS");
         // mainContainer.add(new DashboardPanel(this), "DASHBOARD");
 
         // Mostra il login all'avvio
@@ -41,6 +46,10 @@ public class MotorMarketFrame extends JFrame implements View {
     }
 
     public void switchPanel(String panelName) {
+
+        if (panelName.equals("ORDERS") && ordersTablePanel != null) {
+            ordersTablePanel.refreshOrdersData(); 
+        }
         cardLayout.show(mainContainer, panelName);
         adaptSizeFor(panelName);
     }

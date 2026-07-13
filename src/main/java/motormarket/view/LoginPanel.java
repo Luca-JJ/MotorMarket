@@ -70,7 +70,7 @@ public class LoginPanel extends JPanel {
             char[] passwordArray = passField.getPassword();
             String password = new String(passwordArray);
             if (email.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Inserisci tutti i campi!", "Errore", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please fill in all fields!", "Errorr", JOptionPane.ERROR_MESSAGE);
                 return; 
             }
             UserType userType = controller.authenticate(email, password);
@@ -82,7 +82,7 @@ public class LoginPanel extends JPanel {
             } else if (userType == UserType.AMMINISTRATORE) {
                 frame.switchPanel("DASHBOARD_ADMIN");
             } else {
-                JOptionPane.showMessageDialog(this, "Username o Password errati.", "Errore Autenticazione", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Username o Password wrong.", "Authentication Error", JOptionPane.ERROR_MESSAGE);
             }
         
         });

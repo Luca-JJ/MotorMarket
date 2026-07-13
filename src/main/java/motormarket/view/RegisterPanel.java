@@ -96,33 +96,33 @@ public class RegisterPanel extends JPanel {
             char[] passwordArray = passField.getPassword();
             String password = new String(passwordArray);
             if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Inserisci tutti i campi!", "Errore", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please fill in all fields!", "Error", JOptionPane.ERROR_MESSAGE);
                 return; 
             }
             try {
                 User user = controller.registrate(firstName, lastName, email, password);
                 if(user != null) {
-                    String messaggio = "🎉 UTENTE AUTENTICATO CON SUCCESSO!\n" +
+                    String messaggio = "🎉 User Authenticated with success!\n" +
                         "----------------------------------------\n" +
-                        "• ID Utente:      " + user.getUserId() + "\n" +
-                        "• Nome:           " + user.getFirstName() + "\n" +
-                        "• Cognome:        " + user.getLastName() + "\n" +
+                        "• User ID:      " + user.getUserId() + "\n" +
+                        "• First Name:           " + user.getFirstName() + "\n" +
+                        "• Last Name:        " + user.getLastName() + "\n" +
                         "• Email:          " + user.getEmail() + "\n" +
-                        "• Tipo Account:   " + user.getUserType().getDbValue() + "\n" +
+                        "• User Type:   " + user.getUserType().getDbValue() + "\n" +
                         "----------------------------------------";
 
                     // Mostriamo il popup informativo
                     JOptionPane.showMessageDialog(
                             this, 
                             messaggio, 
-                            "Profilo Utente - MotorMarket", 
+                            "User - MotorMarket", 
                             JOptionPane.INFORMATION_MESSAGE
                     );
                     frame.switchPanel("LOGIN");
                 }
             } catch (DAOException ex) {
                 // Gestione di altri errori generici del database
-                JOptionPane.showMessageDialog(this, "Errore di sistema durante la registrazione/ Email già registrata.", "Errore", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "System error during registration. Email already registered.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
         backLink.addActionListener(e -> frame.switchPanel("LOGIN"));

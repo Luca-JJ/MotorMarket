@@ -27,6 +27,13 @@ import motormarket.data.User.UserType;
  */
 public interface Model {
     
+
+    /**
+     * 
+     * @return the user that use the application
+     */
+    int getUserId();
+
     /**
      * Registers and persists a new user into the system.
      * @param email     The unique email address of the user.
