@@ -226,6 +226,15 @@ public interface Model {
      */
     double getMonthlyRevenue(int month, int year);
 
+    /**
+     * Get the userType from the authentication
+     * 
+     * @param email
+     * @param password
+     * @return the userType
+     */
+    UserType userTypeAuthentication(String email, String password);
+
     // Create a mocked version of the model.
     //
     /*static Model mock() {

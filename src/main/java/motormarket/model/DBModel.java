@@ -33,6 +33,7 @@ import java.util.Optional;
 public final class DBModel implements Model {
 
     private final Connection connection;
+    private int userId;
 
     /**
      * Constructs a new DBModel backed by the specified database connection.
@@ -157,6 +158,18 @@ public final class DBModel implements Model {
     @Override
     public double getMonthlyRevenue(int month, int year) {
         return Order.DAO.getMonthlyRevenue(connection, month, year);
+    }
+
+    @Override
+    public UserType userTypeAuthentication(String email, String password) {
+        User user = User.DAO.userTypeAuthentication(connection, email, password);
+        if(user.getUserType() == null) {
+            return null;
+        }
+        userId = user.getUserId();
+        return user.getUserType();
+           
+
     }
     
 }

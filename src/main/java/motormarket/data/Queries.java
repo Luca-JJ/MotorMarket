@@ -438,4 +438,11 @@ public final class Queries {
         AND YEAR(Data) = ?
         """;
     
+    public static final String GET_USER_TYPE_AUTHENTICATE =
+        """
+        SELECT * 
+        FROM Utenti 
+        WHERE Email = ? 
+        AND Password = ?
+        """;
 }

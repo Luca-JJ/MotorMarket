@@ -192,5 +192,32 @@ public class User {
 
             return user;
         }
+
+        /**
+         * Finds the usertype from his email and password
+         * 
+         * @param connection
+         * @param email
+         * @param password
+         * @return if exist return the userType associated
+         */
+        public static User userTypeAuthentication(Connection connection, String email, String password) {
+            User user = null;
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_USER_TYPE_AUTHENTICATE, email, password);
+                var resultSet = statement.executeQuery();
+            ) {
+                if (resultSet.next()) {
+                    var userId = resultSet.getInt("IdUtente");
+                    var firstName = resultSet.getString("Nome");
+                    var lastName = resultSet.getString("Cognome");
+                    var userType = UserType.fromString(resultSet.getString("TipoUtente"));
+                    user = new User(userId, email, firstName, lastName, password, userType);
+                }
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            return user;
+        }
     }
 }
