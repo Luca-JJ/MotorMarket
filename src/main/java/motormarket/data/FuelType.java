@@ -1,5 +1,9 @@
 package motormarket.data;
 
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents a Fuel Type category used within the marketplace catalog.
  * This class maps directly to the {@code tipi_alimentazione} table, serving as a 
@@ -41,6 +45,29 @@ public class FuelType {
      * Handles database CRUD interactions related to fuel taxonomy.
      */
     public static final class DAO {
-    
+        
+        /**
+         * Finds all fuel types
+         * 
+         * @param connection
+         * @return the fuel types with the associated fuelTypeId
+         */
+        public static Map<String,Integer> getFuels(Connection connection) {
+            Map<String,Integer> map = new HashMap<>();
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_FUELS);
+                var resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    var fuelTypeId = resultSet.getInt("IdAlimentazione");
+                    var fuelName = resultSet.getString("NomeAlimentazione");
+                    map.put(fuelName,fuelTypeId);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            return map;
+        }
     }
 }

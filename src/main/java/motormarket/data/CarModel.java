@@ -2,7 +2,9 @@ package motormarket.data;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a specific Car Model cataloged within the marketplace system.
@@ -86,6 +88,32 @@ public class CarModel {
             }
             
             return compatibility;
+        }
+
+        /**
+         * Finds all brand and model combinations
+         * 
+         * @param connection
+         * @return the brand model with the associated modelId
+         */
+        public static Map<String,Integer> brandsModels(Connection connection) {
+            Map<String,Integer> map = new HashMap<>();
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_BRANDS_MODELS);
+                var resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    var modelId = resultSet.getInt("IdModello");
+                    var modelName = resultSet.getString("NomeModello");
+                    var productorName = resultSet.getString("NomeProduttore");
+                    String brandModel = productorName + " " + modelName;
+                    map.put(brandModel,modelId);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            return map;
         }
     }
 }

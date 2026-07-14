@@ -2,6 +2,7 @@ package motormarket.model;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import motormarket.data.CarFilter;
@@ -241,6 +242,33 @@ public interface Model {
      * @return the userType
      */
     UserType userTypeAuthentication(String email, String password);
+    
+    /**
+     * the string with brand and model
+     * 
+     * @return the map with string and associated Id
+     */
+    Map<String,Integer> brandsModels();
+
+    /**
+     * the string with colors
+     * 
+     * @return the map with string and associated Id
+     */
+    Map<String,Integer> getColors();
+
+    /**
+     * the string with fuel types
+     * 
+     * @return the map with string and associated Id
+     */
+    Map<String,Integer> getFuels();
+    
+    /**
+     * 
+     * @return
+     */
+    List<Service> getServices();
 
     // Create a mocked version of the model.
     //

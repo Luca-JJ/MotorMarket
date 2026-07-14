@@ -19,7 +19,27 @@ public class CarFilter {
 
    // Default Constructor (Initializes search to the first page, everything else remains null)
     public CarFilter() {
-        this.page = 1; //aggiustare in futuro, idea all'utente viene mostrato solo il nome, nel dietro si memeorizza anche l'id che va gestito qui
+        this.page = 1; 
+    }
+
+    // Full Constructor (Initializes all fields including page)
+    public CarFilter(Integer modelId, Integer fuelTypeId, String transmissionType, 
+                     Integer exteriorColorId, Integer interiorColorId, 
+                     Double minPrice, Double maxPrice, 
+                     Integer minYear, Integer maxYear, 
+                     Integer minPower, Integer maxPower, int page) {
+        this.modelId = modelId;
+        this.fuelTypeId = fuelTypeId;
+        this.transmissionType = transmissionType;
+        this.exteriorColorId = exteriorColorId;
+        this.interiorColorId = interiorColorId;
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
+        this.minYear = minYear;
+        this.maxYear = maxYear;
+        this.minPower = minPower;
+        this.maxPower = maxPower;
+        this.page = page;
     }
     
     // Utility method to automatically calculate the OFFSET for the SQL query

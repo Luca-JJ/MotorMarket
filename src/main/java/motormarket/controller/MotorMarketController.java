@@ -1,9 +1,13 @@
 package motormarket.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import motormarket.data.CarFilter;
+import motormarket.data.Listing;
 import motormarket.data.OrderItem;
 import motormarket.data.OrderList;
+import motormarket.data.Service;
 import motormarket.data.User;
 import motormarket.data.User.UserType;
 import motormarket.model.Model;
@@ -36,7 +40,39 @@ public class MotorMarketController implements Controller {
 
     @Override
     public List<OrderList> showOrders() {
-        System.out.println(model.getUserId());
         return model.showOrders(model.getUserId());
     }
+
+    @Override
+    public Map<String,Integer> brandsModels() {
+        return model.brandsModels();
+    }
+
+    @Override
+    public Map<String, Integer> getColors() {
+        return model.getColors();
+    }
+
+    @Override
+    public Map<String, Integer> getFuels() {
+        return model.getFuels();
+    }
+
+    @Override
+    public List<Listing> showCarListings(CarFilter filter) {
+        return model.showCarListings(filter);
+    }
+
+    @Override
+    public List<Service> getServices() {
+        return model.getServices();
+    }
+
+    @Override
+    public OrderList addOrder(String address, List<OrderItem> orderItems, List<Service> services) {
+        return model.addOrder(model.getUserId(), address, orderItems, services);
+    }
+
+    
+    
 }

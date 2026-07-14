@@ -441,8 +441,33 @@ public final class Queries {
     public static final String GET_USER_TYPE_AUTHENTICATE =
         """
         SELECT * 
-        FROM Utenti 
+        FROM utenti 
         WHERE Email = ? 
         AND Password = ?
+        """;
+
+    public static final String GET_BRANDS_MODELS =
+        """
+        SELECT p.NomeProduttore, m.NomeModello, m.IdModello
+        FROM modelli m, produttori p
+        WHERE p.IdProduttore  = m.IdProduttore
+        """;
+
+    public static final String GET_COLORS =
+        """
+        SELECT c.*
+        FROM colori C
+        """;
+
+    public static final String GET_FUELS =
+        """
+        SELECT a.*
+        FROM tipi_alimentazione a
+        """;
+
+    public static final String GET_SERVICES = 
+        """
+        SELECT s.*
+        FROM servizi s
         """;
 }

@@ -1,5 +1,9 @@
 package motormarket.data;
 
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents a Color entity used within the marketplace catalog.
  * This class maps directly to the colori table, serving as a standardized 
@@ -42,5 +46,28 @@ public class Color {
      */
     public static final class DAO {
 
+        /**
+         * Finds all colors
+         * 
+         * @param connection
+         * @return the colors with the associated colorId
+         */
+        public static Map<String,Integer> getColors(Connection connection) {
+            Map<String,Integer> map = new HashMap<>();
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_COLORS);
+                var resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    var colorId = resultSet.getInt("IdColore");
+                    var colorName = resultSet.getString("NomeColore");
+                    map.put(colorName,colorId);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            return map;
+        }
     }
 }

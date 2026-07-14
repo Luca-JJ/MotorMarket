@@ -84,13 +84,16 @@ public class ClientDashboardPanel extends JPanel {
         sidebar.add(logoutBtn);
         sidebar.add(Box.createVerticalStrut(10));
 
-        add(sidebar, BorderLayout.WEST);
+        add(sidebar, BorderLayout.CENTER);
 
         // Action listener to switch to the orders panel
         btnMyPurchases.addActionListener(e -> {
             frame.switchPanel("ORDERS");
         });
 
+        btnCarListings.addActionListener(e -> {
+            frame.switchPanel("CAR_LISTINGS");
+        });
 
     }
 }

@@ -3,6 +3,9 @@ package motormarket.model;
 import motormarket.data.Accessory;
 import motormarket.data.Car;
 import motormarket.data.CarFilter;
+import motormarket.data.CarModel;
+import motormarket.data.Color;
+import motormarket.data.FuelType;
 import motormarket.data.Listing;
 import motormarket.data.Order;
 import motormarket.data.OrderItem;
@@ -18,6 +21,7 @@ import motormarket.data.User.UserType;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -175,6 +179,26 @@ public final class DBModel implements Model {
         return user.getUserType();
            
 
+    }
+
+    @Override
+    public Map<String, Integer> brandsModels() {
+        return CarModel.DAO.brandsModels(connection);
+    }
+
+    @Override
+    public Map<String, Integer> getColors() {
+        return Color.DAO.getColors(connection);
+    }
+
+    @Override
+    public Map<String, Integer> getFuels() {
+        return FuelType.DAO.getFuels(connection);
+    }
+
+    @Override
+    public List<Service> getServices() {
+        return Service.DAO.getServices(connection);
     }
     
 }
