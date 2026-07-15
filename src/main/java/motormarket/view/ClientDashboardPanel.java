@@ -3,6 +3,8 @@ package motormarket.view;
 import javax.swing.*;
 
 import motormarket.controller.Controller;
+import motormarket.data.Producer;
+import motormarket.data.SparePart;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -22,6 +24,9 @@ public class ClientDashboardPanel extends JPanel {
     private JButton btnLeaveReview;              // Op. 7
     private JButton btnAverageRating;            // Op. 8
     private JButton logoutBtn;
+
+    private JTextField txtTopCarResult;
+    private JTextField txtTopPartResult;
 
     public ClientDashboardPanel(MotorMarketFrame frame, Controller controller) {
         this.frame = frame;
@@ -51,7 +56,20 @@ public class ClientDashboardPanel extends JPanel {
         btnAverageRating = new JButton("Average Product Rating 📊");
         logoutBtn = new JButton("Exit / Logout 🚪");
 
+        txtTopCarResult = new JTextField();
+        txtTopCarResult.setEditable(false);
+        txtTopCarResult.setFont(new Font("Arial", Font.ITALIC, 11));
+        txtTopCarResult.setHorizontalAlignment(JTextField.CENTER);
+        txtTopCarResult.setVisible(false);
+
+        txtTopPartResult = new JTextField();
+        txtTopPartResult.setEditable(false);
+        txtTopPartResult.setFont(new Font("Arial", Font.ITALIC, 11));
+        txtTopPartResult.setHorizontalAlignment(JTextField.CENTER);
+        txtTopPartResult.setVisible(false);
+
         // Harmonize button sizes for sidebar aesthetics
+        Dimension txtSize = new Dimension(210, 24);
         Dimension btnSize = new Dimension(210, 32);
         JButton[] sidebarButtons = {
             btnCarListings, btnSparePartsListings, btnPurchase, btnMyPurchases, 
@@ -62,6 +80,14 @@ public class ClientDashboardPanel extends JPanel {
             btn.setPreferredSize(btnSize);
             btn.setAlignmentX(Component.CENTER_ALIGNMENT);
         }
+
+        txtTopCarResult.setMaximumSize(txtSize);
+        txtTopCarResult.setPreferredSize(txtSize);
+        txtTopCarResult.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        txtTopPartResult.setMaximumSize(txtSize);
+        txtTopPartResult.setPreferredSize(txtSize);
+        txtTopPartResult.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Add spaced components to the Sidebar
         sidebar.add(Box.createVerticalStrut(10));
@@ -75,7 +101,11 @@ public class ClientDashboardPanel extends JPanel {
         sidebar.add(Box.createVerticalStrut(8));
         sidebar.add(btnTopSellingCar);
         sidebar.add(Box.createVerticalStrut(8));
+        sidebar.add(txtTopCarResult);
+        sidebar.add(Box.createVerticalStrut(8));
         sidebar.add(btnTopSellingPart);
+        sidebar.add(Box.createVerticalStrut(8));
+        sidebar.add(txtTopPartResult);
         sidebar.add(Box.createVerticalStrut(8));
         sidebar.add(btnLeaveReview);
         sidebar.add(Box.createVerticalStrut(8));
@@ -93,6 +123,38 @@ public class ClientDashboardPanel extends JPanel {
 
         btnCarListings.addActionListener(e -> {
             frame.switchPanel("CAR_LISTINGS");
+        });
+
+        btnTopSellingCar.addActionListener(e -> {
+            try {
+                Producer producer = controller.getMostSoldProducer();
+                String result = producer.getProducerName() + " " + producer.getCarsSold();
+                txtTopCarResult.setText(result);
+                txtTopCarResult.setVisible(true);
+                sidebar.revalidate();
+                sidebar.repaint();
+            } catch (Exception ex) {
+                txtTopCarResult.setText("Error: " + ex.getMessage());
+                txtTopCarResult.setVisible(true);
+                sidebar.revalidate();
+                sidebar.repaint();
+            }
+        });
+
+        btnTopSellingPart.addActionListener(e -> {
+            try {
+                SparePart sparePart = controller.getMostSoldSparePart();
+                String result = sparePart.getProducer().getProducerName() + " " + sparePart.getPartName() + " " + sparePart.getPartId();
+                txtTopPartResult.setText(result);
+                txtTopPartResult.setVisible(true);
+                sidebar.revalidate();
+                sidebar.repaint();
+            } catch (Exception ex) {
+                txtTopPartResult.setText("Error: " + ex.getMessage());
+                txtTopPartResult.setVisible(true);
+                sidebar.revalidate();
+                sidebar.repaint();
+            }
         });
 
     }

@@ -9,7 +9,9 @@ import motormarket.data.CarFilter;
 import motormarket.data.Listing;
 import motormarket.data.OrderItem;
 import motormarket.data.OrderList;
+import motormarket.data.Producer;
 import motormarket.data.Service;
+import motormarket.data.SparePart;
 import motormarket.data.User;
 import motormarket.data.User.UserType;
 
@@ -79,6 +81,22 @@ public interface Controller {
 
     /**
      * 
+     * @param address
+     * @param orderItems
+     * @param services
+     * @return
      */
     OrderList addOrder(String address, List<OrderItem> orderItems, List<Service> services);
+
+    /**
+     * 
+     * @return
+     */
+    Producer getMostSoldProducer();
+
+    /**
+     * 
+     * @return
+     */
+    SparePart getMostSoldSparePart();
 }

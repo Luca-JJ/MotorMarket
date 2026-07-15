@@ -7,7 +7,9 @@ import motormarket.data.CarFilter;
 import motormarket.data.Listing;
 import motormarket.data.OrderItem;
 import motormarket.data.OrderList;
+import motormarket.data.Producer;
 import motormarket.data.Service;
+import motormarket.data.SparePart;
 import motormarket.data.User;
 import motormarket.data.User.UserType;
 import motormarket.model.Model;
@@ -71,6 +73,16 @@ public class MotorMarketController implements Controller {
     @Override
     public OrderList addOrder(String address, List<OrderItem> orderItems, List<Service> services) {
         return model.addOrder(model.getUserId(), address, orderItems, services);
+    }
+
+    @Override
+    public Producer getMostSoldProducer() {
+        return model.getMostSoldProducer();
+    }
+
+    @Override
+    public SparePart getMostSoldSparePart() {
+        return model.getMostSoldSparePart();
     }
 
     
