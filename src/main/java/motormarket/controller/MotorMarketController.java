@@ -1,5 +1,6 @@
 package motormarket.controller;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +52,11 @@ public class MotorMarketController implements Controller {
     }
 
     @Override
+    public Map<String,Integer> getProducers() {
+        return model.getProducers();
+    }
+
+    @Override
     public Map<String, Integer> getColors() {
         return model.getColors();
     }
@@ -58,6 +64,16 @@ public class MotorMarketController implements Controller {
     @Override
     public Map<String, Integer> getFuels() {
         return model.getFuels();
+    }
+
+    @Override
+    public Map<String, Integer> getAccessories() {
+        return model.getAccessories();
+    }
+
+    @Override
+    public Map<String, Integer> getSpareParts() {
+        return model.getSpareParts();
     }
 
     @Override
@@ -85,6 +101,56 @@ public class MotorMarketController implements Controller {
         return model.getMostSoldSparePart();
     }
 
+    @Override
+    public void logout() {
+        model.logout();
+        return;
+    }
+
+    @Override
+    public double getMonthlyRevenue(int month, int year) {
+        return model.getMonthlyRevenue(month, year);
+    }
+
+    @Override
+    public boolean addCar(String vin, String licensePlate, int registrationYear, int power, String transmissionType,
+            int modelId, int fuelTypeId, int interiorColorId, int exteriorColorId, List<Integer> accessoryIds) {
+        return model.addCar(vin, licensePlate, registrationYear, power, transmissionType, modelId, fuelTypeId, interiorColorId, exteriorColorId, model.getUserId(), accessoryIds);
+    }
+
+    @Override
+    public boolean addSparePartWithCompatibilities(String name, int stockQuantity, String type, int producerId,
+            List<Integer> compatibleModelIds) {
+        return model.addSparePartWithCompatibilities(name, stockQuantity, type, producerId, compatibleModelIds);
+    }
+
+    @Override
+    public Integer addStockQuantity(int partId, int deltaQuantity) {
+        return model.addStockQuantity(partId, deltaQuantity);
+    }
+
+    @Override
+    public boolean addAccessory(String name) {
+        return model.addAccessory(name);
+    }
+
+    @Override
+    public boolean addExtraService(String name, String serviceType, double price) {
+        return model.addExtraService(name, serviceType, price);
+    }
     
-    
+    @Override
+    public User addCorporateUser(String firstName, String lastName, String email, String password) {
+        return model.addUser(email, firstName, lastName, password, "Aziendale");
+    }
+
+    @Override
+    public boolean deleteCorporateUser(int userId) {
+        return model.deleteUser(userId, "Aziendale");
+    }
+
+    @Override
+    public Map<String, Integer> getCorporateUsers() {
+        return model.getCorporateUsers();
+    }
 }

@@ -2,6 +2,8 @@ package motormarket.data;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -218,6 +220,51 @@ public class User {
                 throw new DAOException(e);
             }
             return user;
+        }
+
+        /**
+         * this method delete the selected user
+         * 
+         * @param connection
+         * @param userId the selected user
+         * @param userType the type to delete
+         * @return delete
+         */
+        public static boolean deleteUser(Connection connection, int userId, String userType) {
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.DELETE_USER, userId, userType);
+            ) {
+                int rowsAffected = statement.executeUpdate();
+                return rowsAffected > 0;
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+
+        }
+
+        /**
+         * Finds all corporate users
+         * 
+         * @param connection
+         * @return the corporate users with the associated userId
+         */
+        public static Map<String,Integer> getCorporateUsers(Connection connection) {
+            Map<String,Integer> map = new HashMap<>();
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_CORPORATE_USERS);
+                var resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    var userId = resultSet.getInt("IdUtente");
+                    var email = resultSet.getString("Email");
+                    map.put(email,userId);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            return map;
         }
     }
 }

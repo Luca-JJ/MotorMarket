@@ -3,7 +3,9 @@ package motormarket.data;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a Spare Part cataloged within the marketplace inventory.
@@ -252,8 +254,32 @@ public class SparePart {
             }
             return insert;
         }
-    }
 
+        /**
+         * Finds all spare parts
+         * 
+         * @param connection
+         * @return the spare parts with the associated sparePartId
+         */
+        public static Map<String,Integer> getSpareParts(Connection connection) {
+            Map<String,Integer> map = new HashMap<>();
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_SPARE_PARTS);
+                var resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    var sparePartId = resultSet.getInt("IdPezzo");
+                    var sparePartName = resultSet.getString("NomePezzo");
+                    map.put(sparePartName,sparePartId);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            return map;
+        }
+    }
+    
 }
 
 

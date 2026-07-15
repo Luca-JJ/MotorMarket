@@ -453,6 +453,12 @@ public final class Queries {
         WHERE p.IdProduttore  = m.IdProduttore
         """;
 
+    public static final String GET_PRODUCERS =
+        """
+        SELECT p.*
+        FROM produttori p
+        """;
+
     public static final String GET_COLORS =
         """
         SELECT c.*
@@ -465,9 +471,36 @@ public final class Queries {
         FROM tipi_alimentazione a
         """;
 
+    public static final String GET_ACCESSORIES =
+        """
+        SELECT a.*
+        FROM accessori a
+        """;
+
+    public static final String GET_SPARE_PARTS = 
+        """
+        SELECT p.*
+        FROM pezzi_di_ricambio p
+        """;
+
     public static final String GET_SERVICES = 
         """
         SELECT s.*
         FROM servizi s
         """;
-}
+
+    public static final String GET_CORPORATE_USERS = 
+        """
+        SELECT u.*
+        FROM utenti u
+        WHERE u.TipoUtente = 'Aziendale'
+        """;
+    
+    public static final String DELETE_USER =
+        """
+        DELETE 
+        FROM utenti u 
+        WHERE u.IdUtente = ? 
+        AND u.TipoUtente = ?
+        """;
+    }

@@ -157,5 +157,10 @@ public class ClientDashboardPanel extends JPanel {
             }
         });
 
+        logoutBtn.addActionListener(e -> {
+            controller.logout();
+            frame.switchPanel("LOGIN");
+        });
+
     }
 }

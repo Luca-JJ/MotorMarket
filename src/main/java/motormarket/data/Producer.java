@@ -1,6 +1,8 @@
 package motormarket.data;
 
 import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a manufacturing Brand or Company within the marketplace catalog.
@@ -87,6 +89,30 @@ public class Producer {
             }
 
             return topProducer;
+        }
+
+        /**
+         * Finds all producers
+         * 
+         * @param connection
+         * @return the producer with the associated producerId
+         */
+        public static Map<String,Integer> getProducers(Connection connection) {
+            Map<String,Integer> map = new HashMap<>();
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_PRODUCERS);
+                var resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    var producerId = resultSet.getInt("IdProduttore");
+                    var producerName = resultSet.getString("NomeProduttore");
+                    map.put(producerName,producerId);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            return map;
         }
 
     }

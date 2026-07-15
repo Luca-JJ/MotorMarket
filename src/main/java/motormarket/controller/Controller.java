@@ -66,6 +66,27 @@ public interface Controller {
     Map<String,Integer> getFuels();
 
     /**
+     * the string with accessories
+     * 
+     * @return the map with string and associated id
+     */
+    Map<String,Integer> getAccessories();
+
+    /**
+     * the string with producers
+     * 
+     * @return the map with string and associated id
+     */
+    Map<String,Integer> getProducers();
+
+     /**
+     * the string with spareparts
+     * 
+     * @return the map with string and associated id
+     */
+    Map<String, Integer> getSpareParts();
+
+    /**
      * Show all listings of cars
      * 
      * @param filter
@@ -99,4 +120,101 @@ public interface Controller {
      * @return
      */
     SparePart getMostSoldSparePart();
+
+     /**
+     * Get the monthly revenue
+     * 
+     * @param month
+     * @param year
+     * @return the revenue in a specific month and year
+     */
+    double getMonthlyRevenue(int month, int year);
+
+    /**
+     * 
+     */
+    void logout();
+
+    /**
+     * Insert a new car in the database
+     * 
+     * @param vin
+     * @param licensePlate
+     * @param registrationYear
+     * @param power
+     * @param transmissionType
+     * @param modelId
+     * @param fuelTypeId
+     * @param interiorColorId
+     * @param exteriorColorId
+     * @param accessoryIds
+     * @return true if the car was inserted
+     */
+    boolean addCar(String vin, String licensePlate, int registrationYear, int power, String transmissionType, 
+        int modelId, int fuelTypeId, int interiorColorId, int exteriorColorId, List<Integer> accessoryIds);
+
+    /**
+     * Insert a new spare part in the database
+     * 
+     * @param name
+     * @param stockQuantity
+     * @param type
+     * @param producerId
+     * @param compatibleModelIds
+     * @return true if the spare part was inserted
+     */
+    boolean addSparePartWithCompatibilities( String name, int stockQuantity, String type, int producerId, List<Integer> compatibleModelIds);
+
+    /**
+     * Update the quantity of a spare part
+     * 
+     * @param partId the id of the spare part
+     * @param deltaQuantity the delta of the quantity
+     * @return the new quantity
+     */
+    Integer addStockQuantity(int partId, int deltaQuantity);
+    
+    /**
+     * Insert a new accessory in the database
+     * 
+     * @param name
+     * @return true if the accessory was inserted
+     */
+    boolean addAccessory(String name);
+
+    /**
+     * Insert a new service in the database
+     * 
+     * @param name
+     * @param serviceType
+     * @param price
+     * @return true if the service was inserted
+     */
+    boolean addExtraService(String name, String serviceType, double price);
+
+    /**
+     * This is the method for the registration of a corporate user
+     * 
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param password
+     * @return
+     */
+    User addCorporateUser(String firstName, String lastName, String email, String password);
+
+    /**
+     * Delete the selected  corporate user
+     * 
+     * @param userId
+     * @return
+     */
+    boolean deleteCorporateUser(int userId);
+
+    /**
+     * the string with corporate users
+     * 
+     * @return the map with string and associated id
+     */
+    Map<String,Integer> getCorporateUsers();
 }

@@ -263,12 +263,55 @@ public interface Model {
      * @return the map with string and associated Id
      */
     Map<String,Integer> getFuels();
+
+    /**
+     * the string with accessories
+     * 
+     * @return the map with string and associated id
+     */
+    Map<String,Integer> getAccessories();
+
+    /**
+     * the string with producers
+     * 
+     * @return the map with string and associated id
+     */
+    Map<String,Integer> getProducers();
+
+    /**
+     * the string with spareparts
+     * 
+     * @return the map with string and associated id
+     */
+    Map<String, Integer> getSpareParts();
     
     /**
      * 
      * @return
      */
     List<Service> getServices();
+
+    /**
+     * 
+     */
+    void logout();
+
+    /**
+     * Delete the selected user
+     * 
+     * @param connection
+     * @param userId
+     * @param userType
+     * @return
+     */
+    boolean deleteUser(int userId, String userType);
+
+    /**
+     * the string with corporate users
+     * 
+     * @return the map with string and associated id
+     */
+    Map<String,Integer> getCorporateUsers();
 
     // Create a mocked version of the model.
     //
@@ -285,4 +328,6 @@ public interface Model {
     static Model fromConnection(Connection connection) {
         return new DBModel(connection);
     }
+
+    
 }

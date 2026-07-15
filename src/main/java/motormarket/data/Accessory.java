@@ -2,7 +2,9 @@ package motormarket.data;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents an Accessory entity used within the marketplace catalog.
@@ -91,5 +93,30 @@ public class Accessory {
                 throw new DAOException(e);
             }
         }
+
+        /**
+         * Finds all accessories
+         * 
+         * @param connection
+         * @return the accessories with the associated accessoryId
+         */
+        public static Map<String,Integer> getAccessories(Connection connection) {
+            Map<String,Integer> map = new HashMap<>();
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_ACCESSORIES);
+                var resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    var accesoriesId = resultSet.getInt("IdAccessorio");
+                    var accessoryName = resultSet.getString("NomeAccessorio");
+                    map.put(accessoryName,accesoriesId);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            return map;
+        }
+
     }
 }

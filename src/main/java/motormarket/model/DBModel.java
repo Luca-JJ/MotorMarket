@@ -187,6 +187,11 @@ public final class DBModel implements Model {
     }
 
     @Override
+    public Map<String, Integer> getProducers() {
+        return Producer.DAO.getProducers(connection);
+    }
+
+    @Override
     public Map<String, Integer> getColors() {
         return Color.DAO.getColors(connection);
     }
@@ -197,8 +202,34 @@ public final class DBModel implements Model {
     }
 
     @Override
+    public Map<String, Integer> getAccessories() {
+        return Accessory.DAO.getAccessories(connection);
+    }
+
+    @Override
+    public Map<String, Integer> getSpareParts() {
+        return SparePart.DAO.getSpareParts(connection);
+    }
+
+    @Override
+    public Map<String, Integer> getCorporateUsers() {
+        return User.DAO.getCorporateUsers(connection);
+    }
+
+
+    @Override
     public List<Service> getServices() {
         return Service.DAO.getServices(connection);
+    }
+
+    @Override
+    public void logout() {
+        this.userId = 0;
+    }
+
+    @Override
+    public boolean deleteUser(int userId, String userType) {
+        return User.DAO.deleteUser(connection, userId, userType);
     }
     
 }
