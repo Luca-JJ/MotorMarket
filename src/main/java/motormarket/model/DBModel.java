@@ -231,5 +231,31 @@ public final class DBModel implements Model {
     public boolean deleteUser(int userId, String userType) {
         return User.DAO.deleteUser(connection, userId, userType);
     }
+
+    @Override
+    public Map<String, Integer> getListings() {
+        return Listing.DAO.getListings(connection);
+    }
+
+    @Override
+    public Map<String, Integer> getCarsWithoutListing() {
+        return Car.DAO.getCarsWithoutListing(connection);
+    }
+
+    @Override
+    public Map<String, Integer> getSparePartsWithoutListing() {
+        return SparePart.DAO.getSparePartsWithoutListing(connection);
+    }
+
+    @Override
+    public Map<String, Integer> getBoughtModels(int userId) {
+        return CarModel.DAO.getBoughtModels(connection, userId);
+    }
+
+    @Override
+    public Map<String, Integer> getBoughtSpareParts(int userId) {
+        return SparePart.DAO.getBoughtSpareParts(connection, userId);
+    }
+    
     
 }

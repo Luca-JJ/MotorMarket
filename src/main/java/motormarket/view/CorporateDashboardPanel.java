@@ -15,7 +15,9 @@ public class CorporateDashboardPanel extends JPanel {
     private JButton btnUpdateSpareQuantity;     // Op. 11
     private JButton btnAddAccessory;            // Op. 12
     private JButton btnAddExtraService;         // Op. 13
-    private JButton btnManageListings;          // Op. 14
+    private JButton btnListingsStatus;          // Op. 14
+    private JButton btnCreateCarListing;
+    private JButton btnCreatePartListing;
     private JButton btnViewMonthlyRevenue;      // Op. 15
     private JButton logoutBtn;
 
@@ -45,7 +47,9 @@ public class CorporateDashboardPanel extends JPanel {
         btnUpdateSpareQuantity = new JButton("Update Spare Part Stock 📦");
         btnAddAccessory = new JButton("Add New Accessory 💎");
         btnAddExtraService = new JButton("Add New Extra Service 🛠️");
-        btnManageListings = new JButton("Manage Listings (On/Off) 📢");
+        btnListingsStatus = new JButton("Manage Listings (On/Off) 📢");
+        btnCreateCarListing = new JButton("Create Car Listing 🚗📢");
+        btnCreatePartListing = new JButton("Create Spare Part Listing 🔧📢");
         btnViewMonthlyRevenue = new JButton("View Monthly Revenue Inflow 📊");
         logoutBtn = new JButton("Exit / Logout 🚪");
 
@@ -66,7 +70,7 @@ public class CorporateDashboardPanel extends JPanel {
 
         JButton[] buttons = {
             btnAddCar, btnAddSparePart, btnUpdateSpareQuantity, btnAddAccessory, 
-            btnAddExtraService, btnManageListings, btnViewMonthlyRevenue, logoutBtn
+            btnAddExtraService, btnListingsStatus, btnCreateCarListing, btnCreatePartListing, btnViewMonthlyRevenue, logoutBtn
         };
         for (JButton btn : buttons) {
             btn.setMaximumSize(btnSize);
@@ -90,9 +94,12 @@ public class CorporateDashboardPanel extends JPanel {
         menuPanel.add(Box.createVerticalStrut(8));
         menuPanel.add(btnAddExtraService);
         menuPanel.add(Box.createVerticalStrut(8));
-        menuPanel.add(btnManageListings);
+        menuPanel.add(btnListingsStatus);
         menuPanel.add(Box.createVerticalStrut(8));
-        
+        menuPanel.add(btnCreateCarListing);
+        menuPanel.add(Box.createVerticalStrut(8));
+        menuPanel.add(btnCreatePartListing);
+        menuPanel.add(Box.createVerticalStrut(8));
         menuPanel.add(btnViewMonthlyRevenue);
         menuPanel.add(Box.createVerticalStrut(4));
         menuPanel.add(cbYear);
@@ -113,7 +120,9 @@ public class CorporateDashboardPanel extends JPanel {
         btnUpdateSpareQuantity.addActionListener(e -> frame.switchPanel("UPDATE_SPARE_STOCK"));
         btnAddAccessory.addActionListener(e -> frame.switchPanel("ADD_ACCESSORY"));
         btnAddExtraService.addActionListener(e -> frame.switchPanel("ADD_EXTRA_SERVICE"));
-        btnManageListings.addActionListener(e -> frame.switchPanel("MANAGE_LISTINGS"));
+        btnListingsStatus.addActionListener(e -> frame.switchPanel("LISTING_STATUS"));
+        btnCreateCarListing.addActionListener(e -> frame.switchPanel("CREATE_CAR_LISTING"));
+        btnCreatePartListing.addActionListener(e -> frame.switchPanel("CREATE_PART_LISTING"));
         
         logoutBtn.addActionListener(e -> {
             controller.logout();

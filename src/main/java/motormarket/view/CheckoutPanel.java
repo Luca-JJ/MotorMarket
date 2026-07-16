@@ -159,7 +159,7 @@ public class CheckoutPanel extends JPanel {
         for (OrderItem item : items) {
             sb.append(String.format("%-30s €%10s\n", 
                 item.getBrand() + " " + item.getItemName(), 
-                item.getUnitPrice().toString()));
+                (item.getUnitPrice().doubleValue()*item.getQuantity())));
             total = total.add(item.getUnitPrice());
         }
         sb.append("==============================================\n");

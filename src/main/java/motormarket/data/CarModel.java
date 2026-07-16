@@ -115,5 +115,25 @@ public class CarModel {
             }
             return map;
         }
+
+        public static Map<String,Integer> getBoughtModels(Connection connection, int userId) {
+            Map<String,Integer> map = new HashMap<>();
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_BROUGHT_MODELS, userId);
+                var resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    var modelId = resultSet.getInt("IdModello");
+                    var modelName = resultSet.getString("NomeModello");
+                    var productorName = resultSet.getString("NomeProduttore");
+                    String brandModel = productorName + " " + modelName;
+                    map.put(brandModel,modelId);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            return map;
+        }
     }
 }

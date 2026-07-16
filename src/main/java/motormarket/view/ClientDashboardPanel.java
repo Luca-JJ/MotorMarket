@@ -17,7 +17,6 @@ public class ClientDashboardPanel extends JPanel {
     // --- SIDEBAR OPERATION MENU BUTTONS ---
     private JButton btnCarListings;              // Op. 2 (Car Filter)
     private JButton btnSparePartsListings;       // Op. 2 (Spare Parts Filter)
-    private JButton btnPurchase;                 // Op. 3
     private JButton btnMyPurchases;              // Op. 4
     private JButton btnTopSellingCar;            // Op. 5
     private JButton btnTopSellingPart;           // Op. 6
@@ -48,7 +47,6 @@ public class ClientDashboardPanel extends JPanel {
         // Initialize operation buttons
         btnCarListings = new JButton("View Car Listings 🚗");
         btnSparePartsListings = new JButton("View Spare Parts Listings 🔧");
-        btnPurchase = new JButton("Purchase from Listing 🛒");
         btnMyPurchases = new JButton("My Purchases 📦");
         btnTopSellingCar = new JButton("Top Selling Car 🏆");
         btnTopSellingPart = new JButton("Top Selling Spare Part ⚙️");
@@ -72,7 +70,7 @@ public class ClientDashboardPanel extends JPanel {
         Dimension txtSize = new Dimension(210, 24);
         Dimension btnSize = new Dimension(210, 32);
         JButton[] sidebarButtons = {
-            btnCarListings, btnSparePartsListings, btnPurchase, btnMyPurchases, 
+            btnCarListings, btnSparePartsListings, btnMyPurchases, 
             btnTopSellingCar, btnTopSellingPart, btnLeaveReview, btnAverageRating, logoutBtn
         };
         for (JButton btn : sidebarButtons) {
@@ -94,8 +92,6 @@ public class ClientDashboardPanel extends JPanel {
         sidebar.add(btnCarListings);
         sidebar.add(Box.createVerticalStrut(8));
         sidebar.add(btnSparePartsListings);
-        sidebar.add(Box.createVerticalStrut(8));
-        sidebar.add(btnPurchase);
         sidebar.add(Box.createVerticalStrut(8));
         sidebar.add(btnMyPurchases);
         sidebar.add(Box.createVerticalStrut(8));
@@ -123,6 +119,18 @@ public class ClientDashboardPanel extends JPanel {
 
         btnCarListings.addActionListener(e -> {
             frame.switchPanel("CAR_LISTINGS");
+        });
+
+        btnSparePartsListings.addActionListener(e -> {
+            frame.switchPanel("SPARE_PART_LISTINGS");
+        });
+
+        btnLeaveReview.addActionListener(e -> {
+            frame.switchPanel("ADD_REVIEW");
+        });
+
+        btnAverageRating.addActionListener(e -> {
+            frame.switchPanel("REVIEWS_RESULT");
         });
 
         btnTopSellingCar.addActionListener(e -> {

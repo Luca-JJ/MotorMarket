@@ -278,8 +278,57 @@ public class SparePart {
             }
             return map;
         }
+
+        /**
+         * Finds all sparePart without listing
+         * 
+         * @param connection
+         * @return the sparePart with the associated SparePartId
+         */
+        public static Map<String,Integer> getSparePartsWithoutListing(Connection connection) {
+            Map<String,Integer> map = new HashMap<>();
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_SPARE_PARTS_WITHOUT_LISTING);
+                var resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    var sparePartId = resultSet.getInt("IdPezzo");
+                    var producerName = resultSet.getString("NomeProduttore");
+                    var sparePartName = producerName + " " + resultSet.getString("NomePezzo");
+                    map.put(sparePartName,sparePartId);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            return map;
+        }
+
+        /**
+         * Finds all spare parts
+         * 
+         * @param connection
+         * @return the spare parts with the associated sparePartId
+         */
+        public static Map<String,Integer> getBoughtSpareParts(Connection connection, int userId) {
+            Map<String,Integer> map = new HashMap<>();
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_BROUGHT_SPARE_PARTS, userId);
+                var resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    var sparePartId = resultSet.getInt("IdPezzo");
+                    var sparePartName = resultSet.getString("NomePezzo");
+                    map.put(sparePartName,sparePartId);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            return map;
+        }
     }
-    
+
 }
 
 

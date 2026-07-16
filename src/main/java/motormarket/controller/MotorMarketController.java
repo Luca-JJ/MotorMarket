@@ -9,8 +9,10 @@ import motormarket.data.Listing;
 import motormarket.data.OrderItem;
 import motormarket.data.OrderList;
 import motormarket.data.Producer;
+import motormarket.data.ReviewDetail;
 import motormarket.data.Service;
 import motormarket.data.SparePart;
+import motormarket.data.SparePartFilter;
 import motormarket.data.User;
 import motormarket.data.User.UserType;
 import motormarket.model.Model;
@@ -152,5 +154,70 @@ public class MotorMarketController implements Controller {
     @Override
     public Map<String, Integer> getCorporateUsers() {
         return model.getCorporateUsers();
+    }
+
+    @Override
+    public Map<String, Integer> getListings() {
+        return model.getListings();
+    }
+
+    @Override
+    public boolean updateListingStatus(int advertisementId, String newStatus) {
+        return model.updateListingStatus(advertisementId, newStatus);
+    }
+
+    @Override
+    public Map<String, Integer> getCarsWithoutListing() {
+        return model.getCarsWithoutListing();
+    }
+
+    @Override
+    public boolean addCarListing(int carId, double price) {
+        return model.addCarListing(carId, price, model.getUserId());
+    }
+
+    @Override
+    public boolean addSparePartListing(int partId, double price) {
+        return model.addSparePartListing(partId, price, model.getUserId());
+    }
+
+    @Override
+    public Map<String, Integer> getSparePartsWithoutListing() {
+        return model.getSparePartsWithoutListing();
+    }
+
+    @Override
+    public List<Listing> showSparePartListings(SparePartFilter filter) {
+        return model.showSparePartListings(filter);
+    }
+
+    @Override
+    public List<ReviewDetail> getModelReviews(int modelId) {
+        return model.getModelReviews(modelId);
+    }
+
+    @Override
+    public List<ReviewDetail> getSparePartReviews(int partId) {
+        return model.getSparePartReviews(partId);
+    }
+
+    @Override
+    public boolean addModelReview(int modelId, int rating, String title, String text) {
+        return model.addModelReview(model.getUserId(), modelId, rating, title, text);
+    }
+
+    @Override
+    public boolean addSparePartReview(int partId, int rating, String title, String text) {
+        return model.addSparePartReview(model.getUserId(), partId, rating, title, text);
+    }
+
+    @Override
+    public Map<String, Integer> getBoughtModels() {
+        return model.getBoughtModels(model.getUserId());
+    }
+
+    @Override
+    public Map<String, Integer> getBoughtSpareParts() {
+        return model.getBoughtSpareParts(model.getUserId());
     }
 }

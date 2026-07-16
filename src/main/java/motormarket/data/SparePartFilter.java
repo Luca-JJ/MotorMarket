@@ -13,7 +13,24 @@ public class SparePartFilter {
     public SparePartFilter() {
         this.page = 1; //aggiustare in futuro, idea all'utente viene mostrato solo il nome, nel dietro si memeorizza anche l'id che va gestito qui
     }
+
     
+    /**
+     * The complete Constructor
+     * @param modelId
+     * @param minPrice
+     * @param maxPrice
+     * @param page
+     */
+    public SparePartFilter(Integer modelId, Double minPrice, Double maxPrice, int page) {
+        this.modelId = modelId;
+        this.minPrice = minPrice;
+        this.maxPrice = maxPrice;
+        this.page = page;
+    }
+
+
+
     // Utility method to automatically calculate the OFFSET for the SQL query
     public int getOffset() {
         return (this.page - 1) * 20; //magic number

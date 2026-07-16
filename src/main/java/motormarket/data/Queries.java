@@ -135,6 +135,9 @@ public final class Queries {
         AND (? IS NULL OR c.IdModello = ?)
         AND (? IS NULL OR a.Prezzo >= ?)
         AND (? IS NULL OR a.Prezzo <= ?)
+
+        GROUP BY a.idAnnuncio
+
         ORDER BY 
         a.DataInserimento DESC
         LIMIT 20 OFFSET ?
@@ -285,7 +288,7 @@ public final class Queries {
     public static final String CLOSE_EMPTY_SPARE_PART_LISTING =
         """
         UPDATE annunci a, pezzi_di_ricambio p
-        SET a.Stato = 'Venduto'
+        SET a.Stato = 'Disattivato'
         WHERE a.IdPezzo = p.IdPezzo AND a.idAnnuncio = ? AND p.QuantitàMagazzino = 0
         """; 
 
@@ -502,5 +505,62 @@ public final class Queries {
         FROM utenti u 
         WHERE u.IdUtente = ? 
         AND u.TipoUtente = ?
+        """;
+
+    public static final String GET_LISTINGS =
+        """
+        SELECT 
+        a.*,
+        m.NomeModello,
+        pr.NomePezzo
+        FROM annunci a
+        LEFT JOIN automobili c ON a.IdAuto = c.IdAuto
+        LEFT JOIN modelli m ON c.IdModello = m.IdModello
+        LEFT JOIN pezzi_di_ricambio pr ON a.IdPezzo = pr.IdPezzo 
+        WHERE a.stato <> 'Venduto'
+        """;
+    
+    public static final String GET_CARS_WITHOUT_LISTING =
+        """
+        SELECT p.NomeProduttore, m.NomeModello, a.*
+        FROM modelli m, produttori p, automobili a
+        WHERE a.IdModello = m.IdModello
+        AND p.IdProduttore  = m.IdProduttore
+        AND a.IdAuto NOT IN ( SELECT an.IdAuto
+                              FROM annunci an
+                              WHERE an.IdAuto IS NOT NULL)
+        """;
+
+    public static final String GET_SPARE_PARTS_WITHOUT_LISTING = 
+        """
+        SELECT pr.*, p.NomeProduttore
+        FROM pezzi_di_ricambio pr, produttori p
+        WHERE pr.IdProduttore = p.IdProduttore
+        AND pr.IdPezzo NOT IN ( SELECT an.IdPezzo
+                              FROM annunci an
+                              WHERE an.IdPezzo IS NOT NULL)
+        """;
+
+
+    public static final String GET_BROUGHT_MODELS =
+        """
+        SELECT p.NomeProduttore, m.NomeModello, m.IdModello
+        FROM annunci an, automobili a, modelli m, produttori p, vendite v, ordini o
+        WHERE an.Idauto = a.IdAuto
+        AND a.IdModello = m.IdModello
+        AND m.IdProduttore = p.idProduttore
+        AND an.IdAnnuncio = v.IdAnnuncio
+        AND v.IdOrdine = o.IdOrdine
+        AND o.IdUtente = ?
+        """;
+
+    public static final String GET_BROUGHT_SPARE_PARTS = 
+        """
+        SELECT p.*
+        FROM annunci an, pezzi_di_ricambio p, vendite v, ordini o
+        WHERE an.IdPezzo = p.IdPezzo
+        AND an.IdAnnuncio = v.IdAnnuncio
+        AND v.IdOrdine = o.IdOrdine
+        AND o.IdUtente = ?
         """;
     }

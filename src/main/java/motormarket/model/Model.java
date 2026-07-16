@@ -313,6 +313,13 @@ public interface Model {
      */
     Map<String,Integer> getCorporateUsers();
 
+    /**
+     * the string with lisitngs
+     * 
+     * @return the map with string and associated id
+     */
+    Map<String,Integer> getListings();
+
     // Create a mocked version of the model.
     //
     /*static Model mock() {
@@ -329,5 +336,31 @@ public interface Model {
         return new DBModel(connection);
     }
 
+    /**
+     * the string with cars without listing
+     * 
+     * @return the map with string and associated id
+     */
+    Map<String, Integer> getCarsWithoutListing();
     
+    /**
+     * the string with spare part without listing
+     * 
+     * @return the map with string and associated id
+     */
+    Map<String, Integer> getSparePartsWithoutListing();
+
+    /**
+     * the string with models bought by the user
+     * 
+     * @return the map with string and associated id
+     */
+    Map<String, Integer> getBoughtModels(int userId);
+
+    /**
+     * the string with spareparts bought by the user
+     * 
+     * @return the map with string and associated id
+     */
+    Map<String, Integer> getBoughtSpareParts(int userId);
 }

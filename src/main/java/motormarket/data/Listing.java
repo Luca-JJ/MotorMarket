@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import motormarket.data.Car.Availability;
 import motormarket.data.Car.TransmissionType;
@@ -420,6 +422,39 @@ public class Listing {
             } catch (Exception e) {
                 throw new DAOException(e);
             }
+        }
+
+        /**
+         * Finds all Listing that are "Attivi" or "Disattivati"
+         * 
+         * @param connection
+         * @return the listing with the associated listingId
+         */
+        public static Map<String,Integer> getListings(Connection connection) {
+            Map<String,Integer> map = new HashMap<>();
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_LISTINGS);
+                var resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    var listingId = resultSet.getInt("IdAnnuncio");
+                    var listingType = resultSet.getString("TipoAnnuncio");
+                    var status = resultSet.getString("Stato");
+                    String listingName;
+                    if (listingType.equals("Auto")) {
+                        listingName = resultSet.getString("NomeModello");
+                        listingName = listingName + " IdAnnuncio " + listingId + " " + status;
+                    } else {
+                        listingName = resultSet.getString("NomePezzo");
+                        listingName = listingName + " IdAnnuncio " + listingId + " " + status;
+                    }
+                    map.put(listingName,listingId);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            return map;
         }
 
     }

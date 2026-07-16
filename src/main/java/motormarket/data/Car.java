@@ -3,7 +3,9 @@ package motormarket.data;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents an individual Car instance registered in the marketplace.
@@ -305,6 +307,33 @@ public class Car {
                 }
             }
             return insert;
+        }
+
+        /**
+         * Finds all fuel types
+         * 
+         * @param connection
+         * @return the fuel types with the associated fuelTypeId
+         */
+        public static Map<String,Integer> getCarsWithoutListing(Connection connection) {
+            Map<String,Integer> map = new HashMap<>();
+            try (
+                var statement = DAOUtils.prepare(connection, Queries.GET_CARS_WITHOUT_LISTING);
+                var resultSet = statement.executeQuery();
+            ) {
+                while (resultSet.next()) {
+                    var carId = resultSet.getInt("IdAuto");
+                    var modelName = resultSet.getString("NomeModello");
+                    var producerName = resultSet.getString("NomeProduttore");
+                    var licensePlate = resultSet.getString("Targa");
+                    var carName = producerName + " " + modelName + " " + licensePlate;
+                    map.put(carName,carId);
+                }
+                
+            } catch (Exception e) {
+                throw new DAOException(e);
+            }
+            return map;
         }
             
     }
