@@ -22,12 +22,12 @@ private MotorMarketFrame frame;
         this.setLayout(new BorderLayout(15, 15));
         this.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        JLabel lblTitle = new JLabel("Listing Status", JLabel.CENTER);
+        JLabel lblTitle = new JLabel("Stato annunci", JLabel.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 18));
         add(lblTitle, BorderLayout.NORTH);
 
         JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBorder(BorderFactory.createTitledBorder("Listing State Management"));
+        formPanel.setBorder(BorderFactory.createTitledBorder("Gestione stato annunci"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -42,7 +42,7 @@ private MotorMarketFrame frame;
         gbc.gridy = 0;
         gbc.gridx = 0;
         gbc.weightx = 0.0;
-        formPanel.add(new JLabel("Select Listing:"), gbc);
+        formPanel.add(new JLabel("Seleziona annuncio:"), gbc);
         gbc.gridx = 1;
         gbc.weightx = 1.0;
         formPanel.add(cbListings, gbc);
@@ -50,7 +50,7 @@ private MotorMarketFrame frame;
         gbc.gridy = 1;
         gbc.gridx = 0;
         gbc.weightx = 0.0;
-        formPanel.add(new JLabel("New Status:"), gbc);
+        formPanel.add(new JLabel("Nuovo Stato:"), gbc);
         gbc.gridx = 1;
         gbc.weightx = 1.0;
         formPanel.add(cbStatus, gbc);
@@ -58,8 +58,8 @@ private MotorMarketFrame frame;
         add(formPanel, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnCancel = new JButton("Cancel");
-        btnSave = new JButton("Update Status 💾");
+        btnCancel = new JButton("Indietro");
+        btnSave = new JButton("Aggiornato stato");
         btnSave.setBackground(new Color(46, 139, 87));
         btnSave.setForeground(Color.WHITE);
 
@@ -71,7 +71,7 @@ private MotorMarketFrame frame;
 
         btnSave.addActionListener(e -> {
             if (cbListings.getSelectedItem() == null) {
-                JOptionPane.showMessageDialog(this, "No listing selected!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Nessun annuncio selezionato!", "Validation Error", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -83,10 +83,10 @@ private MotorMarketFrame frame;
                 boolean success = controller.updateListingStatus(advertisementId, newStatus);
 
                 if (success) {
-                    JOptionPane.showMessageDialog(this, "Listing status updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Stato annuncio aggiornato con successo!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     frame.switchPanel("DASHBOARD_CORPORATE");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Failed to update listing status.", "Database Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Fallito l'aggiornamento dello stato.", "Database Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();

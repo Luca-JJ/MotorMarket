@@ -27,12 +27,12 @@ public class AdminDashboardPanel extends JPanel {
         // 2. FEATURE MENU
         JPanel menuPanel = new JPanel();
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
-        menuPanel.setBorder(BorderFactory.createTitledBorder("Admin Console"));
+        menuPanel.setBorder(BorderFactory.createTitledBorder("Admin Dashboard"));
 
         // Buttons for Op. 16
-        btnAddCorporate = new JButton("Register Corporate User 👤➕");
-        btnDeleteCorporate = new JButton("Remove Corporate User 👤❌");
-        logoutBtn = new JButton("Exit / Logout 🚪");
+        btnAddCorporate = new JButton("Registra utente aziendale");
+        btnDeleteCorporate = new JButton("Rimuovi utente aziendale ");
+        logoutBtn = new JButton("Esci / Logout");
 
         Dimension btnSize = new Dimension(280, 32);
 

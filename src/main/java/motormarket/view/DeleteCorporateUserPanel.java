@@ -22,12 +22,12 @@ public class DeleteCorporateUserPanel extends JPanel {
         this.setLayout(new BorderLayout(15, 15));
         this.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        JLabel lblTitle = new JLabel("Remove Corporate Account", JLabel.CENTER);
+        JLabel lblTitle = new JLabel("Rimuovi utente aziendale", JLabel.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 18));
         add(lblTitle, BorderLayout.NORTH);
 
         JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBorder(BorderFactory.createTitledBorder("Account Selection"));
+        formPanel.setBorder(BorderFactory.createTitledBorder("Seleziona account"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(15, 10, 15, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -43,7 +43,7 @@ public class DeleteCorporateUserPanel extends JPanel {
         gbc.gridy = 0;
         gbc.gridx = 0;
         gbc.weightx = 0.0;
-        formPanel.add(new JLabel("Select Corporate User:"), gbc);
+        formPanel.add(new JLabel("Seleziona utente aziendale:"), gbc);
 
         gbc.gridx = 1;
         gbc.weightx = 1.0;
@@ -52,8 +52,8 @@ public class DeleteCorporateUserPanel extends JPanel {
         add(formPanel, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnCancel = new JButton("Cancel");
-        btnDelete = new JButton("Delete User 👤❌");
+        btnCancel = new JButton("Indietro");
+        btnDelete = new JButton("Cancella utente");
         btnDelete.setBackground(new Color(178, 34, 34));
         btnDelete.setForeground(Color.WHITE);
 
@@ -65,7 +65,7 @@ public class DeleteCorporateUserPanel extends JPanel {
 
         btnDelete.addActionListener(e -> {
             if (cbCorporateUsers.getSelectedItem() == null) {
-                JOptionPane.showMessageDialog(this, "No corporate user selected!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Seleziona utente!", "Validation Error", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -74,7 +74,7 @@ public class DeleteCorporateUserPanel extends JPanel {
 
             int confirm = JOptionPane.showConfirmDialog(
                 this, 
-                "Are you sure you want to permanently delete:\n" + selectedItem + "?", 
+                "Sei sicuro di cancellare l'utente in modo permanente:\n" + selectedItem + "?", 
                 "Confirm Deletion", 
                 JOptionPane.YES_NO_OPTION, 
                 JOptionPane.WARNING_MESSAGE
@@ -85,10 +85,10 @@ public class DeleteCorporateUserPanel extends JPanel {
                     boolean success = controller.deleteCorporateUser(userId);
 
                     if (success) {
-                        JOptionPane.showMessageDialog(this, "Corporate account removed successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Utente aziendale cancellato con successo!", "Success", JOptionPane.INFORMATION_MESSAGE);
                         frame.switchPanel("DASHBOARD_ADMIN");
                     } else {
-                        JOptionPane.showMessageDialog(this, "Failed to remove the user. Verify database constraints.", "Database Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Fallita la rimozione dell'utente.", "Database Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();

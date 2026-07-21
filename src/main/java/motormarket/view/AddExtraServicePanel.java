@@ -22,12 +22,12 @@ public class AddExtraServicePanel extends JPanel {
         this.setLayout(new BorderLayout(15, 15));
         this.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        JLabel lblTitle = new JLabel("Add New Extra Service", JLabel.CENTER);
+        JLabel lblTitle = new JLabel("Aggiungi un nuovo servizio extra", JLabel.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 18));
         add(lblTitle, BorderLayout.NORTH);
 
         JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBorder(BorderFactory.createTitledBorder("Service Details"));
+        formPanel.setBorder(BorderFactory.createTitledBorder("Dettaglio servizio extra"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(8, 10, 8, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -40,18 +40,18 @@ public class AddExtraServicePanel extends JPanel {
         cbServiceType = new JComboBox<>(serviceTypes);
 
         txtPrice = new JTextField(10);
-        txtPrice.setToolTipText("e.g. 49.99");
+        txtPrice.setToolTipText("esempio 49.99");
 
         int row = 0;
-        addFormField(formPanel, "Service Name:", txtName, gbc, row++);
-        addFormField(formPanel, "Service Target Type:", cbServiceType, gbc, row++);
-        addFormField(formPanel, "Price (€):", txtPrice, gbc, row++);
+        addFormField(formPanel, "Nome servizio:", txtName, gbc, row++);
+        addFormField(formPanel, "Target servizio:", cbServiceType, gbc, row++);
+        addFormField(formPanel, "Prezzo (€):", txtPrice, gbc, row++);
 
         add(formPanel, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnCancel = new JButton("Cancel");
-        btnSave = new JButton("Save Service 💾");
+        btnCancel = new JButton("Indietro");
+        btnSave = new JButton("Salva servizio");
         btnSave.setBackground(new Color(46, 139, 87));
         btnSave.setForeground(Color.WHITE);
 
@@ -80,7 +80,7 @@ public class AddExtraServicePanel extends JPanel {
         String priceText = txtPrice.getText().trim();
 
         if (name.isEmpty() || priceText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "All fields are required!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Tutti i campi sono richiesti!", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -89,11 +89,11 @@ public class AddExtraServicePanel extends JPanel {
             // Sostituisce eventuali virgole con punti per evitare NumberFormatException
             price = Double.parseDouble(priceText.replace(",", "."));
             if (price < 0) {
-                JOptionPane.showMessageDialog(this, "Price cannot be negative!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Il prezzo non può essere negativo!", "Validation Error", JOptionPane.WARNING_MESSAGE);
                 return;
             }
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid decimal number for Price!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Inserire un valore corretto per il prezzo!", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -108,12 +108,12 @@ public class AddExtraServicePanel extends JPanel {
             boolean success = controller.addExtraService(name, dbServiceType, price);
 
             if (success) {
-                JOptionPane.showMessageDialog(this, "Extra service added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Servizio extra aggiunto con successo!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 txtName.setText("");
                 txtPrice.setText("");
                 frame.switchPanel("DASHBOARD_CORPORATE");
             } else {
-                JOptionPane.showMessageDialog(this, "Failed to add the extra service.", "Database Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Fallito l'inserimento del servizio extra.", "Database Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

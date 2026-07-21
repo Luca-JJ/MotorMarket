@@ -24,12 +24,12 @@ public class AddCorporateUserPanel extends JPanel {
         this.setLayout(new BorderLayout(15, 15));
         this.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        JLabel lblTitle = new JLabel("Register Corporate Account", JLabel.CENTER);
+        JLabel lblTitle = new JLabel("Registra utente aziendale", JLabel.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 18));
         add(lblTitle, BorderLayout.NORTH);
 
         JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBorder(BorderFactory.createTitledBorder("Company User Details"));
+        formPanel.setBorder(BorderFactory.createTitledBorder("Dettagli utente aziendale"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(8, 10, 8, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -51,7 +51,7 @@ public class AddCorporateUserPanel extends JPanel {
         gbc.gridy = 1;
         gbc.gridx = 0;
         gbc.weightx = 0.0;
-        formPanel.add(new JLabel("First Name:"), gbc);
+        formPanel.add(new JLabel("Nome:"), gbc);
         gbc.gridx = 1;
         gbc.weightx = 1.0;
         formPanel.add(txtFirstName, gbc);
@@ -59,7 +59,7 @@ public class AddCorporateUserPanel extends JPanel {
         gbc.gridy = 2;
         gbc.gridx = 0;
         gbc.weightx = 0.0;
-        formPanel.add(new JLabel("Last Name:"), gbc);
+        formPanel.add(new JLabel("Cognome:"), gbc);
         gbc.gridx = 1;
         gbc.weightx = 1.0;
         formPanel.add(txtLastName, gbc);
@@ -75,8 +75,8 @@ public class AddCorporateUserPanel extends JPanel {
         add(formPanel, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnCancel = new JButton("Cancel");
-        btnSave = new JButton("Create Account 👤💾");
+        btnCancel = new JButton("Indietro");
+        btnSave = new JButton("Crea Account ");
         btnSave.setBackground(new Color(46, 139, 87));
         btnSave.setForeground(Color.WHITE);
 
@@ -93,7 +93,7 @@ public class AddCorporateUserPanel extends JPanel {
             String password = new String(txtPassword.getPassword()).trim();
 
             if (email.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "All fields are required!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Tutti i campi sono richiesti!", "Validation Error", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -101,14 +101,14 @@ public class AddCorporateUserPanel extends JPanel {
                 User newUser = controller.addCorporateUser(firstName, lastName, email, password);
 
                 if (newUser != null) {
-                    JOptionPane.showMessageDialog(this, "Corporate account created successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Utente aziendale creato con succeso!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     txtEmail.setText("");
                     txtFirstName.setText("");
                     txtLastName.setText("");
                     txtPassword.setText("");
                     frame.switchPanel("DASHBOARD_ADMIN");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Failed to create account. Email might already exist.", "Database Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Fallita la creazione dell'account", "Database Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();

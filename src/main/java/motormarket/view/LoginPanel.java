@@ -57,7 +57,7 @@ public class LoginPanel extends JPanel {
         
         add(Box.createVerticalStrut(10));
 
-        JButton regLink = new JButton("Don't have an account? Register");
+        JButton regLink = new JButton("Non hai un account? Registrati");
         regLink.setAlignmentX(Component.CENTER_ALIGNMENT);
         regLink.setBorderPainted(false);
         regLink.setContentAreaFilled(false);
@@ -70,7 +70,7 @@ public class LoginPanel extends JPanel {
             char[] passwordArray = passField.getPassword();
             String password = new String(passwordArray);
             if (email.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please fill in all fields!", "Errorr", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Riempi tutti i campi!", "Errorr", JOptionPane.ERROR_MESSAGE);
                 return; 
             }
             UserType userType = controller.authenticate(email, password);
@@ -82,7 +82,7 @@ public class LoginPanel extends JPanel {
             } else if (userType == UserType.AMMINISTRATORE) {
                 frame.switchPanel("DASHBOARD_ADMIN");
             } else {
-                JOptionPane.showMessageDialog(this, "Username o Password wrong.", "Authentication Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Username o Password Errati.", "Authentication Error", JOptionPane.ERROR_MESSAGE);
             }
         
         });

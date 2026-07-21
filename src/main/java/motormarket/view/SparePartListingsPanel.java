@@ -20,7 +20,6 @@ public class SparePartListingsPanel extends JPanel {
 
     // Filter Components
     private JComboBox<String> cbProducer;
-    private JComboBox<String> cbType;
     private JTextField txtMinPrice;
     private JTextField txtMaxPrice;
     private JComboBox<Integer> cbPage;
@@ -42,7 +41,7 @@ public class SparePartListingsPanel extends JPanel {
 
         // --- 1. TOP PANEL: SELECTORS AND FILTERS ---
         JPanel filterPanel = new JPanel(new BorderLayout(10, 10));
-        filterPanel.setBorder(BorderFactory.createTitledBorder("Filter Search Parameters"));
+        filterPanel.setBorder(BorderFactory.createTitledBorder("Parametri di ricerca"));
 
         JPanel gridComponents = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -54,7 +53,7 @@ public class SparePartListingsPanel extends JPanel {
 
         gbc.gridy = 0;
         
-        gbc.gridx = 0; gridComponents.add(new JLabel("Producer:"), gbc);
+        gbc.gridx = 0; gridComponents.add(new JLabel("Produttore:"), gbc);
         cbProducer = new JComboBox<>();
         cbProducer.addItem("All");
         for (String producer : producersMap.keySet()) {
@@ -62,35 +61,26 @@ public class SparePartListingsPanel extends JPanel {
         }
         gbc.gridx = 1; gridComponents.add(cbProducer, gbc);
 
-        gbc.gridx = 2; gridComponents.add(new JLabel("Type (Tipologia):"), gbc);
-        cbType = new JComboBox<>();
-        cbType.addItem("All");
-        String[] types = {"Meccanica", "Elettronica", "Carrozzeria", "Accessori Tecnici"};
-        for (String type : types) {
-            cbType.addItem(type);
-        }
-        gbc.gridx = 3; gridComponents.add(cbType, gbc);
-
         gbc.gridy = 1;
         
-        gbc.gridx = 0; gridComponents.add(new JLabel("Min Price (€):"), gbc);
+        gbc.gridx = 0; gridComponents.add(new JLabel("Prezzo minimo (€):"), gbc);
         txtMinPrice = new JTextField(8);
         gbc.gridx = 1; gridComponents.add(txtMinPrice, gbc);
 
-        gbc.gridx = 2; gridComponents.add(new JLabel("Max Price (€):"), gbc);
+        gbc.gridx = 2; gridComponents.add(new JLabel("Prezzo massimo (€):"), gbc);
         txtMaxPrice = new JTextField(8);
         gbc.gridx = 3; gridComponents.add(txtMaxPrice, gbc);
 
         gbc.gridy = 2;
         
-        gbc.gridx = 0; gridComponents.add(new JLabel("Page:"), gbc);
+        gbc.gridx = 0; gridComponents.add(new JLabel("Pagina:"), gbc);
         Integer[] pages = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         cbPage = new JComboBox<>(pages);
         gbc.gridx = 1; gridComponents.add(cbPage, gbc);
 
         filterPanel.add(gridComponents, BorderLayout.CENTER);
 
-        btnSearch = new JButton("Search 🔍");
+        btnSearch = new JButton("Ricerca");
         btnSearch.setFont(new Font("Arial", Font.BOLD, 13));
         JPanel btnContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         btnContainer.add(btnSearch);
@@ -99,7 +89,7 @@ public class SparePartListingsPanel extends JPanel {
         add(filterPanel, BorderLayout.NORTH);
 
         // --- 2. CENTER PANEL: RESULTS TABLE ---
-        String[] columns = {"Select", "ListingId", "PartId", "Part Name", "Producer", "Type", "Stock Qty", "Price (€)", "Qty to Buy"};
+        String[] columns = {"Selezione", "IdAnnuncio", "IdPezzo", "Nome", "Produttore", "Tipo", "Quantità", "Prezzo (€)", "Selez"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public Class<?> getColumnClass(int columnIndex) {
@@ -128,12 +118,12 @@ public class SparePartListingsPanel extends JPanel {
         JPanel bottomPanel = new JPanel(new BorderLayout());
 
         JPanel leftNavigation = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        btnBack = new JButton("◀ Back");
+        btnBack = new JButton("Indietro");
         btnBack.setFont(new Font("Arial", Font.BOLD, 12));
         leftNavigation.add(btnBack);
 
         JPanel rightActions = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton btnBuySelected = new JButton("Buy Selected 🛒");
+        JButton btnBuySelected = new JButton("Compra selezionati");
         btnBuySelected.setFont(new Font("Arial", Font.BOLD, 13));
         btnBuySelected.setBackground(new Color(46, 139, 87));
         btnBuySelected.setForeground(Color.WHITE);
@@ -164,14 +154,14 @@ public class SparePartListingsPanel extends JPanel {
                     
                     if (qtyToBuy == null || qtyToBuy <= 0) {
                         JOptionPane.showMessageDialog(this, 
-                            "Please enter a valid quantity greater than 0 for: " + part.getPartName(), 
+                            "Inserisci una giusta quantità: " + part.getPartName(), 
                             "Invalid Quantity", JOptionPane.WARNING_MESSAGE);
                         return;
                     }
                     
                     if (qtyToBuy > part.getStockQuantity()) {
                         JOptionPane.showMessageDialog(this, 
-                            "Requested quantity for '" + part.getPartName() + "' exceeds stock availability (" + part.getStockQuantity() + ").", 
+                            "Quantita richiesta di '" + part.getPartName() + "' supera disponibilità (" + part.getStockQuantity() + ").", 
                             "Out of Stock", JOptionPane.WARNING_MESSAGE);
                         return;
                     }
@@ -190,7 +180,7 @@ public class SparePartListingsPanel extends JPanel {
             }
 
             if (itemsToCheckout.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please select at least one spare part.", "No Selection", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Seleziona almeno un pezzo.", "No Selection", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -211,10 +201,6 @@ public class SparePartListingsPanel extends JPanel {
 
         // Parse search filters
         Integer producerId = producersMap.get(cbProducer.getSelectedItem().toString());
-        String type = cbType.getSelectedItem().toString();
-        if (type.equals("All")) {
-            type = null;
-        }
         
         Integer page = Integer.parseInt(cbPage.getSelectedItem().toString());
         
@@ -240,7 +226,7 @@ public class SparePartListingsPanel extends JPanel {
 
         // Logic error boundaries validation
         if (minPrice != null && maxPrice != null && minPrice > maxPrice) {
-            JOptionPane.showMessageDialog(this, "Minimum price cannot be greater than Maximum price!", "Logic Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Attenzione prezzo!", "Logic Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 

@@ -34,25 +34,25 @@ public class ClientDashboardPanel extends JPanel {
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // 1. TOP HEADER
-        JLabel welcomeLabel = new JLabel("MotorMarket — Private Area", SwingConstants.LEFT);
+        JLabel welcomeLabel = new JLabel("MotorMarket — Area Utente", SwingConstants.LEFT);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 20));
         add(welcomeLabel, BorderLayout.NORTH);
 
         // 2. LEFT SIDEBAR (Features Panel)
         JPanel sidebar = new JPanel();
         sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
-        sidebar.setBorder(BorderFactory.createTitledBorder("Features Menu"));
+        sidebar.setBorder(BorderFactory.createTitledBorder("Menu funzioni"));
         sidebar.setPreferredSize(new Dimension(240, 0));
 
         // Initialize operation buttons
-        btnCarListings = new JButton("View Car Listings 🚗");
-        btnSparePartsListings = new JButton("View Spare Parts Listings 🔧");
-        btnMyPurchases = new JButton("My Purchases 📦");
-        btnTopSellingCar = new JButton("Top Selling Car 🏆");
-        btnTopSellingPart = new JButton("Top Selling Spare Part ⚙️");
-        btnLeaveReview = new JButton("Leave a Review ⭐");
-        btnAverageRating = new JButton("Average Product Rating 📊");
-        logoutBtn = new JButton("Exit / Logout 🚪");
+        btnCarListings = new JButton("Visualizza annunci auto");
+        btnSparePartsListings = new JButton("Visualizza annunci pezzi");
+        btnMyPurchases = new JButton("I miei acquisti");
+        btnTopSellingCar = new JButton("Marca di auto più venduta");
+        btnTopSellingPart = new JButton("Pezzo di ricambio più venduto");
+        btnLeaveReview = new JButton("Lascia una recensione");
+        btnAverageRating = new JButton("Visualizza recensioni");
+        logoutBtn = new JButton("Esci / Logout");
 
         txtTopCarResult = new JTextField();
         txtTopCarResult.setEditable(false);

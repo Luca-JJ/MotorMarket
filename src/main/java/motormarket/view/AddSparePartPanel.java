@@ -32,12 +32,12 @@ public class AddSparePartPanel extends JPanel {
         this.setLayout(new BorderLayout(15, 15));
         this.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        JLabel lblTitle = new JLabel("Register New Spare Part", JLabel.CENTER);
+        JLabel lblTitle = new JLabel("Registra un nuovo pezzo di ricambio", JLabel.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 18));
         add(lblTitle, BorderLayout.NORTH);
 
         JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBorder(BorderFactory.createTitledBorder("Spare Part Information"));
+        formPanel.setBorder(BorderFactory.createTitledBorder("Informazioni sul pezzo di ricambio"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -65,17 +65,17 @@ public class AddSparePartPanel extends JPanel {
         modelsScroll.setPreferredSize(new Dimension(150, 100));
 
         int row = 0;
-        addFormField(formPanel, "Part Name:", txtName, gbc, row++);
-        addFormField(formPanel, "Stock Quantity:", txtStockQuantity, gbc, row++);
-        addFormField(formPanel, "Part Type / Category:", txtType, gbc, row++);
-        addFormField(formPanel, "Producer:", cbProducer, gbc, row++);
-        addFormField(formPanel, "Compatible Models (Hold Ctrl to multi-select):", modelsScroll, gbc, row++);
+        addFormField(formPanel, "Nome parte:", txtName, gbc, row++);
+        addFormField(formPanel, "Quantità:", txtStockQuantity, gbc, row++);
+        addFormField(formPanel, "Categoria:", txtType, gbc, row++);
+        addFormField(formPanel, "Produttore:", cbProducer, gbc, row++);
+        addFormField(formPanel, "Modelli compatibili (tieni Ctrl per selezione multipla):", modelsScroll, gbc, row++);
 
         add(formPanel, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnCancel = new JButton("Cancel");
-        btnSave = new JButton("Save Spare Part 💾");
+        btnCancel = new JButton("Indietro");
+        btnSave = new JButton("Salva il pezzo di ricambio");
         btnSave.setBackground(new Color(46, 139, 87));
         btnSave.setForeground(Color.WHITE);
 
@@ -105,7 +105,7 @@ public class AddSparePartPanel extends JPanel {
         String type = txtType.getText().trim();
 
         if (name.isEmpty() || stockText.isEmpty() || type.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "All basic text fields are required!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "I campi base sono richiesti!", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -113,7 +113,7 @@ public class AddSparePartPanel extends JPanel {
         try {
             stockQuantity = Integer.parseInt(stockText);
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Stock Quantity must be a valid integer number!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "La quantità deve avere un nummero valido!", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -135,10 +135,10 @@ public class AddSparePartPanel extends JPanel {
             );
 
             if (success) {
-                JOptionPane.showMessageDialog(this, "Spare part registered successfully inside the database!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Pezzo di ricambio inserito con successo!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 frame.switchPanel("DASHBOARD_CORPORATE");
             } else {
-                JOptionPane.showMessageDialog(this, "Failed to insert the spare part. Check connection or constraints.", "Database Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Fallito l'inserimento del pezzo di ricambio.", "Database Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

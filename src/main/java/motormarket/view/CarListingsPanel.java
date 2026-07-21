@@ -51,7 +51,7 @@ public class CarListingsPanel extends JPanel {
 
         // --- 1. TOP PANEL: SELECTORS AND FILTERS ---
         JPanel filterPanel = new JPanel(new BorderLayout(10, 10));
-        filterPanel.setBorder(BorderFactory.createTitledBorder("Filter Search Parameters"));
+        filterPanel.setBorder(BorderFactory.createTitledBorder("Parametri di ricerca"));
 
         JPanel gridComponents = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -65,7 +65,7 @@ public class CarListingsPanel extends JPanel {
 
         gbc.gridy = 0;
         
-        gbc.gridx = 0; gridComponents.add(new JLabel("Brand:"), gbc);
+        gbc.gridx = 0; gridComponents.add(new JLabel("Marca e modello:"), gbc);
         cbBrand = new JComboBox<>();
         cbBrand.addItem("All"); // Opzione vuota
         for (String brand : brandsModels.keySet()) {
@@ -73,7 +73,7 @@ public class CarListingsPanel extends JPanel {
         }
         gbc.gridx = 1; gridComponents.add(cbBrand, gbc);
 
-        gbc.gridx = 2; gridComponents.add(new JLabel("Fuel:"), gbc);
+        gbc.gridx = 2; gridComponents.add(new JLabel("Alimentazione:"), gbc);
         cbFuel = new JComboBox<>();
         cbFuel.addItem("All"); // Opzione vuota
         for (String fuel : fuelsMap.keySet()) {
@@ -83,7 +83,7 @@ public class CarListingsPanel extends JPanel {
 
         gbc.gridy = 1;
         
-        gbc.gridx = 0; gridComponents.add(new JLabel("Interior Color:"), gbc);
+        gbc.gridx = 0; gridComponents.add(new JLabel("Colore interi:"), gbc);
         cbIntColor = new JComboBox<>();
         cbIntColor.addItem("All"); // Opzione vuota
         for (String color : colorsMap.keySet()) {
@@ -91,7 +91,7 @@ public class CarListingsPanel extends JPanel {
         }
         gbc.gridx = 1; gridComponents.add(cbIntColor, gbc);
 
-        gbc.gridx = 2; gridComponents.add(new JLabel("Exterior Color:"), gbc);
+        gbc.gridx = 2; gridComponents.add(new JLabel("Colore esterni:"), gbc);
         cbExtColor = new JComboBox<>();
         cbExtColor.addItem("All"); // Opzione vuota
         for (String color : colorsMap.keySet()) {
@@ -101,42 +101,42 @@ public class CarListingsPanel extends JPanel {
 
         gbc.gridy = 2;
         
-        gbc.gridx = 0; gridComponents.add(new JLabel("Min Price (€):"), gbc);
+        gbc.gridx = 0; gridComponents.add(new JLabel("Prezzo minimo (€):"), gbc);
         txtMinPrice = new JTextField(8);
         gbc.gridx = 1; gridComponents.add(txtMinPrice, gbc);
 
-        gbc.gridx = 2; gridComponents.add(new JLabel("Max Price (€):"), gbc);
+        gbc.gridx = 2; gridComponents.add(new JLabel("Prezzo massimo (€):"), gbc);
         txtMaxPrice = new JTextField(8);
         gbc.gridx = 3; gridComponents.add(txtMaxPrice, gbc);
 
         gbc.gridy = 3;
         
-        gbc.gridx = 0; gridComponents.add(new JLabel("Min Year:"), gbc);
+        gbc.gridx = 0; gridComponents.add(new JLabel("Anno minimo:"), gbc);
         txtMinYear = new JTextField(8);
         gbc.gridx = 1; gridComponents.add(txtMinYear, gbc);
 
-        gbc.gridx = 2; gridComponents.add(new JLabel("Max Year:"), gbc);
+        gbc.gridx = 2; gridComponents.add(new JLabel("Anno massimo:"), gbc);
         txtMaxYear = new JTextField(8);
         gbc.gridx = 3; gridComponents.add(txtMaxYear, gbc);
 
         gbc.gridy = 4;
         
-        gbc.gridx = 0; gridComponents.add(new JLabel("Min Power:"), gbc);
+        gbc.gridx = 0; gridComponents.add(new JLabel("Potenza minima:"), gbc);
         txtMinPower = new JTextField(8);
         gbc.gridx = 1; gridComponents.add(txtMinPower, gbc);
 
-        gbc.gridx = 2; gridComponents.add(new JLabel("Max Power:"), gbc);
+        gbc.gridx = 2; gridComponents.add(new JLabel("Potenza massima:"), gbc);
         txtMaxPower = new JTextField(8);
         gbc.gridx = 3; gridComponents.add(txtMaxPower, gbc);
 
         gbc.gridy = 5;
         
-        gbc.gridx = 0; gridComponents.add(new JLabel("Page:"), gbc);
+        gbc.gridx = 0; gridComponents.add(new JLabel("Pagina:"), gbc);
         Integer[] pages = {1,2,3,4,5,6,7,8,9,10};
         cbPage = new JComboBox<>(pages);
         gbc.gridx = 1; gridComponents.add(cbPage, gbc);
 
-        gbc.gridx = 2; gridComponents.add(new JLabel("Trasmission:"), gbc);
+        gbc.gridx = 2; gridComponents.add(new JLabel("Cambio:"), gbc);
         String[] trasmissions = {"All", "Manuale", "Automatico"};
         cbTransmission = new JComboBox<>(trasmissions);
         gbc.gridx = 3; gridComponents.add(cbTransmission, gbc);
@@ -153,7 +153,7 @@ public class CarListingsPanel extends JPanel {
         add(filterPanel, BorderLayout.NORTH);
 
         // --- 2. CENTER PANEL: RESULTS TABLE ---
-        String[] columns = {"Select", "ListingId", "CarId", "Brand", "Model", "Year", "InteriorColor", "ExteriorColor", "Power", "Fuel", "Transimission", "Price (€)"};
+        String[] columns = {"Selezione", "IdAnnuncio", "IdAuto", "Marca", "Modello", "Anno", "ColoreInterni", "ColoreEsterni", "Potenza", "Alimentazione", "Cambio", "Prezzo (€)"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public Class<?> getColumnClass(int columnIndex) {
@@ -180,13 +180,13 @@ public class CarListingsPanel extends JPanel {
         JPanel bottomPanel = new JPanel(new BorderLayout());
 
         JPanel leftNavigation = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        btnBack = new JButton("◀ Back");
+        btnBack = new JButton("Indietro");
         btnBack.setFont(new Font("Arial", Font.BOLD, 12));
         leftNavigation.add(btnBack);
 
         // Nuovo pulsante Acquista
         JPanel rightActions = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton btnBuySelected = new JButton("Buy Selected 🛒");
+        JButton btnBuySelected = new JButton("Compra selezionati");
         btnBuySelected.setFont(new Font("Arial", Font.BOLD, 13));
         btnBuySelected.setBackground(new Color(46, 139, 87)); // Un bel verde foresta/successo
         btnBuySelected.setForeground(Color.WHITE);
@@ -226,7 +226,7 @@ public class CarListingsPanel extends JPanel {
             }
 
             if (itemsToCheckout.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please select at least one vehicle.", "No Selection", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Seleziona almeno un auto.", "No Selection", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -319,15 +319,15 @@ public class CarListingsPanel extends JPanel {
         // --- CONTROLLO LOGICO DI SICUREZZA ---
         // Eseguiamo il controllo solo se entrambi i valori (min e max) sono stati convertiti con successo (non sono null)
         if (minPrice != null && maxPrice != null && minPrice > maxPrice) {
-            JOptionPane.showMessageDialog(this, "Minimum price cannot be greater than Maximum price!", "Logic Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Attenzione prezzo!", "Logic Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
         if (minYear != null && maxYear != null && minYear > maxYear) {
-            JOptionPane.showMessageDialog(this, "Minimum year cannot be greater than Maximum year!", "Logic Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Attenzione anno!", "Logic Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
         if (minPower != null && maxPower != null && minPower > maxPower) {
-            JOptionPane.showMessageDialog(this, "Minimum power cannot be greater than Maximum power!", "Logic Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Attenzione potenza!", "Logic Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 

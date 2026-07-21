@@ -24,12 +24,12 @@ public class UpdateSpareStockPanel extends JPanel {
         this.setLayout(new BorderLayout(15, 15));
         this.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        JLabel lblTitle = new JLabel("Update Spare Part Stock", JLabel.CENTER);
+        JLabel lblTitle = new JLabel("Aggiorna quantità pezzo di ricambio", JLabel.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 18));
         add(lblTitle, BorderLayout.NORTH);
 
         JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBorder(BorderFactory.createTitledBorder("Stock Adjustment"));
+        formPanel.setBorder(BorderFactory.createTitledBorder("Aggiustamento quantità"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(8, 10, 8, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -43,17 +43,17 @@ public class UpdateSpareStockPanel extends JPanel {
         }
 
         txtDeltaQuantity = new JTextField(10);
-        txtDeltaQuantity.setToolTipText("Enter a positive number to add stock, or negative to reduce it");
+        txtDeltaQuantity.setToolTipText("Inserisci un numero positivo per aumentarla ivece un numero negativo per diminuirla");
 
         int row = 0;
-        addFormField(formPanel, "Select Spare Part:", cbSparePart, gbc, row++);
-        addFormField(formPanel, "Quantity Delta (e.g. +10 or -5):", txtDeltaQuantity, gbc, row++);
+        addFormField(formPanel, "Seleziona il pezzo di ricambio:", cbSparePart, gbc, row++);
+        addFormField(formPanel, "Quantità Delta (esempio +10 or -5):", txtDeltaQuantity, gbc, row++);
 
         add(formPanel, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnCancel = new JButton("Cancel");
-        btnSave = new JButton("Update Stock 💾");
+        btnCancel = new JButton("Indietro");
+        btnSave = new JButton("Aggiorna quantità");
         btnSave.setBackground(new Color(46, 139, 87));
         btnSave.setForeground(Color.WHITE);
 
@@ -61,7 +61,7 @@ public class UpdateSpareStockPanel extends JPanel {
         bottomPanel.add(btnSave);
         add(bottomPanel, BorderLayout.SOUTH);
 
-        btnCancel.addActionListener(e -> frame.switchPanel("DASHBOARD"));
+        btnCancel.addActionListener(e -> frame.switchPanel("DASHBOARD_CORPORATE"));
         btnSave.addActionListener(e -> updateStockAction());
     }
 
@@ -79,13 +79,13 @@ public class UpdateSpareStockPanel extends JPanel {
 
     private void updateStockAction() {
         if (cbSparePart.getSelectedItem() == null) {
-            JOptionPane.showMessageDialog(this, "Please select a valid spare part!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Seleziona parte di ricambio corretta!", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         String deltaText = txtDeltaQuantity.getText().trim();
         if (deltaText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter a quantity delta!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Inserisci il delta sulla quantità!", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -93,7 +93,7 @@ public class UpdateSpareStockPanel extends JPanel {
         try {
             deltaQuantity = Integer.parseInt(deltaText);
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Delta quantity must be a valid integer (e.g., 5 or -3)!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Quantita delta intero (esempio 5 or -3)!", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -104,12 +104,12 @@ public class UpdateSpareStockPanel extends JPanel {
 
             if (newQuantity != null) {
                 JOptionPane.showMessageDialog(this, 
-                    "Stock updated successfully!\nNew total quantity: " + newQuantity, 
+                    "Quantità aggiornata con successo!\n nuova quantità totale: " + newQuantity, 
                     "Success", 
                     JOptionPane.INFORMATION_MESSAGE);
                 frame.switchPanel("DASHBOARD_CORPORATE");
             } else {
-                JOptionPane.showMessageDialog(this, "Failed to update stock. Check connection or part details.", "Database Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Fallito l'inserimento del pezzo di ricambio.", "Database Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -49,7 +49,7 @@ public class ReviewsResultPanel extends JPanel {
 
         // 1a. Structured Search Bar (GridBagLayout prevents off-screen clipping)
         JPanel searchPanel = new JPanel(new GridBagLayout());
-        searchPanel.setBorder(BorderFactory.createTitledBorder("Search Reviews"));
+        searchPanel.setBorder(BorderFactory.createTitledBorder("Cerca recensioni"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(6, 10, 6, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -57,12 +57,12 @@ public class ReviewsResultPanel extends JPanel {
         // Row 0, Column 0: Type Label
         gbc.gridx = 0; gbc.gridy = 0;
         gbc.weightx = 0.0;
-        searchPanel.add(new JLabel("Type:"), gbc);
+        searchPanel.add(new JLabel("Tipo:"), gbc);
 
         // Row 0, Column 1: Radio Buttons Container
         JPanel radioPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
-        rbtnCarModel = new JRadioButton("Car Model", true);
-        rbtnSparePart = new JRadioButton("Spare Part");
+        rbtnCarModel = new JRadioButton("Modello auto", true);
+        rbtnSparePart = new JRadioButton("Pezzo di ricambio");
         ButtonGroup typeGroup = new ButtonGroup();
         typeGroup.add(rbtnCarModel);
         typeGroup.add(rbtnSparePart);
@@ -76,7 +76,7 @@ public class ReviewsResultPanel extends JPanel {
         // Row 1, Column 0: Product Selection Label
         gbc.gridx = 0; gbc.gridy = 1;
         gbc.weightx = 0.0;
-        searchPanel.add(new JLabel("Selection:"), gbc);
+        searchPanel.add(new JLabel("Selezione:"), gbc);
 
         // Row 1, Column 1: Dropdown ComboBoxes Layered together
         JPanel comboPanel = new JPanel(new CardLayout());
@@ -104,7 +104,7 @@ public class ReviewsResultPanel extends JPanel {
         searchPanel.add(comboPanel, gbc);
 
         // Row 2, Column 1: Search Button positioned directly below
-        btnSearch = new JButton("Search 🔍");
+        btnSearch = new JButton("Cerca");
         btnSearch.setFont(new Font("Arial", Font.BOLD, 12));
         JPanel btnWrapper = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         btnWrapper.add(btnSearch);
@@ -121,10 +121,10 @@ public class ReviewsResultPanel extends JPanel {
             BorderFactory.createEmptyBorder(10, 15, 10, 15)
         ));
 
-        lblTitle = new JLabel("Product Reviews", SwingConstants.LEFT);
+        lblTitle = new JLabel("Recensioni prodotto", SwingConstants.LEFT);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 18));
         
-        lblAverageStars = new JLabel("Average Rating: N/A", SwingConstants.LEFT);
+        lblAverageStars = new JLabel("Punteggio medio: N/A", SwingConstants.LEFT);
         lblAverageStars.setFont(new Font("Arial", Font.BOLD, 14));
         lblAverageStars.setForeground(new Color(218, 165, 32)); 
 
@@ -136,7 +136,7 @@ public class ReviewsResultPanel extends JPanel {
         add(topContainer, BorderLayout.NORTH);
 
         // --- 2. CENTER PANEL: REVIEWS TABLE ---
-        String[] columns = {"Author", "Rating", "Title", "Review Comment", "Date"};
+        String[] columns = {"Autore", "Punteggio", "Titolo", "Commento", "Data"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -154,7 +154,7 @@ public class ReviewsResultPanel extends JPanel {
 
         // --- 3. BOTTOM PANEL: NAVIGATION ---
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        btnBack = new JButton("◀ Back to Dashboard");
+        btnBack = new JButton("Indietro");
         btnBack.setFont(new Font("Arial", Font.BOLD, 12));
         bottomPanel.add(btnBack);
         add(bottomPanel, BorderLayout.SOUTH);
@@ -191,7 +191,7 @@ public class ReviewsResultPanel extends JPanel {
             Integer modelId = carModelsMap.get(selectedModel);
             
             if (modelId != null) {
-                lblTitle.setText("Reviews for Car Model: " + selectedModel);
+                lblTitle.setText("Recensioni per il modello di auto: " + selectedModel);
                 List<ReviewDetail> reviews = controller.getModelReviews(modelId);
                 populateTable(reviews);
             }
@@ -202,7 +202,7 @@ public class ReviewsResultPanel extends JPanel {
             Integer partId = sparePartsMap.get(selectedPart);
             
             if (partId != null) {
-                lblTitle.setText("Reviews for Spare Part: " + selectedPart);
+                lblTitle.setText("Recensioni per il pezzo di ricambio: " + selectedPart);
                 List<ReviewDetail> reviews = controller.getSparePartReviews(partId);
                 populateTable(reviews);
             }
@@ -216,8 +216,8 @@ public class ReviewsResultPanel extends JPanel {
         tableModel.setRowCount(0); 
 
         if (reviews == null || reviews.isEmpty()) {
-            lblAverageStars.setText("Average Rating: No reviews found");
-            tableModel.addRow(new Object[]{"-", "-", "No reviews available", "There are no reviews for this item yet.", "-"});
+            lblAverageStars.setText("Non ci sono recensioni");
+            tableModel.addRow(new Object[]{"-", "-", "non ci sono recensioni", ".", "-"});
             return;
         }
 
@@ -229,7 +229,7 @@ public class ReviewsResultPanel extends JPanel {
             if (i <= fullStars) stars.append("★");
             else stars.append("☆");
         }
-        lblAverageStars.setText(String.format("Average Rating: %.1f / 5.0  %s", avg, stars.toString()));
+        lblAverageStars.setText(String.format("Punteggio medio: %.1f / 5.0  %s", avg, stars.toString()));
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 

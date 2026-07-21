@@ -32,26 +32,26 @@ public class CorporateDashboardPanel extends JPanel {
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         // 1. TOP HEADER
-        JLabel welcomeLabel = new JLabel("MotorMarket — Corporate Area", SwingConstants.LEFT);
+        JLabel welcomeLabel = new JLabel("MotorMarket — Area Aziendale", SwingConstants.LEFT);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 20));
         add(welcomeLabel, BorderLayout.NORTH);
 
         // 2. FEATURE MENU
         JPanel menuPanel = new JPanel();
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
-        menuPanel.setBorder(BorderFactory.createTitledBorder("Corporate Console"));
+        menuPanel.setBorder(BorderFactory.createTitledBorder("Dashboard Aziendale"));
 
         // Initialize operation buttons
-        btnAddCar = new JButton("Add Single Car 🚗");
-        btnAddSparePart = new JButton("Add Spare Part (with Compatibility) 🔧");
-        btnUpdateSpareQuantity = new JButton("Update Spare Part Stock 📦");
-        btnAddAccessory = new JButton("Add New Accessory 💎");
-        btnAddExtraService = new JButton("Add New Extra Service 🛠️");
-        btnListingsStatus = new JButton("Manage Listings (On/Off) 📢");
-        btnCreateCarListing = new JButton("Create Car Listing 🚗📢");
-        btnCreatePartListing = new JButton("Create Spare Part Listing 🔧📢");
-        btnViewMonthlyRevenue = new JButton("View Monthly Revenue Inflow 📊");
-        logoutBtn = new JButton("Exit / Logout 🚪");
+        btnAddCar = new JButton("Aggiungi Auto");
+        btnAddSparePart = new JButton("Aggiungi pezzi di ricambio");
+        btnUpdateSpareQuantity = new JButton("Aggiorna quantità pezzi di ricambio");
+        btnAddAccessory = new JButton("Aggiungi nuovo accessorio");
+        btnAddExtraService = new JButton("Aggiungi nuovo servizio extra");
+        btnListingsStatus = new JButton("Gestisci Annunci");
+        btnCreateCarListing = new JButton("Creazione nuovo annuncio auto");
+        btnCreatePartListing = new JButton("Crezione nuovo annuncio pezzo");
+        btnViewMonthlyRevenue = new JButton("Vissualizza ricavo mensile");
+        logoutBtn = new JButton("Esci / Logout");
 
         txtRevenueResult = new JTextField();
         txtRevenueResult.setEditable(false);
@@ -136,7 +136,7 @@ public class CorporateDashboardPanel extends JPanel {
                 int month = (int) cbMonth.getSelectedItem();
                 int year = (int) cbYear.getSelectedItem();
                 double result = controller.getMonthlyRevenue(month, year);
-                txtRevenueResult.setText(String.format("Total Revenue: €%.2f", result));
+                txtRevenueResult.setText(String.format("Ricavo totale: €%.2f", result));
                 txtRevenueResult.setVisible(true);
                 menuPanel.revalidate();
                 menuPanel.repaint();

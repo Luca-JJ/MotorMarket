@@ -21,14 +21,14 @@ public class RegisterPanel extends JPanel {
 
         Dimension fieldSize = new Dimension(250, 30);
 
-        JLabel titleLabel = new JLabel("Create Account");
+        JLabel titleLabel = new JLabel("Crea Account");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(titleLabel);
 
         add(Box.createVerticalStrut(30));
 
-        JLabel firstNameLabel = new JLabel("First Name:");
+        JLabel firstNameLabel = new JLabel("Nome:");
         firstNameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(firstNameLabel);
         
@@ -39,7 +39,7 @@ public class RegisterPanel extends JPanel {
 
         add(Box.createVerticalStrut(30));
 
-        JLabel lastNameLabel = new JLabel("Last Name:");
+        JLabel lastNameLabel = new JLabel("Cognome:");
         lastNameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(lastNameLabel);
         
@@ -72,7 +72,7 @@ public class RegisterPanel extends JPanel {
 
         add(Box.createVerticalStrut(30));
 
-        JButton regBtn = new JButton("Register");
+        JButton regBtn = new JButton("Registra");
         regBtn.setMaximumSize(fieldSize);
         regBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         regBtn.setBackground(new Color(46, 139, 87)); 
@@ -81,7 +81,7 @@ public class RegisterPanel extends JPanel {
 
         add(Box.createVerticalStrut(10));
 
-        JButton backLink = new JButton("Already have an account? Login");
+        JButton backLink = new JButton("Hai già un account? Login");
         backLink.setAlignmentX(Component.CENTER_ALIGNMENT);
         backLink.setBorderPainted(false);
         backLink.setContentAreaFilled(false);
@@ -96,33 +96,33 @@ public class RegisterPanel extends JPanel {
             char[] passwordArray = passField.getPassword();
             String password = new String(passwordArray);
             if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please fill in all fields!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Riempi tutti i campi!", "Error", JOptionPane.ERROR_MESSAGE);
                 return; 
             }
             try {
                 User user = controller.registrate(firstName, lastName, email, password);
                 if(user != null) {
-                    String messaggio = "🎉 User Authenticated with success!\n" +
+                    String messaggio = "🎉 Utente registrato con successo!\n" +
                         "----------------------------------------\n" +
-                        "• User ID:      " + user.getUserId() + "\n" +
-                        "• First Name:           " + user.getFirstName() + "\n" +
-                        "• Last Name:        " + user.getLastName() + "\n" +
+                        "• ID Utente:      " + user.getUserId() + "\n" +
+                        "• Nome:           " + user.getFirstName() + "\n" +
+                        "• Cognome:        " + user.getLastName() + "\n" +
                         "• Email:          " + user.getEmail() + "\n" +
-                        "• User Type:   " + user.getUserType().getDbValue() + "\n" +
+                        "• Tipo utente:   " + user.getUserType().getDbValue() + "\n" +
                         "----------------------------------------";
 
                     // Mostriamo il popup informativo
                     JOptionPane.showMessageDialog(
                             this, 
                             messaggio, 
-                            "User - MotorMarket", 
+                            "Utente - MotorMarket", 
                             JOptionPane.INFORMATION_MESSAGE
                     );
                     frame.switchPanel("LOGIN");
                 }
             } catch (DAOException ex) {
                 // Gestione di altri errori generici del database
-                JOptionPane.showMessageDialog(this, "System error during registration. Email already registered.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Errore durante la registrazione, forse email già usata.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
         backLink.addActionListener(e -> frame.switchPanel("LOGIN"));

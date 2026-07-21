@@ -29,7 +29,7 @@ public class OrdersTablePanel extends JPanel {
 
         // 1. Tabella degli Ordini (Configurata con un modello non modificabile)
         // Puoi personalizzare i nomi delle colonne in base ai dati del tuo DB
-        String[] colonne = {"Order ID", "Date", "Item / Description", "Type", "Unit Price (€)"};
+        String[] colonne = {"ID Ordine", "Data", "Oggetto / Descrizione", "Tipo", "Prezzo unitario (€)"};
         
         DefaultTableModel tableModel = new DefaultTableModel(colonne, 0) {
             @Override
@@ -45,7 +45,7 @@ public class OrdersTablePanel extends JPanel {
 
         // 2. Pannello Inferiore con il solo pulsante "Indietro"
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        btnBack = new JButton("◀ Back");
+        btnBack = new JButton("Indietro");
         btnBack.setFont(new Font("Arial", Font.BOLD, 12));
         bottomPanel.add(btnBack);
         add(bottomPanel, BorderLayout.SOUTH);
@@ -55,7 +55,7 @@ public class OrdersTablePanel extends JPanel {
 
     public DefaultTableModel loadOrdersFromDAO() {
         // 1. Define table columns
-        String[] columns = {"Order ID", "Date", "Item / Description", "Type", "Unit Price (€)"};
+        String[] columns = {"ID Ordine", "Data", "Oggetto / Descrizione", "Tipo", "Prezzo unitario (€)"};
         
         DefaultTableModel table = new DefaultTableModel(columns, 0) {
             @Override
@@ -92,8 +92,8 @@ public class OrdersTablePanel extends JPanel {
                     table.addRow(new Object[]{
                         o.getOrderId(),
                         o.getDate().toString(),
-                        "[Service] " + s.getName(), // e.g., "[Service] Professional Assembly"
-                        "Service",
+                        "[Servizio] " + s.getName(), // e.g., "[Service] Professional Assembly"
+                        "Servizio",
                         String.format("%.2f", s.getPrice())
                     });
                 }
@@ -102,7 +102,7 @@ public class OrdersTablePanel extends JPanel {
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, 
-                "An error occurred while loading your order history from the database.", 
+                "Un errore è stato riscontrato.", 
                 "Database Error", 
                 JOptionPane.ERROR_MESSAGE);
         }

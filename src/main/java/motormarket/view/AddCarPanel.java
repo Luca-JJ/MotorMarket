@@ -44,13 +44,13 @@ public class AddCarPanel extends JPanel {
         this.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         // Title
-        JLabel lblTitle = new JLabel("Register New Car", JLabel.CENTER);
+        JLabel lblTitle = new JLabel("Registra un nuova auto", JLabel.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 18));
         add(lblTitle, BorderLayout.NORTH);
 
         // Form Layout
         JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBorder(BorderFactory.createTitledBorder("Vehicle Information"));
+        formPanel.setBorder(BorderFactory.createTitledBorder("Informazioni dell'auto"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -104,22 +104,22 @@ public class AddCarPanel extends JPanel {
         int row = 0;
 
         addFormField(formPanel, "VIN Code:", txtVin, gbc, row++);
-        addFormField(formPanel, "License Plate:", txtLicensePlate, gbc, row++);
-        addFormField(formPanel, "Registration Year:", txtYear, gbc, row++);
-        addFormField(formPanel, "Horsepower (HP):", txtPower, gbc, row++);
-        addFormField(formPanel, "Transmission Type:", cbTransmission, gbc, row++);
-        addFormField(formPanel, "Car Model:", cbModel, gbc, row++);
-        addFormField(formPanel, "Fuel Type:", cbFuel, gbc, row++);
-        addFormField(formPanel, "Interior Color:", cbIntColor, gbc, row++);
-        addFormField(formPanel, "Exterior Color:", cbExtColor, gbc, row++);
-        addFormField(formPanel, "Accessories (Hold Ctrl to multi-select):", accessoriesScroll, gbc, row++);
+        addFormField(formPanel, "Targa:", txtLicensePlate, gbc, row++);
+        addFormField(formPanel, "Anno prima immatricolazione:", txtYear, gbc, row++);
+        addFormField(formPanel, "Potenza (CV):", txtPower, gbc, row++);
+        addFormField(formPanel, "Tipologia cambio:", cbTransmission, gbc, row++);
+        addFormField(formPanel, "Modello auto:", cbModel, gbc, row++);
+        addFormField(formPanel, "Alimentazione:", cbFuel, gbc, row++);
+        addFormField(formPanel, "Colore Interni:", cbIntColor, gbc, row++);
+        addFormField(formPanel, "Colore esterni:", cbExtColor, gbc, row++);
+        addFormField(formPanel, "Accessori (tieni Ctrl per selezione multipla):", accessoriesScroll, gbc, row++);
 
         add(formPanel, BorderLayout.CENTER);
 
         // Bottom Actions Panel
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnCancel = new JButton("Cancel");
-        btnSave = new JButton("Save Car 💾");
+        btnCancel = new JButton("Indietro");
+        btnSave = new JButton("Salva l'auto");
         btnSave.setBackground(new Color(46, 139, 87));
         btnSave.setForeground(Color.WHITE);
 
@@ -152,7 +152,7 @@ public class AddCarPanel extends JPanel {
 
         // Validation checks
         if (vin.isEmpty() || licensePlate.isEmpty() || yearText.isEmpty() || powerText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "All basic text fields are required!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "I cambi base sono richiesti!", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -162,7 +162,7 @@ public class AddCarPanel extends JPanel {
             registrationYear = Integer.parseInt(yearText);
             power = Integer.parseInt(powerText);
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Year and Power must be valid integer numbers!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Anno e potenza solo valori interi!", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -197,10 +197,10 @@ public class AddCarPanel extends JPanel {
             );
 
             if (success) {
-                JOptionPane.showMessageDialog(this, "Vehicle registered successfully inside the database!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Auto registrata con successo!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 frame.switchPanel("DASHBOARD_CORPORATE");
             } else {
-                JOptionPane.showMessageDialog(this, "Failed to insert the vehicle. Check connection or data restrictions.", "Database Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Fallito l'inserimento dell'auto", "Database Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

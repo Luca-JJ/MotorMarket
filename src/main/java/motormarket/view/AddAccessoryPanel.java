@@ -19,12 +19,12 @@ public class AddAccessoryPanel extends JPanel {
         this.setLayout(new BorderLayout(15, 15));
         this.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        JLabel lblTitle = new JLabel("Add New Accessory", JLabel.CENTER);
+        JLabel lblTitle = new JLabel("Aggiungi un nuovo accessorio", JLabel.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 18));
         add(lblTitle, BorderLayout.NORTH);
 
         JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBorder(BorderFactory.createTitledBorder("Accessory Information"));
+        formPanel.setBorder(BorderFactory.createTitledBorder("Informazioni sull'accessorio "));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -35,7 +35,7 @@ public class AddAccessoryPanel extends JPanel {
         gbc.gridy = 0;
         gbc.gridx = 0;
         gbc.weightx = 0.0;
-        formPanel.add(new JLabel("Accessory Name:"), gbc);
+        formPanel.add(new JLabel("Nome accessorio:"), gbc);
 
         gbc.gridx = 1;
         gbc.weightx = 1.0;
@@ -44,8 +44,8 @@ public class AddAccessoryPanel extends JPanel {
         add(formPanel, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnCancel = new JButton("Cancel");
-        btnSave = new JButton("Save Accessory 💾");
+        btnCancel = new JButton("Indietro");
+        btnSave = new JButton("Salva accessorio");
         btnSave.setBackground(new Color(46, 139, 87));
         btnSave.setForeground(Color.WHITE);
 
@@ -61,7 +61,7 @@ public class AddAccessoryPanel extends JPanel {
         String name = txtName.getText().trim();
 
         if (name.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Accessory name is required!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Nome accessorio neccessario!", "Validation Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -69,11 +69,11 @@ public class AddAccessoryPanel extends JPanel {
             boolean success = controller.addAccessory(name);
 
             if (success) {
-                JOptionPane.showMessageDialog(this, "Accessory added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Accessorio aggiunto con successo!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 txtName.setText("");
                 frame.switchPanel("DASHBOARD_CORPORATE");
             } else {
-                JOptionPane.showMessageDialog(this, "Failed to add the accessory. It might already exist.", "Database Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Fallita l'aggiunta dell'accessorio, forse esiste già", "Database Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception ex) {
             ex.printStackTrace();

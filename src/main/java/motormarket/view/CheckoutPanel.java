@@ -31,7 +31,7 @@ public class CheckoutPanel extends JPanel {
         this.setLayout(new BorderLayout(15, 15));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        JLabel lblTitle = new JLabel("Checkout - Complete Your Purchase", JLabel.CENTER);
+        JLabel lblTitle = new JLabel("Checkout - Completa il tuo acquisto", JLabel.CENTER);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 18));
         add(lblTitle, BorderLayout.NORTH);
 
@@ -43,7 +43,7 @@ public class CheckoutPanel extends JPanel {
 
         // Row 0: Summary Panel
         JPanel summaryPanel = new JPanel(new BorderLayout());
-        summaryPanel.setBorder(BorderFactory.createTitledBorder("Items Summary"));
+        summaryPanel.setBorder(BorderFactory.createTitledBorder("Riassunto Oggetti"));
         txtSummary = new JTextArea();
         txtSummary.setEditable(false);
         txtSummary.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -57,7 +57,7 @@ public class CheckoutPanel extends JPanel {
 
         // Row 1: Address Panel (Fixed height container)
         JPanel addressPanel = new JPanel(new GridBagLayout());
-        addressPanel.setBorder(BorderFactory.createTitledBorder("Shipping / Billing Address"));
+        addressPanel.setBorder(BorderFactory.createTitledBorder("Indirizzo di spedizione"));
         GridBagConstraints gbcAddress = new GridBagConstraints();
         gbcAddress.insets = new Insets(5, 10, 5, 10);
         
@@ -65,7 +65,7 @@ public class CheckoutPanel extends JPanel {
         gbcAddress.gridy = 0;
         gbcAddress.weightx = 0.0;
         gbcAddress.fill = GridBagConstraints.NONE;
-        addressPanel.add(new JLabel("Full Address:"), gbcAddress);
+        addressPanel.add(new JLabel("Indirizzo completo:"), gbcAddress);
         
         txtAddress = new JTextField();
         gbcAddress.gridx = 1;
@@ -83,7 +83,7 @@ public class CheckoutPanel extends JPanel {
         servicesPanel.setLayout(new BoxLayout(servicesPanel, BoxLayout.Y_AXIS));
         
         JPanel servicesWrapper = new JPanel(new BorderLayout());
-        servicesWrapper.setBorder(BorderFactory.createTitledBorder("Available Additional Services"));
+        servicesWrapper.setBorder(BorderFactory.createTitledBorder("Servizi aggiuntivi disponibili"));
         
         JScrollPane servicesScroll = new JScrollPane(servicesPanel);
         servicesScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -100,12 +100,12 @@ public class CheckoutPanel extends JPanel {
         JPanel bottomPanel = new JPanel(new BorderLayout());
 
         JPanel leftNavigation = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        btnCancel = new JButton("◀ Cancel");
+        btnCancel = new JButton("Indietro");
         btnCancel.setFont(new Font("Arial", Font.BOLD, 12));
         leftNavigation.add(btnCancel);
 
         JPanel rightActions = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnConfirm = new JButton("Confirm & Pay 💳");
+        btnConfirm = new JButton("Conferma e paga");
         btnConfirm.setFont(new Font("Arial", Font.BOLD, 13));
         btnConfirm.setBackground(new Color(46, 139, 87));
         btnConfirm.setForeground(Color.WHITE);
@@ -152,18 +152,18 @@ public class CheckoutPanel extends JPanel {
         servicesPanel.repaint();
 
         StringBuilder sb = new StringBuilder();
-        java.math.BigDecimal total = java.math.BigDecimal.ZERO;
+        Double total = 0.0;
         
-        sb.append(String.format("%-30s %10s\n", "Vehicle Name", "Price"));
+        sb.append(String.format("%-30s %10s\n", "Prodotto", "Prezzo"));
         sb.append("==============================================\n");
         for (OrderItem item : items) {
             sb.append(String.format("%-30s €%10s\n", 
                 item.getBrand() + " " + item.getItemName(), 
                 (item.getUnitPrice().doubleValue()*item.getQuantity())));
-            total = total.add(item.getUnitPrice());
+            total = total + item.getUnitPrice().doubleValue()*item.getQuantity();
         }
         sb.append("==============================================\n");
-        sb.append(String.format("%-30s €%10s\n", "Subtotal Items:", total.toString()));
+        sb.append(String.format("%-30s €%10s\n", "Subtotale:", total.toString()));
         
         txtSummary.setText(sb.toString());
     }
@@ -173,7 +173,7 @@ public class CheckoutPanel extends JPanel {
         
         if (address.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
-                "Please enter a valid shipping and billing address!", 
+                "Inserisci un indirizzo di spedizione valido!", 
                 "Validation Error", 
                 JOptionPane.WARNING_MESSAGE);
             return;
@@ -191,7 +191,7 @@ public class CheckoutPanel extends JPanel {
             controller.addOrder(address, itemsToBuy, chosenServices);
 
             JOptionPane.showMessageDialog(this, 
-                "Purchase processed successfully! Thank you for buying on MotorMarket.", 
+                "Acquisto completato con successo.", 
                 "Order Complete", 
                 JOptionPane.INFORMATION_MESSAGE);
             
@@ -200,7 +200,7 @@ public class CheckoutPanel extends JPanel {
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, 
-                "An error occurred while registering the transaction: " + ex.getMessage(), 
+                "è stato riscontrato un errore durante l'acquisto: " + ex.getMessage(), 
                 "Database Error", 
                 JOptionPane.ERROR_MESSAGE);
         }
