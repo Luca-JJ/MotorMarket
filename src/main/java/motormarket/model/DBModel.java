@@ -23,7 +23,6 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Concrete implementation of the {@link Model} interface that interacts directly 
@@ -218,8 +217,8 @@ public final class DBModel implements Model {
 
 
     @Override
-    public List<Service> getServices() {
-        return Service.DAO.getServices(connection);
+    public List<Service> getServices(String type) {
+        return Service.DAO.getServices(connection, type);
     }
 
     @Override

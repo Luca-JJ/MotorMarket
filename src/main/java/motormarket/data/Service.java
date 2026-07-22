@@ -3,9 +3,7 @@ package motormarket.data;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents a premium Service offered within the marketplace.
@@ -161,17 +159,16 @@ public class Service {
          * @param connection
          * @return the fuel types with the associated fuelTypeId
          */
-        public static List<Service> getServices(Connection connection) {
+        public static List<Service> getServices(Connection connection, String type) {
             List<Service> services = new ArrayList<>();
             try (
-                var statement = DAOUtils.prepare(connection, Queries.GET_SERVICES);
+                var statement = DAOUtils.prepare(connection, Queries.GET_SERVICES_BY_TYPE, type);
                 var resultSet = statement.executeQuery();
             ) {
                 while (resultSet.next()) {
                     var serviceId = resultSet.getInt("IdServizio");
                     var name = resultSet.getString("Nome");
                     var price = resultSet.getBigDecimal("Prezzo");
-                    var type = resultSet.getString("TipoServizio");
                     services.add(new Service(serviceId, name, price, ServiceType.fromString(type) ));
                 }
                 

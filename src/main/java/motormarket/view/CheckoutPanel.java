@@ -115,19 +115,19 @@ public class CheckoutPanel extends JPanel {
         bottomPanel.add(rightActions, BorderLayout.EAST);
         add(bottomPanel, BorderLayout.SOUTH);
 
-        btnCancel.addActionListener(e -> frame.switchPanel("CAR_LISTINGS"));
+        btnCancel.addActionListener(e -> frame.switchPanel("DASHBOARD"));
         btnConfirm.addActionListener(e -> processFinalOrder());
     }
     
     public void prepareCheckout(List<OrderItem> items) {
         this.itemsToBuy = items;
         this.txtAddress.setText("");
-        
+        String type = items.get(0).getListingType();
         servicesPanel.removeAll();
         dynamicServiceCheckBoxes.clear();
 
         try {
-            List<Service> availableServices = controller.getServices(); 
+            List<Service> availableServices = controller.getServices(type); 
 
             if (availableServices != null) {
                 for (Service service : availableServices) {

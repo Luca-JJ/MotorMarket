@@ -1,7 +1,7 @@
 package motormarket.data;
 
 import java.sql.Connection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -53,7 +53,7 @@ public class FuelType {
          * @return the fuel types with the associated fuelTypeId
          */
         public static Map<String,Integer> getFuels(Connection connection) {
-            Map<String,Integer> map = new HashMap<>();
+            Map<String,Integer> map = new LinkedHashMap<>();
             try (
                 var statement = DAOUtils.prepare(connection, Queries.GET_FUELS);
                 var resultSet = statement.executeQuery();

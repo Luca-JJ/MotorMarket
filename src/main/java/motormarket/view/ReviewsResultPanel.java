@@ -145,10 +145,32 @@ public class ReviewsResultPanel extends JPanel {
         };
 
         reviewsTable = new JTable(tableModel);
-        reviewsTable.setRowHeight(28);
         reviewsTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
-        reviewsTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        
+
+        // Imposta il renderer per la colonna Commento (indice 3) con andata a capo
+        reviewsTable.getColumnModel().getColumn(3).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
+            JTextArea textArea = new JTextArea(value != null ? value.toString() : "");
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+            textArea.setFont(table.getFont());
+            
+            if (isSelected) {
+                textArea.setBackground(table.getSelectionBackground());
+                textArea.setForeground(table.getSelectionForeground());
+            } else {
+                textArea.setBackground(table.getBackground());
+                textArea.setForeground(table.getForeground());
+            }
+            return textArea;
+        });
+
+        // Imposta dimensioni preferite per dare più spazio al commento
+        reviewsTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+        reviewsTable.getColumnModel().getColumn(1).setPreferredWidth(90);
+        reviewsTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+        reviewsTable.getColumnModel().getColumn(3).setPreferredWidth(350); // Più largo per i commenti
+        reviewsTable.getColumnModel().getColumn(4).setPreferredWidth(80);
+
         JScrollPane scrollPane = new JScrollPane(reviewsTable);
         add(scrollPane, BorderLayout.CENTER);
 

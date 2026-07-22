@@ -3,7 +3,6 @@ package motormarket.view;
 import javax.swing.*;
 
 import motormarket.controller.Controller;
-import motormarket.controller.MotorMarketController;
 import motormarket.data.User.UserType;
 
 import java.awt.*;

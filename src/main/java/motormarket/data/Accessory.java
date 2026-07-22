@@ -2,7 +2,7 @@ package motormarket.data;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -101,7 +101,7 @@ public class Accessory {
          * @return the accessories with the associated accessoryId
          */
         public static Map<String,Integer> getAccessories(Connection connection) {
-            Map<String,Integer> map = new HashMap<>();
+            Map<String,Integer> map = new LinkedHashMap<>();
             try (
                 var statement = DAOUtils.prepare(connection, Queries.GET_ACCESSORIES);
                 var resultSet = statement.executeQuery();

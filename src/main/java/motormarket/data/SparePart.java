@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -286,7 +287,7 @@ public class SparePart {
          * @return the sparePart with the associated SparePartId
          */
         public static Map<String,Integer> getSparePartsWithoutListing(Connection connection) {
-            Map<String,Integer> map = new HashMap<>();
+            Map<String,Integer> map = new LinkedHashMap<>();
             try (
                 var statement = DAOUtils.prepare(connection, Queries.GET_SPARE_PARTS_WITHOUT_LISTING);
                 var resultSet = statement.executeQuery();

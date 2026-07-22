@@ -1,6 +1,5 @@
 package motormarket.controller;
 
-import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
@@ -84,8 +83,8 @@ public class MotorMarketController implements Controller {
     }
 
     @Override
-    public List<Service> getServices() {
-        return model.getServices();
+    public List<Service> getServices(String type) {
+        return model.getServices(type);
     }
 
     @Override

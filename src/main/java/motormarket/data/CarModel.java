@@ -3,6 +3,7 @@ package motormarket.data;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -97,7 +98,7 @@ public class CarModel {
          * @return the brand model with the associated modelId
          */
         public static Map<String,Integer> brandsModels(Connection connection) {
-            Map<String,Integer> map = new HashMap<>();
+            Map<String,Integer> map = new LinkedHashMap<>();
             try (
                 var statement = DAOUtils.prepare(connection, Queries.GET_BRANDS_MODELS);
                 var resultSet = statement.executeQuery();

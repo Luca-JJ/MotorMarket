@@ -1,7 +1,7 @@
 package motormarket.data;
 
 import java.sql.Connection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -98,7 +98,7 @@ public class Producer {
          * @return the producer with the associated producerId
          */
         public static Map<String,Integer> getProducers(Connection connection) {
-            Map<String,Integer> map = new HashMap<>();
+            Map<String,Integer> map = new LinkedHashMap<>();
             try (
                 var statement = DAOUtils.prepare(connection, Queries.GET_PRODUCERS);
                 var resultSet = statement.executeQuery();

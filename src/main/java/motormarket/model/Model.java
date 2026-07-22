@@ -3,11 +3,9 @@ package motormarket.model;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import motormarket.data.CarFilter;
 import motormarket.data.Listing;
-import motormarket.data.Order;
 import motormarket.data.OrderItem;
 import motormarket.data.OrderList;
 import motormarket.data.Producer;
@@ -289,7 +287,7 @@ public interface Model {
      * 
      * @return
      */
-    List<Service> getServices();
+    List<Service> getServices(String type);
 
     /**
      * 

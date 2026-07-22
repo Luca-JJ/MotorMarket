@@ -384,30 +384,35 @@ public final class Queries {
         SELECT p.NomeProduttore, m.NomeModello, m.IdModello
         FROM modelli m, produttori p
         WHERE p.IdProduttore  = m.IdProduttore
+        ORDER BY p.NomeProduttore, m.NomeModello;
         """;
 
     public static final String GET_PRODUCERS =
         """
         SELECT p.*
         FROM produttori p
+        ORDER BY p.NomeProduttore
         """;
 
     public static final String GET_COLORS =
         """
         SELECT c.*
-        FROM colori C
+        FROM colori c
+        ORDER BY c.NomeColore
         """;
 
     public static final String GET_FUELS =
         """
         SELECT a.*
         FROM tipi_alimentazione a
+        ORDER BY a.NomeAlimentazione
         """;
 
     public static final String GET_ACCESSORIES =
         """
         SELECT a.*
         FROM accessori a
+        ORDER BY a.NomeAccessorio
         """;
 
     public static final String GET_SPARE_PARTS = 
@@ -420,6 +425,13 @@ public final class Queries {
         """
         SELECT s.*
         FROM servizi s
+        """;
+
+    public static final String GET_SERVICES_BY_TYPE = 
+        """
+        SELECT s.*
+        FROM servizi s
+        WHERE s.TipoServizio = ?
         """;
 
     public static final String GET_CORPORATE_USERS = 
@@ -459,6 +471,7 @@ public final class Queries {
         AND a.IdAuto NOT IN ( SELECT an.IdAuto
                               FROM annunci an
                               WHERE an.IdAuto IS NOT NULL)
+        ORDER BY p.NomeProduttore, m.NomeModello
         """;
 
     public static final String GET_SPARE_PARTS_WITHOUT_LISTING = 
@@ -469,6 +482,7 @@ public final class Queries {
         AND pr.IdPezzo NOT IN ( SELECT an.IdPezzo
                               FROM annunci an
                               WHERE an.IdPezzo IS NOT NULL)
+        ORDER BY p.nomeProduttore, pr.NomePezzo
         """;
 
 

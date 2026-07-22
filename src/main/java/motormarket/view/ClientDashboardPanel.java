@@ -7,7 +7,6 @@ import motormarket.data.Producer;
 import motormarket.data.SparePart;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class ClientDashboardPanel extends JPanel {
     

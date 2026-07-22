@@ -114,6 +114,8 @@ public class SparePartListingsPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(listingsTable);
         add(scrollPane, BorderLayout.CENTER);
 
+        listingsTable.getColumnModel().getColumn(3).setPreferredWidth(350);
+
         // --- 3. BOTTOM PANEL: NAVIGATION ---
         JPanel bottomPanel = new JPanel(new BorderLayout());
 

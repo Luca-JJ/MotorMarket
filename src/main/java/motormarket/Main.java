@@ -27,7 +27,7 @@ import motormarket.view.*;
 
 public class Main {
     public static void main(String[] args) {
-        var connection = DAOUtils.localMySQLConnection("ecommerce", "root", "SqualoBO_26Luca");
+        var connection = DAOUtils.localMySQLConnection("ecommerce", "root", "26Luca");
         var model = Model.fromConnection(connection);
         Controller controller = new MotorMarketController(model);
         View view = new MotorMarketFrame(controller);

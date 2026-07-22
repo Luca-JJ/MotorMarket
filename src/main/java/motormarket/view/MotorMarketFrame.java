@@ -97,7 +97,8 @@ public class MotorMarketFrame extends JFrame implements View {
     }
 
     private void adaptSizeFor(String panelName) {
-        if (panelName.equals("CAR_LISTINGS")) { 
+        if (panelName.equals("CAR_LISTINGS") || panelName.equals("SPARE_PART_LISTINGS")
+        || panelName.equals("REVIEWS_RESULT") || panelName.equals("ORDERS")) { 
             setSize((int) (screenWidth * 0.75), (int) (screenHeight * 0.75));
         } else {
             int width = Math.max((int) (screenWidth * 0.40), 380);
