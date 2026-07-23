@@ -235,7 +235,6 @@ public class Listing {
                         resultSet.getInt("AutoVendute")
                     );
 
-                    // Now, pass the Producer instance into your CarModel constructor
                     CarModel carModel = new CarModel(
                         resultSet.getInt("IdModello"),
                         resultSet.getString("NomeModello"),
@@ -247,14 +246,10 @@ public class Listing {
                         resultSet.getString("NomeAlimentazione")
                     );
 
-                    // Construct a placeholder User instance for the seller
                     User user = User.DAO.findUser(connection, resultSet.getInt("IdUtente"));
                     
-                    
-                    // Equipments collection starts empty; can be populated later dynamically
                     List<Accessory> equipments = Accessory.DAO.listAccesory(connection, resultSet.getInt("IdAuto"));
 
-                    //Build the Car domain entity using its loaded constructor
                     Car car = new Car(
                         resultSet.getInt("IdAuto"),
                         resultSet.getString("VIN"),
@@ -271,15 +266,14 @@ public class Listing {
                         equipments
                     );
 
-                    //Build the final Listing entity via its OO Constructor
                     Listing listing = new Listing(
                         resultSet.getInt("idAnnuncio"),
                         resultSet.getObject("DataInserimento", java.time.LocalDate.class),
                         ListingStatus.valueOf(resultSet.getString("Stato").toUpperCase()),
                         resultSet.getBigDecimal("Prezzo"),
-                        ListingType.AUTO, // Hardcoded since this method specifically processes car listings
+                        ListingType.AUTO, 
                         car,
-                        null,            // sparePart is null because this is a car listing
+                        null,            
                         user
                     );
 
@@ -305,7 +299,7 @@ public class Listing {
             List<Listing> sparePartListings = new ArrayList<>();
             try (
                 var statement = DAOUtils.prepare(connection, Queries.SEARCH_SPAREPART_LISTING,
-                    filter.getModelId(),  filter.getModelId(),          // Usato per la JOIN di compatibilità
+                    filter.getProducerId(),  filter.getProducerId(),          
                     filter.getMinPrice(), filter.getMinPrice(),
                     filter.getMaxPrice(), filter.getMaxPrice(),
                     filter.getOffset()
@@ -314,7 +308,7 @@ public class Listing {
             ) 
             {
                 while (resultSet.next()) {   
-                    // 1. Costruisci l'oggetto Produttore del pezzo
+                   
                     Producer producer = new Producer(
                         resultSet.getInt("IdProduttore"),
                         resultSet.getString("NomeMarca"),
@@ -324,7 +318,6 @@ public class Listing {
 
                     List<CarModel> compatibility = CarModel.DAO.listCompatibility(connection, resultSet.getInt("IdPezzo"));
 
-                    // 2. Costruisci l'entità di dominio SparePart (Pezzo di Ricambio)
                     SparePart sparePart = new SparePart(
                         resultSet.getInt("IdPezzo"),
                         resultSet.getString("NomePezzo"),
@@ -335,21 +328,16 @@ public class Listing {
                         compatibility
                     );
 
-                    // 3. Recupera l'utente venditore dell'annuncio
                     User user = User.DAO.findUser(connection, resultSet.getInt("IdUtente"));
                     
-                    // 4. (Opzionale) Se la tua entità SparePart tiene traccia dei modelli compatibili:
-                    // List<CarModel> compatibleModels = CarModel.DAO.listCompatibleModels(connection, resultSet.getInt("IdPezzo"));
-
-                    // 5. Costruisci l'entità finale Listing (Annuncio) via OO Constructor
                     Listing listing = new Listing(
                         resultSet.getInt("idAnnuncio"),
                         resultSet.getObject("DataInserimento", java.time.LocalDate.class),
                         ListingStatus.valueOf(resultSet.getString("Stato").toUpperCase()),
                         resultSet.getBigDecimal("Prezzo"),
-                        ListingType.PEZZO, // Hardcoded: questo metodo elabora solo ricambi
-                        null,              // car è null perché questo è un annuncio di un pezzo
-                        sparePart,         // Passiamo l'entità del pezzo appena creata
+                        ListingType.PEZZO, 
+                        null,              
+                        sparePart,         
                         user
                     );
 

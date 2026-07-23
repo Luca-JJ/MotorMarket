@@ -84,7 +84,7 @@ public final class Queries {
         LEFT JOIN compatibilita c ON p.IdPezzo = c.IdPezzo
         WHERE a.TipoAnnuncio = 'Pezzo' 
         AND a.Stato = 'Attivo'
-        AND (? IS NULL OR c.IdModello = ?)
+        AND (? IS NULL OR pr.IdProduttore = ?)
         AND (? IS NULL OR a.Prezzo >= ?)
         AND (? IS NULL OR a.Prezzo <= ?)
         GROUP BY a.idAnnuncio

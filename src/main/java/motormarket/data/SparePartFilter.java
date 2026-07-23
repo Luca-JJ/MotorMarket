@@ -4,7 +4,7 @@ package motormarket.data;
  * This class rappresent the settings for the search of the listings
  */
 public class SparePartFilter {
-    private Integer modelId;
+    private Integer producerId;
     private Double minPrice;
     private Double maxPrice;
     private int page;
@@ -17,13 +17,13 @@ public class SparePartFilter {
     
     /**
      * The complete Constructor
-     * @param modelId
+     * @param producerId
      * @param minPrice
      * @param maxPrice
      * @param page
      */
-    public SparePartFilter(Integer modelId, Double minPrice, Double maxPrice, int page) {
-        this.modelId = modelId;
+    public SparePartFilter(Integer producerId, Double minPrice, Double maxPrice, int page) {
+        this.producerId = producerId;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
         this.page = page;
@@ -36,12 +36,12 @@ public class SparePartFilter {
         return (this.page - 1) * 20; //magic number
     }
 
-    public Integer getModelId() {
-        return modelId;
+    public Integer getProducerId() {
+        return producerId;
     }
 
-    public void setModelId(Integer modelId) {
-        this.modelId = modelId;
+    public void setProducerId(Integer producerId) {
+        this.producerId = producerId;
     }
 
     public Double getMinPrice() {
