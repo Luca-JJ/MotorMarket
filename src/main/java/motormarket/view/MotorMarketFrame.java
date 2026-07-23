@@ -25,6 +25,7 @@ public class MotorMarketFrame extends JFrame implements View {
     private CreateCarListingPanel createCarListingPanel;
     private CreatePartListingPanel createPartListingPanel;
     private AddReviewPanel addReviewPanel;
+    private UpdateSpareStockPanel updateSpareStockPanel;
 
     public MotorMarketFrame(Controller controller) {
         setTitle("MotorMarket - Compravendita Veicoli");
@@ -45,6 +46,7 @@ public class MotorMarketFrame extends JFrame implements View {
         createCarListingPanel = new CreateCarListingPanel(this, controller);
         createPartListingPanel = new CreatePartListingPanel(this, controller);
         addReviewPanel = new AddReviewPanel(this, controller);
+        updateSpareStockPanel = new UpdateSpareStockPanel(this, controller);
 
         // Inizializza e aggiunge le classi esterne al contenitore
         mainContainer.add(new LoginPanel(this, controller), "LOGIN");
@@ -56,7 +58,6 @@ public class MotorMarketFrame extends JFrame implements View {
         mainContainer.add(new SparePartListingsPanel(this, controller), "SPARE_PART_LISTINGS");
         mainContainer.add(new AddCarPanel(this, controller), "ADD_CAR");
         mainContainer.add(new AddSparePartPanel(this, controller), "ADD_SPARE_PART");
-        mainContainer.add(new UpdateSpareStockPanel(this, controller), "UPDATE_SPARE_STOCK");
         mainContainer.add(new AddAccessoryPanel(this, controller), "ADD_ACCESSORY");
         mainContainer.add(new AddExtraServicePanel(this, controller), "ADD_EXTRA_SERVICE");
         mainContainer.add(new AddCorporateUserPanel(this, controller), "ADD_CORPORATE");
@@ -68,9 +69,8 @@ public class MotorMarketFrame extends JFrame implements View {
         mainContainer.add(addReviewPanel, "ADD_REVIEW");
         mainContainer.add(checkoutPanel, "CHECKOUT");
         mainContainer.add(ordersTablePanel, "ORDERS");
-        // mainContainer.add(new DashboardPanel(this), "DASHBOARD");
+        mainContainer.add(updateSpareStockPanel, "UPDATE_SPARE_STOCK");
 
-        // Mostra il login all'avvio
         switchPanel("LOGIN");
 
         add(mainContainer);
@@ -91,6 +91,8 @@ public class MotorMarketFrame extends JFrame implements View {
             createPartListingPanel.refreshData(); 
         } else if (panelName.equals("ADD_REVIEW")) {
             addReviewPanel.refreshData();
+        } else if (panelName.equals("UPDATE_SPARE_STOCK")) {
+            updateSpareStockPanel.refreshData();
         }
         cardLayout.show(mainContainer, panelName);
         adaptSizeFor(panelName);
@@ -109,10 +111,9 @@ public class MotorMarketFrame extends JFrame implements View {
     }
 
     public void showCheckoutScreen(List<OrderItem> items) {
-    // Passiamo gli elementi al pannello di checkout per prepararli a video
+
     checkoutPanel.prepareCheckout(items);
     
-    // Cambiamo pannello (usa la stringa che hai assegnato al CheckoutPanel nel CardLayout)
     switchPanel("CHECKOUT"); 
 }
 }

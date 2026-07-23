@@ -77,6 +77,18 @@ public class UpdateSpareStockPanel extends JPanel {
         panel.add(component, gbc);
     }
 
+    public void refreshData() {
+        sparePartsMap = controller.getSpareParts();
+        cbSparePart.removeAllItems();
+        if (sparePartsMap != null) {
+            for (String partName : sparePartsMap.keySet()) {
+                cbSparePart.addItem(partName);
+            }
+        }
+        cbSparePart.revalidate();
+        cbSparePart.repaint();
+    }
+
     private void updateStockAction() {
         if (cbSparePart.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(this, "Seleziona parte di ricambio corretta!", "Validation Error", JOptionPane.WARNING_MESSAGE);
